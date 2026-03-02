@@ -20,7 +20,7 @@
         <h4 class="text-white font-semibold mb-4">Quick Links</h4>
         <ul class="space-y-3 text-sm">
           <li><a href="{{ url('/') }}" class="hover:text-yellow-400">Home</a></li>
-          <li><a href="{{ url('/#courts') }}" class="hover:text-yellow-400">Courts</a></li>
+          <li><a href="{{ url('/#court') }}" class="hover:text-yellow-400">Courts</a></li>
           <li><a href="{{ url('/#pricing') }}" class="hover:text-yellow-400">Pricing</a></li>
           <li><a href="{{ route('contact') }}" class="hover:text-yellow-400">Contact</a></li>
         </ul>
