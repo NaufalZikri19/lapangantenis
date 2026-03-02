@@ -109,34 +109,57 @@
   </div>
 </section>
 
-  <!-- COURT SECTION -->
-<section id="court" class="py-24 bg-gray-50">
-  <div class="max-w-6xl mx-auto px-6 text-center">
+  <section id="court" class="py-24 bg-gray-50">
 
-    <h2 class="text-3xl font-bold text-gray-900 mb-14">
-      Discover Our Courts
-    </h2>
+  <div class="max-w-6xl mx-auto px-6">
 
-    <div class="grid md:grid-cols-2 gap-50 max-w-4xl mx-auto">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl font-bold text-gray-900">
+        Discover Our Courts
+      </h2>
+      <p class="text-gray-500 mt-4 max-w-2xl mx-auto">
+        Nikmati pengalaman bermain tenis dengan fasilitas berkualitas tinggi.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-12">
 
       <!-- Court A -->
-      <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
-        <img src="{{ asset('image/court.jpg') }}"
-             class="h-64 w-full object-cover" />
-        <div class="p-6">
-          <h3 class="font-semibold text-xl">Court A</h3>
-          <p class="text-gray-500 mt-2">Outdoor Hard Court</p>
+      <div class="group bg-white rounded-2xl shadow-lg overflow-hidden transition hover:shadow-2xl duration-300">
+
+        <div class="overflow-hidden">
+          <img src="{{ asset('image/court.jpg') }}"
+               class="h-72 w-full object-cover group-hover:scale-105 transition duration-500" />
         </div>
+
+        <div class="p-6">
+          <h3 class="text-2xl font-semibold text-gray-900">
+            Court A
+          </h3>
+          <p class="text-gray-500 mt-2">
+            Outdoor Hard Court
+          </p>
+        </div>
+
       </div>
 
       <!-- Court B -->
-      <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition duration-300">
-        <img src="{{ asset('image/tenis.jpg') }}"
-             class="h-64 w-full object-cover" />
-        <div class="p-6">
-          <h3 class="font-semibold text-xl">Court B</h3>
-          <p class="text-gray-500 mt-2">Indoor Court</p>
+      <div class="group bg-white rounded-2xl shadow-lg overflow-hidden transition hover:shadow-2xl duration-300">
+
+        <div class="overflow-hidden">
+          <img src="{{ asset('image/tenis.jpg') }}"
+               class="h-72 w-full object-cover group-hover:scale-105 transition duration-500" />
         </div>
+
+        <div class="p-6">
+          <h3 class="text-2xl font-semibold text-gray-900">
+            Court B
+          </h3>
+          <p class="text-gray-500 mt-2">
+            Indoor Court
+          </p>
+        </div>
+
       </div>
 
     </div>
