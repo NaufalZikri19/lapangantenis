@@ -1,6 +1,6 @@
 <!-- PRICING SECTION -->
 <div class="border-t border-gray-200"></div>
-<section id="pricing" class="py-25 bg-gray-100">
+<section id="pricing" class="py-28 bg-gray-100">
   <div class="max-w-5xl mx-auto px-6 text-center">
 
     <!-- Section Header -->
@@ -33,11 +33,13 @@
           <li>08.00 - 16.00</li>
           <li>Outdoor / Indoor</li>
         </ul>
-
-        <a href="#"
+        @guest
+            <a href="{{ route('login') }}"
            class="mt-10 inline-block w-full bg-gray-900 text-white py-3 rounded-full font-medium hover:bg-gray-800 transition">
           Book Now
         </a>
+        @endguest
+
       </div>
 
 
@@ -60,11 +62,13 @@
           <li>08.00 - 18.00</li>
           <li>All Courts</li>
         </ul>
-
-        <a href="#"
+        @guest
+            <a href="{{ route('login') }}"
            class="mt-10 inline-block w-full bg-yellow-500 text-white py-3 rounded-full font-medium hover:bg-yellow-400 transition">
           Book Now
         </a>
+        @endguest
+
       </div>
 
 
@@ -82,11 +86,12 @@
           <li>Lampu Stadion</li>
           <li>Premium Court</li>
         </ul>
-
-        <a href="#"
+        @guest
+            <a href="{{ route('login') }}"
            class="mt-10 inline-block w-full bg-gray-900 text-white py-3 rounded-full font-medium hover:bg-gray-800 transition">
           Book Now
         </a>
+        @endguest
       </div>
 
     </div>

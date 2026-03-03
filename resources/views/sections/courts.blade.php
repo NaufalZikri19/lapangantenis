@@ -1,4 +1,4 @@
-<section id="court" class="py-25 bg-gradient-to-b from-gray-50 to-white">
+<section id="court" class="py-28 bg-gradient-to-b from-gray-50 to-white">
 
   <div class="max-w-6xl mx-auto px-6">
 

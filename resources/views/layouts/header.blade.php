@@ -16,11 +16,31 @@
       <a href="{{ route('contact') }}" class="hover:text-yellow-500 transition">Contact</a>
     </div>
 
-    <!-- CTA -->
-    <a href="#pricing"
-       class="hidden md:inline-block bg-yellow-500 text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-yellow-400 transition">
-       Book Now
+   @auth
+<div class="flex items-center gap-6">
+
+    <a href="{{ route('dashboard') }}"
+       class="text-sm text-gray-700 hover:text-yellow-500 transition">
+        Dashboard
     </a>
+
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button type="submit"
+            class="text-sm text-red-500 hover:text-red-400 transition">
+            Logout
+        </button>
+    </form>
+
+</div>
+@endauth
+
+@guest
+<a href="{{ route('login') }}"
+   class="bg-yellow-500 text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-yellow-400 transition">
+   Login
+</a>
+@endguest
 
   </nav>
 </header>

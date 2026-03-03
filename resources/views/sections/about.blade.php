@@ -1,5 +1,5 @@
 <!-- ABOUT SECTION -->
-<section id="about" class="py-25 bg-white">
+<section id="about" class="py-28 bg-white">
   <div class="max-w-6xl mx-auto px-6">
 
     <!-- Section Header -->

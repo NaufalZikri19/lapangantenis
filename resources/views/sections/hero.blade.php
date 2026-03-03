@@ -22,14 +22,9 @@
     </p>
 
     <div class="mt-8 flex justify-center gap-4">
-      <a href="#"
+      <a href="#pricing"
          class="bg-yellow-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-yellow-400 transition">
-         Learn More
-      </a>
-
-      <a href=""
-         class="border border-white px-6 py-3 rounded-full font-semibold hover:bg-white hover:text-black transition">
-         View Schedule
+         Pesan Sekarang
       </a>
     </div>
 
