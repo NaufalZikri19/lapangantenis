@@ -4,9 +4,9 @@
 
 @section('content')
 
-@include('sections.hero')
-@include('sections.about')
-@include('sections.courts')
-@include('sections.pricing')
+    @include('sections.hero')
+    @include('sections.about')
+    @include('sections.courts')
+    @include('sections.pricing')
 
 @endsection

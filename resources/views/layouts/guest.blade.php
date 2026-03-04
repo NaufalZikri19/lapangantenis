@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,8 +14,7 @@
 
         <!-- LEFT SIDE -->
         <div class="relative hidden md:block">
-            <img src="{{ asset('image/image1.jpg') }}"
-                 class="absolute inset-0 w-full h-full object-cover">
+            <img src="{{ asset('image/image1.jpg') }}" class="absolute inset-0 w-full h-full object-cover">
 
             <div class="absolute inset-0 bg-black/50"></div>
 
@@ -48,4 +48,5 @@
     </div>
 
 </body>
+
 </html>
