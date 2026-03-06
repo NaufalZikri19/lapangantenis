@@ -1,1 +1,1 @@
-@include('layouts.dashboard')
+@include('layouts.app')
