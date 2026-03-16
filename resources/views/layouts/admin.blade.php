@@ -29,13 +29,13 @@
                     </li>
 
                     <li>
-                        <a href="#" class="hover:text-gray-300">
+                        <a href="/admin/courts" class="hover:text-gray-300">
                             Courts
                         </a>
                     </li>
 
                     <li>
-                        <a href="#" class="hover:text-gray-300">
+                        <a href="/admin/bookings" class="hover:text-gray-300">
                             Bookings
                         </a>
                     </li>

@@ -24,7 +24,7 @@
                     Dashboard
                 </a>
 
-                <a href="{{ route('booking') }}">
+                <a href="{{ route('booking.create') }}">
                     Booking
                 </a>
 
