@@ -70,4 +70,17 @@
 
     </form>
 
+    @if ($errors->has('email'))
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Login gagal',
+                    text: 'Email atau password salah!',
+                    confirmButtonColor: '#FBBF24'
+                });
+            });
+        </script>
+    @endif
+
 </x-guest-layout>

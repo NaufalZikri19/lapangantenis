@@ -78,9 +78,20 @@
     </div>
     <script>
         function confirmLogout() {
-            if (confirm("Apakah Anda yakin ingin logout?")) {
-                document.getElementById('logout-form').submit();
-            }
+            Swal.fire({
+                title: 'Logout?',
+                text: "Anda yakin ingin keluar?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#FBBF24',
+                cancelButtonColor: '#6B7280',
+                confirmButtonText: 'Ya, logout',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('logout-form').submit();
+                }
+            });
         }
     </script>
 </body>
