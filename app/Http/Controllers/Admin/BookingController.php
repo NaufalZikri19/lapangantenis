@@ -20,20 +20,31 @@ class BookingController extends Controller
     {
         $booking = Booking::findOrFail($id);
 
-        $booking->status = 'confirmed';
-        $booking->save();
+        // hanya bisa confirm kalau masih pending
+        if ($booking->status !== 'pending') {
+            return back()->with('error', 'Booking tidak bisa diubah');
+        }
 
-        return back()->with('success', 'Booking confirmed');
+        $booking->update([
+            'status' => 'confirmed'
+        ]);
+
+        return back()->with('success', 'Booking berhasil dikonfirmasi');
     }
-
 
     public function cancel($id)
     {
         $booking = Booking::findOrFail($id);
 
-        $booking->status = 'cancelled';
-        $booking->save();
+        // hanya bisa cancel kalau masih pending
+        if ($booking->status !== 'pending') {
+            return back()->with('error', 'Booking tidak bisa dibatalkan');
+        }
 
-        return back()->with('success', 'Booking cancelled');
+        $booking->update([
+            'status' => 'cancelled'
+        ]);
+
+        return back()->with('success', 'Booking berhasil dibatalkan');
     }
 }
