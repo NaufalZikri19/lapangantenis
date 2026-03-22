@@ -22,8 +22,7 @@ class BookingController extends Controller
     // Menyimpan booking
     public function store(Request $request)
     {
-
-        // Validasi input
+        // ✅ VALIDASI INPUT
         $request->validate([
             'court_id' => 'required|exists:courts,id',
             'booking_date' => 'required|date',
@@ -31,40 +30,49 @@ class BookingController extends Controller
             'end_time' => 'required|after:start_time'
         ]);
 
+        if (!$request->start_time || !$request->end_time) {
+            return back()->with('error', 'Pilih slot terlebih dahulu');
+        }
+        
+        // ❗ Tidak boleh booking tanggal lalu
+        if ($request->booking_date < now()->toDateString()) {
+            return back()->with('error', 'Tidak bisa booking di tanggal yang sudah lewat');
+        }
 
-        // Cek apakah lapangan sudah dibooking
-        $exists = Booking::where('court_id', $request->court_id)
+        //CEK JAM TERSEDIA
+        $isConflict = Booking::where('court_id', $request->court_id)
             ->where('date', $request->booking_date)
             ->where(function ($query) use ($request) {
-
-                $query->whereBetween('start_time', [$request->start_time, $request->end_time])
-                    ->orWhereBetween('end_time', [$request->start_time, $request->end_time])
-                    ->orWhere(function ($q) use ($request) {
-                        $q->where('start_time', '<=', $request->start_time)
-                            ->where('end_time', '>=', $request->end_time);
-                    });
+                $query->where('start_time', '<', $request->end_time)
+                    ->where('end_time', '>', $request->start_time);
             })
             ->exists();
 
-
-        if ($exists) {
-
-            return back()->with('error', 'Lapangan sudah dibooking pada jam tersebut.');
+        if ($isConflict) {
+            return back()->with('error', 'Jam sudah dibooking, pilih waktu lain!');
         }
-        // Simpan booking
-        Booking::create([
 
+        // ✅ SIMPAN DATA
+        Booking::create([
             'user_id' => Auth::id(),
             'court_id' => $request->court_id,
             'date' => $request->booking_date,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
             'status' => 'pending'
-
         ]);
-
 
         return redirect()->route('customer.dashboard')
             ->with('success', 'Booking berhasil dibuat!');
+    }
+
+    public function checkAvailability(Request $request)
+    {
+        $bookings = Booking::where('court_id', $request->court_id)
+            ->where('date', $request->date)
+            ->whereIn('status', ['pending', 'confirmed'])
+            ->get(['start_time', 'end_time']);
+
+        return response()->json($bookings);
     }
 }

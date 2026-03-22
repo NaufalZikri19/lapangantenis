@@ -9,6 +9,9 @@ class BookingController extends Controller
 {
     public function index()
     {
+
+        Booking::autoComplete();
+        
         $bookings = Booking::with(['user', 'court'])
             ->latest()
             ->get();

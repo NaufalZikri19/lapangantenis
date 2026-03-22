@@ -60,6 +60,10 @@
                                     <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-xs">
                                         Confirmed
                                     </span>
+                                @elseif ($booking->status == 'completed')
+                                    <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-xs font-medium">
+                                        Completed
+                                    </span>
                                 @else
                                     <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs">
                                         Cancelled
@@ -71,19 +75,21 @@
                             <td class="text-right space-x-2">
 
                                 @if ($booking->status == 'pending')
-                                    <button onclick="confirmBooking('{{ route('booking.confirm', $booking->id) }}')"
-                                        class="bg-green-500 hover:bg-green-400 text-white px-3 py-1 rounded text-xs">
+                                    <a href="{{ route('booking.confirm', $booking->id) }}"
+                                        class="text-green-600 hover:underline font-medium">
                                         Confirm
-                                    </button>
+                                    </a>
 
-                                    <button onclick="cancelBooking('{{ route('booking.cancel', $booking->id) }}')"
-                                        class="bg-red-500 hover:bg-red-400 text-white px-3 py-1 rounded text-xs">
+                                    <a href="{{ route('booking.cancel', $booking->id) }}"
+                                        class="text-red-500 hover:underline font-medium">
                                         Cancel
-                                    </button>
+                                    </a>
+                                @elseif ($booking->status == 'confirmed')
+                                    <span class="text-gray-400 text-sm">Waiting</span>
+                                @elseif ($booking->status == 'completed')
+                                    <span class="text-gray-400 text-sm">Finished</span>
                                 @else
-                                    <span class="text-gray-400 text-xs">
-                                        No Action
-                                    </span>
+                                    <span class="text-gray-400 text-sm">No Action</span>
                                 @endif
 
                             </td>

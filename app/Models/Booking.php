@@ -23,4 +23,19 @@ class Booking extends Model
     {
         return $this->belongsTo(Court::class);
     }
+
+    public static function autoComplete()
+    {
+        $now = now();
+
+        self::where('status', 'confirmed')
+            ->where(function ($query) use ($now) {
+                $query->where('date', '<', $now->toDateString())
+                    ->orWhere(function ($q) use ($now) {
+                        $q->where('date', $now->toDateString())
+                            ->where('end_time', '<', $now->toTimeString());
+                    });
+            })
+            ->update(['status' => 'completed']);
+    }
 }

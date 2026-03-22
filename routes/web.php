@@ -147,6 +147,9 @@ Route::middleware(['auth', 'nocache'])->group(function () {
 
         Route::post('/booking', [BookingController::class, 'store'])
             ->name('booking.store');
+
+        Route::get('/check-availability', [BookingController::class, 'checkAvailability'])
+            ->name('booking.check');
     });
 
 
