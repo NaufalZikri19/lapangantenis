@@ -132,9 +132,29 @@ Route::middleware(['auth', 'nocache'])->group(function () {
     Route::prefix('customer')->group(function () {
 
         Route::get('/dashboard', function () {
-            return view('customer.dashboard');
-        })->name('customer.dashboard');
+            $activeBookings = Booking::with('court')
+                ->where('user_id', Auth::id())
+                ->whereIn('status', ['pending', 'confirmed'])
+                ->get();
+            $recentBookings = Booking::with('court')
+                ->where('user_id', Auth::id())
+                ->latest()
+                ->take(5)
+                ->get();
+            $activeBooking = $activeBookings->count();
 
+            $totalBooking = Booking::where('user_id', Auth::id())->count();
+
+            $courts = Court::where('status', 1)->count();
+
+            return view('customer.dashboard', compact(
+                'activeBookings',
+                'recentBookings',
+                'activeBooking',
+                'totalBooking',
+                'courts'
+            ));
+        })->name('customer.dashboard');
 
         /*
         |--------------------------------------------------------------------------

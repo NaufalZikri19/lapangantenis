@@ -22,43 +22,83 @@ class BookingController extends Controller
     // Menyimpan booking
     public function store(Request $request)
     {
-        // ✅ VALIDASI INPUT
+        // ✅ VALIDASI DASAR
         $request->validate([
             'court_id' => 'required|exists:courts,id',
             'booking_date' => 'required|date',
-            'start_time' => 'required',
-            'end_time' => 'required|after:start_time'
+            'slots' => 'required'
         ]);
 
-        if (!$request->start_time || !$request->end_time) {
-            return back()->with('error', 'Pilih slot terlebih dahulu');
+        // ❗ Decode slots dari frontend
+        $slots = json_decode($request->slots, true);
+
+        if (!$slots || count($slots) === 0) {
+            return back()->with('error', 'Pilih minimal 1 slot');
         }
-        
+
         // ❗ Tidak boleh booking tanggal lalu
         if ($request->booking_date < now()->toDateString()) {
             return back()->with('error', 'Tidak bisa booking di tanggal yang sudah lewat');
         }
 
-        //CEK JAM TERSEDIA
-        $isConflict = Booking::where('court_id', $request->court_id)
-            ->where('date', $request->booking_date)
-            ->where(function ($query) use ($request) {
-                $query->where('start_time', '<', $request->end_time)
-                    ->where('end_time', '>', $request->start_time);
-            })
-            ->exists();
+        // 🔥 SORT SLOT
+        usort($slots, function ($a, $b) {
+            return strcmp($a['start'], $b['start']);
+        });
 
-        if ($isConflict) {
-            return back()->with('error', 'Jam sudah dibooking, pilih waktu lain!');
+        // 🔥 VALIDASI SLOT BERURUTAN
+        for ($i = 0; $i < count($slots) - 1; $i++) {
+            if ($slots[$i]['end'] !== $slots[$i + 1]['start']) {
+                return back()->with('error', 'Slot harus berurutan (tidak boleh loncat)');
+            }
         }
 
-        // ✅ SIMPAN DATA
+        // 🔥 VALIDASI JAM OPERASIONAL
+        $open = 8;
+        $close = 22;
+
+        foreach ($slots as $slot) {
+
+            $start = strtotime($slot['start']);
+            $end = strtotime($slot['end']);
+
+            $startHour = (int) date('H', $start);
+            $endHour = (int) date('H', $end);
+
+            if ($startHour < $open || $endHour > $close) {
+                return back()->with('error', 'Di luar jam operasional');
+            }
+
+            // 🔥 CEK FORMAT SLOT HARUS JAM BULAT
+            if (date('i', $start) != '00' || date('i', $end) != '00') {
+                return back()->with('error', 'Slot harus sesuai jam yang tersedia');
+            }
+
+            // 🔥 CEK BENTROK PER SLOT (INI YANG PENTING!)
+            $isConflict = Booking::where('court_id', $request->court_id)
+                ->where('date', $request->booking_date)
+                ->where(function ($query) use ($slot) {
+                    $query->where('start_time', '<', $slot['end'])
+                        ->where('end_time', '>', $slot['start']);
+                })
+                ->exists();
+
+            if ($isConflict) {
+                return back()->with('error', 'Salah satu jam sudah dibooking!');
+            }
+        }
+
+        // 🔥 AMBIL RANGE FINAL (DIGABUNG)
+        $start_time = $slots[0]['start'];
+        $end_time = $slots[count($slots) - 1]['end'];
+
+        // ✅ SIMPAN (1 ROW DIGABUNG)
         Booking::create([
             'user_id' => Auth::id(),
             'court_id' => $request->court_id,
             'date' => $request->booking_date,
-            'start_time' => $request->start_time,
-            'end_time' => $request->end_time,
+            'start_time' => $start_time,
+            'end_time' => $end_time,
             'status' => 'pending'
         ]);
 

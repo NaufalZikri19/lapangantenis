@@ -1,158 +1,119 @@
 @extends('layouts.customer')
 
 @section('content')
-    <div class="space-y-8">
+    <div class="max-w-6xl mx-auto space-y-6">
 
-        <!-- Welcome -->
-        <div class="flex justify-between items-center">
-
+        {{-- HERO --}}
+        <div
+            class="bg-gradient-to-r from-yellow-400 to-yellow-500 text-white p-6 rounded-2xl shadow flex justify-between items-center">
             <div>
-                <h1 class="text-2xl font-bold text-gray-800">
-                    Welcome back, {{ Auth::user()->name }} 👋
+                <h1 class="text-2xl font-bold">
+                    Welcome back, {{ auth()->user()->name }} 👋
                 </h1>
-
-                <p class="text-gray-500 text-sm mt-1">
-                    Manage your tennis court bookings easily.
+                <p class="text-sm opacity-90 mt-1">
+                    Manage your tennis bookings easily & quickly
                 </p>
             </div>
 
-            <a href="/customer/booking"
-                class="bg-yellow-500 hover:bg-yellow-400 text-white px-5 py-2 rounded-lg font-medium shadow">
-                Book Court
+            <a href="{{ route('booking.create') }}"
+                class="bg-white text-yellow-500 font-semibold px-5 py-2 rounded-lg shadow hover:bg-gray-100 transition">
+                + Book Court
             </a>
-
         </div>
 
-        <!-- Stats -->
-        <div class="grid md:grid-cols-3 gap-6">
 
-            <!-- Active Booking -->
-            <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+        {{-- STATS --}}
+        <div class="grid md:grid-cols-3 gap-5">
 
-                <p class="text-gray-500 text-sm">
-                    Active Booking
-                </p>
-
-                <h2 class="text-3xl font-bold mt-2 text-gray-800">
-                    1
-                </h2>
-
-                <p class="text-green-500 text-sm mt-2">
-                    Booking berjalan
-                </p>
-
+            <div class="bg-white p-5 rounded-xl shadow border">
+                <p class="text-gray-500 text-sm">Active Booking</p>
+                <h2 class="text-2xl font-bold mt-1">{{ $activeBooking }}</h2>
+                <p class="text-green-500 text-sm">Sedang berjalan</p>
             </div>
 
-            <!-- Booking History -->
-            <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
-
-                <p class="text-gray-500 text-sm">
-                    Total Booking
-                </p>
-
-                <h2 class="text-3xl font-bold mt-2 text-gray-800">
-                    5
-                </h2>
-
-                <p class="text-blue-500 text-sm mt-2">
-                    Semua riwayat booking
-                </p>
-
+            <div class="bg-white p-5 rounded-xl shadow border">
+                <p class="text-gray-500 text-sm">Total Booking</p>
+                <h2 class="text-2xl font-bold mt-1">{{ $totalBooking }}</h2>
+                <p class="text-blue-500 text-sm">Semua riwayat</p>
             </div>
 
-            <!-- Courts Available -->
-            <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
-
-                <p class="text-gray-500 text-sm">
-                    Courts Available
-                </p>
-
-                <h2 class="text-3xl font-bold mt-2 text-gray-800">
-                    2
-                </h2>
-
-                <p class="text-purple-500 text-sm mt-2">
-                    Lapangan tersedia
-                </p>
-
+            <div class="bg-white p-5 rounded-xl shadow border">
+                <p class="text-gray-500 text-sm">Available Courts</p>
+                <h2 class="text-2xl font-bold mt-1">{{ $courts }}</h2>
+                <p class="text-purple-500 text-sm">Lapangan aktif</p>
             </div>
 
         </div>
 
-        <!-- Active Booking Section -->
-        <div class="bg-white rounded-xl shadow p-6">
 
-            <h2 class="text-lg font-semibold mb-4">
-                Active Booking
-            </h2>
+        {{-- ACTIVE BOOKING --}}
+        <div class="bg-white rounded-xl shadow p-6 border">
+            <h2 class="font-semibold mb-4">🎾 Active Booking</h2>
 
-            <div class="border rounded-lg p-4 flex justify-between items-center">
+            @forelse($activeBookings as $booking)
+                <div class="flex justify-between items-center border rounded-lg p-4 mb-3 hover:shadow transition">
 
-                <div>
-                    <p class="font-semibold text-gray-800">
-                        Court A
-                    </p>
+                    <div>
+                        <p class="font-semibold">{{ $booking->court->name }}</p>
+                        <p class="text-sm text-gray-500">
+                            {{ \Carbon\Carbon::parse($booking->date)->format('d M Y') }}
+                            • {{ $booking->start_time }} - {{ $booking->end_time }}
+                        </p>
+                    </div>
 
-                    <p class="text-sm text-gray-500">
-                        20 March 2026 • 08:00 - 10:00
-                    </p>
+                    <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-xs">
+                        {{ ucfirst($booking->status) }}
+                    </span>
+
                 </div>
-
-                <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm">
-                    Confirmed
-                </span>
-
-            </div>
-
+            @empty
+                <p class="text-gray-400 text-sm">Belum ada booking aktif</p>
+            @endforelse
         </div>
 
-        <!-- Booking History -->
-        <div class="bg-white rounded-xl shadow p-6">
 
-            <h2 class="text-lg font-semibold mb-4">
-                Recent Booking
-            </h2>
+        {{-- RECENT BOOKINGS --}}
+        <div class="bg-white rounded-xl shadow p-6 border">
+            <h2 class="font-semibold mb-4">📋 Booking History</h2>
 
-            <table class="w-full text-sm">
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead class="text-gray-500 border-b">
+                        <tr>
+                            <th class="text-left py-2">Court</th>
+                            <th class="text-left py-2">Date</th>
+                            <th class="text-left py-2">Time</th>
+                            <th class="text-left py-2">Status</th>
+                        </tr>
+                    </thead>
 
-                <thead class="text-gray-500 border-b">
+                    <tbody>
+                        @foreach ($recentBookings as $booking)
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="py-2">{{ $booking->court->name }}</td>
+                                <td>{{ \Carbon\Carbon::parse($booking->date)->format('d M Y') }}</td>
+                                <td>{{ $booking->start_time }} - {{ $booking->end_time }}</td>
+                                <td>
+                                    @if ($booking->status == 'confirmed')
+                                        <span
+                                            class="bg-green-100 text-green-600 px-2 py-1 rounded-full text-xs">Confirmed</span>
+                                    @elseif($booking->status == 'pending')
+                                        <span
+                                            class="bg-yellow-100 text-yellow-600 px-2 py-1 rounded-full text-xs">Pending</span>
+                                    @elseif($booking->status == 'completed')
+                                        <span
+                                            class="bg-blue-100 text-blue-600 px-2 py-1 rounded-full text-xs">Completed</span>
+                                    @else
+                                        <span
+                                            class="bg-red-100 text-red-600 px-2 py-1 rounded-full text-xs">Cancelled</span>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
 
-                    <tr>
-                        <th class="py-2 text-left">Court</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Status</th>
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    <tr class="border-b">
-                        <td class="py-3">Court A</td>
-                        <td>18 Mar 2026</td>
-                        <td>08:00 - 10:00</td>
-                        <td>
-                            <span class="bg-green-100 text-green-600 px-2 py-1 rounded text-xs">
-                                Confirmed
-                            </span>
-                        </td>
-                    </tr>
-
-                    <tr class="border-b">
-                        <td class="py-3">Court B</td>
-                        <td>16 Mar 2026</td>
-                        <td>19:00 - 21:00</td>
-                        <td>
-                            <span class="bg-yellow-100 text-yellow-600 px-2 py-1 rounded text-xs">
-                                Pending
-                            </span>
-                        </td>
-                    </tr>
-
-                </tbody>
-
-            </table>
+                </table>
+            </div>
 
         </div>
 
