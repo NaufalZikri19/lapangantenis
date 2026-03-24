@@ -1,9 +1,30 @@
 @extends('layouts.admin')
 
 @section('content')
-    <h1 class="text-3xl font-bold mb-8">
-        Admin Dashboard
-    </h1>
+    <!-- HEADER -->
+    <div class="mb-8 space-y-4">
+
+        <!-- TOP -->
+        <div class="flex justify-between items-center">
+
+            <div>
+                <h1 class="text-xl font-semibold">
+                    Welcome back, {{ Auth::user()->name }} 👋
+                </h1>
+                <p class="text-sm text-gray-500">
+                    Here’s what’s happening today
+                </p>
+            </div>
+
+            <!-- Avatar -->
+            <div
+                class="w-10 h-10 rounded-full bg-yellow-400 text-gray-900 font-bold flex items-center justify-center shadow">
+                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+            </div>
+
+        </div>
+
+    </div>
 
     <!-- STAT CARDS -->
     <div class="grid md:grid-cols-3 gap-6 mb-10">

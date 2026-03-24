@@ -1,13 +1,14 @@
 @extends('layouts.customer')
 
 @section('content')
-    <div class="max-w-6xl mx-auto space-y-6">
+    <div class="max-w-7xl mx-auto space-y-6">
 
         {{-- HERO --}}
         <div
-            class="bg-gradient-to-r from-yellow-400 to-yellow-500 text-white p-6 rounded-2xl shadow flex justify-between items-center">
+            class="bg-gradient-to-r from-yellow-400 to-yellow-500 text-white p-5 md:p-6 rounded-2xl shadow flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+
             <div>
-                <h1 class="text-2xl font-bold">
+                <h1 class="text-xl md:text-2xl font-bold">
                     Welcome back, {{ auth()->user()->name }} 👋
                 </h1>
                 <p class="text-sm opacity-90 mt-1">
@@ -16,14 +17,14 @@
             </div>
 
             <a href="{{ route('booking.create') }}"
-                class="bg-white text-yellow-500 font-semibold px-5 py-2 rounded-lg shadow hover:bg-gray-100 transition">
+                class="bg-white text-yellow-500 font-semibold px-5 py-2 rounded-lg shadow hover:bg-gray-100 transition text-center">
                 + Book Court
             </a>
         </div>
 
 
         {{-- STATS --}}
-        <div class="grid md:grid-cols-3 gap-5">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
             <div class="bg-white p-5 rounded-xl shadow border">
                 <p class="text-gray-500 text-sm">Active Booking</p>
@@ -47,11 +48,12 @@
 
 
         {{-- ACTIVE BOOKING --}}
-        <div class="bg-white rounded-xl shadow p-6 border">
+        <div class="bg-white rounded-xl shadow p-5 md:p-6 border">
             <h2 class="font-semibold mb-4">🎾 Active Booking</h2>
 
             @forelse($activeBookings as $booking)
-                <div class="flex justify-between items-center border rounded-lg p-4 mb-3 hover:shadow transition">
+                <div
+                    class="flex flex-col md:flex-row md:justify-between md:items-center border rounded-lg p-4 mb-3 gap-2 hover:shadow transition">
 
                     <div>
                         <p class="font-semibold">{{ $booking->court->name }}</p>
@@ -61,7 +63,7 @@
                         </p>
                     </div>
 
-                    <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-xs">
+                    <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-xs w-fit">
                         {{ ucfirst($booking->status) }}
                     </span>
 
@@ -73,11 +75,11 @@
 
 
         {{-- RECENT BOOKINGS --}}
-        <div class="bg-white rounded-xl shadow p-6 border">
+        <div class="bg-white rounded-xl shadow p-5 md:p-6 border">
             <h2 class="font-semibold mb-4">📋 Booking History</h2>
 
             <div class="overflow-x-auto">
-                <table class="w-full text-sm">
+                <table class="w-full text-sm min-w-[500px]">
                     <thead class="text-gray-500 border-b">
                         <tr>
                             <th class="text-left py-2">Court</th>

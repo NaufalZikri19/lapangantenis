@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "@tailwindcss/vite": "^4.2.1",
+        "lucide": "^1.0.1",
         "sweetalert2": "^11.26.22"
     }
 }

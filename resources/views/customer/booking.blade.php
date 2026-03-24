@@ -32,65 +32,94 @@
         @endif
 
 
-        <div class="bg-white shadow rounded-xl p-4 sm:p-6">
+        <div class="grid md:grid-cols-3 gap-6">
 
-            <form method="POST" action="{{ route('booking.store') }}">
-                @csrf
+            <!-- LEFT (FORM) -->
+            <div class="md:col-span-2 bg-white shadow rounded-2xl p-5 sm:p-6">
 
-                <!-- COURT -->
-                <div class="mb-5">
-                    <label class="block text-sm text-gray-600 mb-2">
-                        Select Court
-                    </label>
+                <form id="bookingForm" method="POST" action="{{ route('booking.store') }}">
+                    @csrf
 
-                    <select id="court_id" name="court_id" class="w-full border rounded-lg p-3">
-                        @foreach ($courts as $court)
-                            <option value="{{ $court->id }}" data-price="{{ $court->price }}">
-                                {{ $court->name }} - Rp {{ number_format($court->price) }}/jam
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
+                    <!-- COURT -->
+                    <div class="mb-5">
+                        <label class="block text-sm font-medium text-gray-600 mb-2">
+                            Select Court
+                        </label>
 
-
-                <!-- DATE -->
-                <div class="mb-5">
-                    <label class="block text-sm text-gray-600 mb-2">
-                        Booking Date
-                    </label>
-
-                    <input type="date" id="booking_date" name="booking_date" min="{{ date('Y-m-d') }}"
-                        class="w-full border rounded-lg p-3">
-                </div>
-
-
-                <!-- TIME SLOT -->
-                <div class="mb-6">
-                    <label class="block text-sm text-gray-600 mb-2">
-                        Select Time Slot
-                    </label>
-
-                    <div id="time_slots" class="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
-                        <!-- slot akan muncul di sini -->
+                        <select id="court_id" name="court_id"
+                            class="w-full border rounded-xl p-3 focus:ring-2 focus:ring-yellow-400">
+                            @foreach ($courts as $court)
+                                <option value="{{ $court->id }}" data-price="{{ $court->price }}">
+                                    {{ $court->name }} - Rp {{ number_format($court->price) }}/jam
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
 
-                    <!-- hidden input -->
-                    <input type="hidden" name="start_time" id="start_time">
-                    <input type="hidden" name="end_time" id="end_time">
-                    <input type="hidden" name="slots" id="slots">
+                    <!-- DATE -->
+                    <div class="mb-5">
+                        <label class="block text-sm font-medium text-gray-600 mb-2">
+                            Booking Date
+                        </label>
+
+                        <input type="date" id="booking_date" name="booking_date" min="{{ date('Y-m-d') }}"
+                            class="w-full border rounded-xl p-3 focus:ring-2 focus:ring-yellow-400">
+                    </div>
+
+                    <!-- TIME SLOT -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-600 mb-2">
+                            Select Time Slot
+                        </label>
+
+                        <div id="time_slots" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                        </div>
+
+                        <input type="hidden" name="start_time" id="start_time">
+                        <input type="hidden" name="end_time" id="end_time">
+                        <input type="hidden" name="slots" id="slots">
+                    </div>
+
+                </form>
+            </div>
+
+
+            <!-- RIGHT (SUMMARY) -->
+            <div class="bg-white shadow rounded-2xl p-5 sm:p-6 h-fit">
+
+                <h2 class="font-semibold mb-4">📋 Booking Summary</h2>
+
+                <div class="text-sm space-y-2 text-gray-600">
+
+                    <div class="flex justify-between">
+                        <span>Court</span>
+                        <span id="summary_court">-</span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span>Date</span>
+                        <span id="summary_date">-</span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span>Time</span>
+                        <span id="summary_time">-</span>
+                    </div>
+
                 </div>
 
-                <div id="price_info" class="mb-4 hidden">
+                <!-- PRICE -->
+                <div id="price_info" class="mt-5 hidden">
 
                     <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
 
                         <div class="flex justify-between text-sm text-gray-600 mb-1">
-                            <span>Durasi</span>
+                            <span>Duration</span>
                             <span id="duration">0 jam</span>
                         </div>
 
                         <div class="flex justify-between text-lg font-bold text-gray-800">
-                            <span>Total Harga</span>
+                            <span>Total</span>
                             <span id="total_price">Rp 0</span>
                         </div>
 
@@ -98,14 +127,15 @@
 
                 </div>
 
-                <button id="submitBtn" disabled
-                    class="bg-yellow-300 text-white px-6 py-3 rounded-lg font-semibold w-full cursor-not-allowed">
+                <!-- BUTTON -->
+                <button id="submitBtn" form="bookingForm" disabled
+                    class="mt-6 w-full bg-yellow-300 text-white py-3 rounded-xl font-semibold cursor-not-allowed transition">
 
                     Confirm Booking
 
                 </button>
 
-            </form>
+            </div>
 
         </div>
 
@@ -202,15 +232,16 @@
 
                 btn.className = `
     w-full
-    p-4 sm:p-3
+    p-3
     rounded-xl
     border
     text-sm
-    text-center
-    transition duration-200
+    font-medium
+    transition
+    duration-200
     ${isBooked || isPast
-        ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-        : 'bg-white hover:bg-yellow-100 active:scale-95'}
+        ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+        : 'bg-white hover:bg-yellow-100 hover:border-yellow-400'}
 `;
 
                 if (!isBooked && !isPast) {
@@ -326,6 +357,24 @@
             btnSubmit.classList.add('bg-yellow-500');
 
             updatePrice();
+            updateSummary();
+        }
+
+        function updateSummary() {
+
+            let court = courtSelect.options[courtSelect.selectedIndex].text;
+            let date = dateInput.value;
+
+            document.getElementById('summary_court').innerText = court;
+            document.getElementById('summary_date').innerText = date || '-';
+
+            if (selectedSlots.length > 0) {
+                let start = selectedSlots[0].start;
+                let end = selectedSlots[selectedSlots.length - 1].end;
+                document.getElementById('summary_time').innerText = `${start} - ${end}`;
+            } else {
+                document.getElementById('summary_time').innerText = '-';
+            }
         }
 
         // 🔥 CEK JAM LEWAT
