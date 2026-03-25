@@ -125,10 +125,25 @@
                 <div class="flex items-center gap-4">
 
                     <!-- SEARCH -->
-                    <div class="hidden md:flex items-center bg-gray-100 px-3 py-2 rounded-lg">
-                        <i data-lucide="search" class="w-4 h-4 text-gray-400"></i>
-                        <input type="text" placeholder="Search..."
-                            class="bg-transparent outline-none text-sm ml-2 w-40">
+                    <div class="relative w-64">
+
+                        <!-- ICON -->
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                            <i data-lucide="search" class="w-4 h-4"></i>
+                        </span>
+
+                        <!-- INPUT -->
+                        <input type="text" id="searchInput" placeholder="Search bookings..."
+                            class="w-full pl-10 pr-10 py-2 rounded-xl bg-gray-100
+               focus:bg-white focus:ring-2 focus:ring-yellow-400
+               outline-none transition text-sm shadow-sm">
+
+                        <!-- CLEAR -->
+                        <button id="clearSearch"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hidden hover:text-gray-600">
+                            ✕
+                        </button>
+
                     </div>
 
                     <!-- AVATAR -->
@@ -190,6 +205,42 @@
                 if (result.isConfirmed) {
                     document.getElementById('logout-form').submit();
                 }
+            });
+        }
+
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearSearch');
+
+        if (searchInput) {
+
+            let timeout;
+
+            searchInput.addEventListener('keyup', function() {
+
+                clearTimeout(timeout);
+
+                timeout = setTimeout(() => {
+
+                    const keyword = this.value.toLowerCase();
+                    const rows = document.querySelectorAll('tbody tr');
+
+                    // ❗ jika tidak ada table → skip
+                    if (!rows.length) return;
+
+                    rows.forEach(row => {
+                        const text = row.innerText.toLowerCase();
+                        row.style.display = text.includes(keyword) ? '' : 'none';
+                    });
+
+                    clearBtn.style.display = this.value ? 'block' : 'none';
+
+                }, 200);
+
+            });
+
+            clearBtn.addEventListener('click', () => {
+                searchInput.value = '';
+                searchInput.dispatchEvent(new Event('keyup'));
             });
         }
     </script>

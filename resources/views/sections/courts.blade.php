@@ -3,6 +3,9 @@
     <div class="max-w-6xl mx-auto px-6">
 
         <div class="text-center mb-20">
+            <span class="text-yellow-500 text-sm font-semibold tracking-widest uppercase">
+                Courts
+            </span>
             <h2 class="text-4xl font-bold text-gray-900">
                 Discover Our Courts
             </h2>
