@@ -76,6 +76,16 @@ Route::middleware(['auth', 'nocache'])->group(function () {
 
         Route::get('/dashboard', function () {
 
+            $today = Carbon::today();
+            $todaySchedule = Booking::with('court')
+                ->whereDate('date', $today)
+                ->orderBy('start_time')
+                ->get();
+
+            $confirmed = Booking::where('status', 'confirmed')->count();
+            $pending = Booking::where('status', 'pending')->count();
+            $cancelled = Booking::where('status', 'cancelled')->count();
+
             $totalCourts = Court::count();
 
             $todayBookings = Booking::whereDate('date', Carbon::today())->count();
@@ -91,6 +101,10 @@ Route::middleware(['auth', 'nocache'])->group(function () {
                 'totalCourts',
                 'todayBookings',
                 'totalCustomers',
+                'todaySchedule',
+                'confirmed',
+                'pending',
+                'cancelled',
                 'recentBookings'
             ));
         })->name('admin.dashboard');
