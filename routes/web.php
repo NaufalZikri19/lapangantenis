@@ -5,9 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 /*
-|--------------------------------------------------------------------------
 | Controllers
-|--------------------------------------------------------------------------
 */
 
 use App\Http\Controllers\ProfileController;
@@ -16,9 +14,7 @@ use App\Http\Controllers\Admin\CourtController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 
 /*
-|--------------------------------------------------------------------------
 | Models
-|--------------------------------------------------------------------------
 */
 
 use App\Models\Court;
@@ -28,9 +24,7 @@ use App\Models\User;
 
 
 /*
-|--------------------------------------------------------------------------
 | Public Routes
-|--------------------------------------------------------------------------
 */
 
 Route::get('/', function () {
@@ -39,17 +33,15 @@ Route::get('/', function () {
 
 
 /*
-|--------------------------------------------------------------------------
 | Authenticated Routes
-|--------------------------------------------------------------------------
 */
 
 Route::middleware(['auth', 'nocache'])->group(function () {
 
     /*
-    |--------------------------------------------------------------------------
+
     | Redirect Dashboard (Role Based)
-    |--------------------------------------------------------------------------
+
     */
 
     Route::get('/dashboard', function () {
@@ -64,9 +56,9 @@ Route::middleware(['auth', 'nocache'])->group(function () {
 
 
     /*
-    |--------------------------------------------------------------------------
+
     | ADMIN ROUTES
-    |--------------------------------------------------------------------------
+
     */
 
     Route::prefix('admin')->group(function () {
@@ -108,18 +100,18 @@ Route::middleware(['auth', 'nocache'])->group(function () {
 
 
         /*
-        |--------------------------------------------------------------------------
+    
         | COURTS CRUD
-        |--------------------------------------------------------------------------
+    
         */
 
         Route::resource('courts', CourtController::class);
 
 
         /*
-        |--------------------------------------------------------------------------
+    
         | BOOKING MANAGEMENT
-        |--------------------------------------------------------------------------
+    
         */
 
         Route::get('/bookings', [AdminBookingController::class, 'index'])
@@ -135,9 +127,9 @@ Route::middleware(['auth', 'nocache'])->group(function () {
 
 
     /*
-    |--------------------------------------------------------------------------
+
     | CUSTOMER ROUTES
-    |--------------------------------------------------------------------------
+
     */
 
     Route::prefix('customer')->group(function () {
@@ -168,9 +160,9 @@ Route::middleware(['auth', 'nocache'])->group(function () {
         })->name('customer.dashboard');
 
         /*
-        |--------------------------------------------------------------------------
+    
         | BOOKING COURT
-        |--------------------------------------------------------------------------
+    
         */
 
         Route::get('/booking', [BookingController::class, 'create'])
@@ -186,9 +178,9 @@ Route::middleware(['auth', 'nocache'])->group(function () {
 
 
     /*
-    |--------------------------------------------------------------------------
+
     | PROFILE
-    |--------------------------------------------------------------------------
+
     */
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

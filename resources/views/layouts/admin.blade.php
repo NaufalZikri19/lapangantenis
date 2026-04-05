@@ -109,23 +109,23 @@
         <!-- MAIN -->
         <div class="flex-1 flex flex-col">
 
-            <!-- 🔥 HEADER -->
+            <!--  HEADER -->
             <header class="bg-white border-b px-6 py-4 flex justify-between items-center">
 
                 <!-- LEFT -->
-                <div class="flex items-center gap-4">
-
+                <div>
                     <h1 class="text-lg font-semibold text-gray-800">
-                        @yield('title', 'Dashboard')
+                        Dashboard
                     </h1>
-
+                    <p class="text-xs text-gray-400">
+                        Overview & analytics
+                    </p>
                 </div>
 
                 <!-- RIGHT -->
                 <div class="flex items-center gap-4">
 
-                    <!-- SEARCH -->
-                    <div class="relative w-64">
+                    <form method="GET" action="{{ route('admin.bookings') }}" class="relative hidden md:block">
 
                         <!-- ICON -->
                         <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
@@ -133,24 +133,19 @@
                         </span>
 
                         <!-- INPUT -->
-                        <input type="text" id="searchInput" placeholder="Search bookings..."
-                            class="w-full pl-10 pr-10 py-2 rounded-xl bg-gray-100
-               focus:bg-white focus:ring-2 focus:ring-yellow-400
-               outline-none transition text-sm shadow-sm">
+                        <input type="text" name="search" value="{{ request('search') }}"
+                            placeholder="Search bookings..."
+                            class="w-64 pl-10 pr-4 py-2 rounded-full bg-gray-100
+                       focus:bg-white focus:ring-2 focus:ring-yellow-400
+                       outline-none text-sm transition shadow-sm">
 
-                        <!-- CLEAR -->
-                        <button id="clearSearch"
-                            class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hidden hover:text-gray-600">
-                            ✕
-                        </button>
-
-                    </div>
+                    </form>
 
                     <!-- AVATAR -->
                     <div class="relative">
 
                         <div @click="profileOpen = !profileOpen"
-                            class="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center font-bold cursor-pointer">
+                            class="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center font-bold text-gray-900">
                             {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                         </div>
 
@@ -208,6 +203,7 @@
             });
         }
 
+
         const searchInput = document.getElementById('searchInput');
         const clearBtn = document.getElementById('clearSearch');
 
@@ -220,27 +216,14 @@
                 clearTimeout(timeout);
 
                 timeout = setTimeout(() => {
-
-                    const keyword = this.value.toLowerCase();
-                    const rows = document.querySelectorAll('tbody tr');
-
-                    // ❗ jika tidak ada table → skip
-                    if (!rows.length) return;
-
-                    rows.forEach(row => {
-                        const text = row.innerText.toLowerCase();
-                        row.style.display = text.includes(keyword) ? '' : 'none';
-                    });
-
-                    clearBtn.style.display = this.value ? 'block' : 'none';
-
-                }, 200);
+                    this.form.submit(); //  kirim ke backend
+                }, 500);
 
             });
 
             clearBtn.addEventListener('click', () => {
                 searchInput.value = '';
-                searchInput.dispatchEvent(new Event('keyup'));
+                searchInput.form.submit();
             });
         }
     </script>

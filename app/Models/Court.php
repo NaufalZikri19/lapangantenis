@@ -11,6 +11,7 @@ class Court extends Model
             'type',
             'price',
             'status',
+            'image',
         ];
     public function bookings()
     {

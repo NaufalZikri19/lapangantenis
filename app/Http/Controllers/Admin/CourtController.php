@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Court;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CourtController extends Controller
 {
@@ -22,7 +23,25 @@ class CourtController extends Controller
 
     public function store(Request $request)
     {
-        Court::create($request->all());
+        $request->validate([
+            'name' => 'required',
+            'type' => 'required',
+            'price' => 'required|numeric',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+        ]);
+
+        $imagePath = null;
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('courts', 'public');
+        }
+
+        Court::create([
+            'name' => $request->name,
+            'type' => $request->type,
+            'price' => $request->price,
+            'image' => $imagePath,
+        ]);
 
         return redirect()->route('courts.index')
             ->with('success', 'Court berhasil ditambahkan');
@@ -35,10 +54,30 @@ class CourtController extends Controller
 
     public function update(Request $request, Court $court)
     {
-        $court->update($request->all());
+        $request->validate([
+            'name' => 'required',
+            'type' => 'required',
+            'price' => 'required',
+            'image' => 'nullable|image'
+        ]);
 
-        return redirect()->route('courts.index')
-            ->with('success', 'Court berhasil diupdate');
+        if ($request->hasFile('image')) {
+
+            $file = $request->file('image');
+
+            $path = $file->store('courts', 'public');
+
+            $court->image = $path;
+        }
+
+        $court->update([
+            'name' => $request->name,
+            'type' => $request->type,
+            'price' => $request->price,
+            'image' => $court->image,
+        ]);
+
+        return redirect()->route('courts.index');
     }
 
     public function destroy(Court $court)
