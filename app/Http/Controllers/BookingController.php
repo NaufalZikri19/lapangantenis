@@ -26,12 +26,12 @@ class BookingController extends Controller
 
     public function store(Request $request)
     {
-        // 🔐 AUTH CHECK
+        //  AUTH CHECK
         if (!Auth::check()) {
             return redirect()->route('login');
         }
 
-        // ✅ VALIDASI DASAR
+        //  VALIDASI DASAR
         $request->validate([
             'court_id' => 'required|exists:courts,id',
             'booking_date' => 'required|date|after_or_equal:today',
@@ -84,7 +84,7 @@ class BookingController extends Controller
         }
 
 
-        // 🔥 TRANSACTION (ANTI RACE CONDITION)
+        // TRANSACTION (ANTI RACE CONDITION)
 
         DB::beginTransaction();
 
@@ -108,7 +108,7 @@ class BookingController extends Controller
                 }
             }
 
-            // 🔥 GABUNG SLOT
+            // GABUNG SLOT
             $start_time = $slots[0]['start'];
             $end_time = $slots[count($slots) - 1]['end'];
 

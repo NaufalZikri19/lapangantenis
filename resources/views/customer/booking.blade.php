@@ -152,7 +152,7 @@
                     </div>
 
                     <!-- BUTTON -->
-                    <button id="submitBtn"
+                    <button id="submitBtn" form="bookingForm" type="submit"
                         class="w-full bg-yellow-400 hover:bg-yellow-500 text-white py-3 rounded-xl font-semibold transition disabled:bg-yellow-200 cursor-not-allowed"
                         disabled>
                         Confirm Booking
@@ -225,12 +225,12 @@
             btnSubmit.classList.add('bg-yellow-300', 'cursor-not-allowed');
 
             if (!courtId) {
-                timeSlots.innerHTML = '<p class="text-gray-400">Pilih lapangan dulu</p>';
+                timeSlots.innerHTML = '<p class="text-gray-400">Silahkan pilih lapangan terlebih dahulu</p>';
                 return;
             }
 
             if (!date) {
-                timeSlots.innerHTML = '<p class="text-gray-400">Pilih tanggal dulu</p>';
+                timeSlots.innerHTML = '<p class="text-gray-400">Silahkan pilih tanggal terlebih dahulu</p>';
                 return;
             }
 

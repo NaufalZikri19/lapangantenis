@@ -70,7 +70,7 @@
             <div class="bg-white p-5 rounded-xl shadow border hover:shadow-md transition">
                 <div class="flex items-center gap-3">
 
-                     <div class="p-2 bg-blue-100 rounded-lg">
+                    <div class="p-2 bg-blue-100 rounded-lg">
                         <i data-lucide="map" class="w-5 h-5 text-blue-500"></i>
                     </div>
 
@@ -87,34 +87,67 @@
 
         {{-- ACTIVE BOOKING --}}
         <div class="bg-white rounded-xl shadow p-5 md:p-6 border">
+
             <h2 class="font-semibold mb-4 flex items-center gap-2 text-lg">
                 <i data-lucide="shield-check" class="w-4 h-4"></i>
                 <span>Active Booking</span>
             </h2>
 
             @forelse($activeBookings as $booking)
-                <div
-                    class="flex flex-col md:flex-row md:justify-between md:items-center border-l-4 border-green-400 rounded-lg p-4 mb-3 gap-2 hover:shadow transition">
+                @php
+                    $now = \Carbon\Carbon::now();
+                    $date = \Carbon\Carbon::parse($booking->date);
+                    $start = \Carbon\Carbon::parse($booking->date . ' ' . $booking->start_time);
+                    $end = \Carbon\Carbon::parse($booking->date . ' ' . $booking->end_time);
 
+                    $isToday = $date->isToday();
+                    $isOngoing = $isToday && $now->between($start, $end);
+                @endphp
+
+                <div
+                    class="flex flex-col md:flex-row md:justify-between md:items-center border-l-4
+            {{ $isOngoing ? 'border-yellow-400 bg-yellow-50' : 'border-green-400' }}
+            rounded-lg p-4 mb-3 gap-2 hover:shadow transition">
+
+                    <!-- LEFT -->
                     <div class="flex items-start gap-3">
                         <i data-lucide="map-pin" class="w-4 h-4 text-gray-400 mt-1"></i>
+
                         <div>
                             <p class="font-semibold">{{ $booking->court->name }}</p>
+
                             <p class="text-sm text-gray-500">
                                 {{ \Carbon\Carbon::parse($booking->date)->format('d M Y') }}
                                 • {{ $booking->start_time }} - {{ $booking->end_time }}
                             </p>
+
+                            <!-- LABEL TAMBAHAN -->
+                            @if ($isOngoing)
+                                <p class="text-xs text-yellow-600 mt-1 font-medium">
+                                    Sedang berlangsung
+                                </p>
+                            @elseif($isToday)
+                                <p class="text-xs text-blue-500 mt-1">
+                                    Hari ini
+                                </p>
+                            @endif
                         </div>
                     </div>
 
-                    <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-xs w-fit">
-                        {{ ucfirst($booking->status) }}
+                    <!-- RIGHT -->
+                    <span
+                        class="
+                px-3 py-1 rounded-full text-xs w-fit
+                {{ $isOngoing ? 'bg-yellow-100 text-yellow-600' : 'bg-green-100 text-green-600' }}">
+                        {{ $isOngoing ? 'Ongoing' : ucfirst($booking->status) }}
                     </span>
 
                 </div>
+
             @empty
                 <p class="text-gray-400 text-sm">Belum ada booking aktif</p>
             @endforelse
+
         </div>
 
 

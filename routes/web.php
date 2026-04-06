@@ -100,18 +100,18 @@ Route::middleware(['auth', 'nocache'])->group(function () {
 
 
         /*
-    
+
         | COURTS CRUD
-    
+
         */
 
         Route::resource('courts', CourtController::class);
 
 
         /*
-    
+
         | BOOKING MANAGEMENT
-    
+
         */
 
         Route::get('/bookings', [AdminBookingController::class, 'index'])
@@ -135,15 +135,27 @@ Route::middleware(['auth', 'nocache'])->group(function () {
     Route::prefix('customer')->group(function () {
 
         Route::get('/dashboard', function () {
+
+            $now = Carbon::now();
+
             $activeBookings = Booking::with('court')
                 ->where('user_id', Auth::id())
                 ->whereIn('status', ['pending', 'confirmed'])
+                ->where(function ($query) use ($now) {
+                    $query->where('date', '>', $now->toDateString())
+                        ->orWhere(function ($q) use ($now) {
+                            $q->where('date', $now->toDateString())
+                                ->where('end_time', '>', $now->format('H:i:s'));
+                        });
+                })
                 ->get();
+
             $recentBookings = Booking::with('court')
                 ->where('user_id', Auth::id())
                 ->latest()
                 ->take(5)
                 ->get();
+
             $activeBooking = $activeBookings->count();
 
             $totalBooking = Booking::where('user_id', Auth::id())->count();
@@ -160,9 +172,9 @@ Route::middleware(['auth', 'nocache'])->group(function () {
         })->name('customer.dashboard');
 
         /*
-    
+
         | BOOKING COURT
-    
+
         */
 
         Route::get('/booking', [BookingController::class, 'create'])

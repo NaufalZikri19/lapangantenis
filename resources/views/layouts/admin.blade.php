@@ -21,11 +21,11 @@
     <div x-data="{
         open: localStorage.getItem('sidebar') === 'true',
         profileOpen: false
-    }" x-init="$watch('open', val => localStorage.setItem('sidebar', val))" class="flex min-h-screen">
+    }" x-init="$watch('open', val => localStorage.setItem('sidebar', val))" class="min-h-screen">
 
         <!-- SIDEBAR -->
-        <aside :class="open ? 'w-64' : 'w-20'"
-            class="bg-white border-r flex flex-col py-6 shadow-sm transition-all duration-300">
+        <aside :style="`width: ${open ? '256px' : '80px'}`"
+            class="fixed top-0 left-0 h-screen bg-white border-r flex flex-col py-6 shadow-sm transition-all duration-300 z-50 overflow-y-auto">
 
             <!-- LOGO -->
             <div class="flex items-center justify-between px-4 mb-6">
@@ -107,10 +107,12 @@
         </aside>
 
         <!-- MAIN -->
-        <div class="flex-1 flex flex-col">
+        <div :style="`margin-left: ${open ? '256px' : '80px'}`" class="min-h-screen transition-all duration-300">
 
             <!--  HEADER -->
-            <header class="bg-white border-b px-6 py-4 flex justify-between items-center">
+            <header
+                class="h-16 bg-white border-b px-6 flex justify-between items-start py-3
+           sticky top-0 z-40">
 
                 <!-- LEFT -->
                 <div>
@@ -123,21 +125,21 @@
                 </div>
 
                 <!-- RIGHT -->
-                <div class="flex items-center gap-4">
+                <div class="flex items-center gap-4 mt-1">
 
                     <form method="GET" action="{{ route('admin.bookings') }}" class="relative hidden md:block">
 
                         <!-- ICON -->
-                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                        <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
                             <i data-lucide="search" class="w-4 h-4"></i>
                         </span>
 
                         <!-- INPUT -->
                         <input type="text" name="search" value="{{ request('search') }}"
-                            placeholder="Search bookings..."
-                            class="w-64 pl-10 pr-4 py-2 rounded-full bg-gray-100
-                       focus:bg-white focus:ring-2 focus:ring-yellow-400
-                       outline-none text-sm transition shadow-sm">
+                            placeholder="Cari booking..."
+                            class="w-64 h-10 pl-10 pr-4 rounded-full bg-gray-100
+           focus:bg-white focus:ring-2 focus:ring-yellow-400
+           outline-none text-sm transition shadow-sm">
 
                     </form>
 
