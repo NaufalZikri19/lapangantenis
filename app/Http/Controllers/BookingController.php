@@ -11,9 +11,9 @@ use Carbon\Carbon;
 
 class BookingController extends Controller
 {
-    
+
     // FORM BOOKING
-    
+
     public function create()
     {
         $courts = Court::where('status', 1)->get();
@@ -21,9 +21,9 @@ class BookingController extends Controller
         return view('customer.booking', compact('courts'));
     }
 
-    
+
     // STORE BOOKING (REFINED)
-    
+
     public function store(Request $request)
     {
         // 🔐 AUTH CHECK
@@ -83,9 +83,9 @@ class BookingController extends Controller
             }
         }
 
-        
+
         // 🔥 TRANSACTION (ANTI RACE CONDITION)
-        
+
         DB::beginTransaction();
 
         try {
@@ -134,9 +134,9 @@ class BookingController extends Controller
         }
     }
 
-    
+
     // CHECK AVAILABILITY (API READY)
-    
+
     public function checkAvailability(Request $request)
     {
         $request->validate([
@@ -146,7 +146,7 @@ class BookingController extends Controller
 
         $bookings = Booking::where('court_id', $request->court_id)
             ->where('date', $request->date)
-            ->whereIn('status', ['pending', 'confirmed'])
+            ->whereIn('status', ['confirmed', 'ongoing'])
             ->get(['start_time', 'end_time']);
 
         return response()->json($bookings);

@@ -26,16 +26,8 @@ class Booking extends Model
 
     public static function autoComplete()
     {
-        $now = now();
-
-        self::where('status', 'confirmed')
-            ->where(function ($query) use ($now) {
-                $query->where('date', '<', $now->toDateString())
-                    ->orWhere(function ($q) use ($now) {
-                        $q->where('date', $now->toDateString())
-                            ->where('end_time', '<', $now->toTimeString());
-                    });
-            })
+        return self::where('status', 'confirmed')
+            ->whereRaw("TIMESTAMP(date, end_time) < ?", [now()])
             ->update(['status' => 'completed']);
     }
 }

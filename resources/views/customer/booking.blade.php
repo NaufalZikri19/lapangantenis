@@ -17,19 +17,6 @@
             </div>
         @endif
 
-        @if (session('error'))
-            <div class="bg-red-100 text-red-700 p-4 rounded mb-5">
-                {{ session('error') }}
-            </div>
-        @endif
-
-        @if (session('success'))
-            <div class="bg-green-100 text-green-700 p-4 rounded mb-5">
-                {{ session('success') }}
-            </div>
-        @endif
-
-
         <div class="grid md:grid-cols-3 gap-6">
 
             <!-- LEFT -->
@@ -45,7 +32,6 @@
                         </label>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
                             @foreach ($courts as $court)
                                 <div onclick="selectCourt(this, {{ $court->id }}, {{ $court->price }}, '{{ $court->name }}')"
                                     class="court-card border rounded-xl p-3 cursor-pointer hover:shadow transition">
@@ -59,7 +45,6 @@
                                     </p>
                                 </div>
                             @endforeach
-
                         </div>
 
                         <input type="hidden" name="court_id" id="court_id">
@@ -91,11 +76,10 @@
                 </form>
             </div>
 
-
             <!-- RIGHT -->
             <div class="bg-white shadow rounded-2xl p-5 sm:p-6 h-fit">
 
-                <h2 class="font-semibold mb-4"> Booking Summary</h2>
+                <h2 class="font-semibold mb-4">Booking Summary</h2>
 
                 <div class="text-sm space-y-2 text-gray-600">
 
@@ -116,10 +100,8 @@
 
                 </div>
 
-                <!-- PRICE -->
                 <div id="price_info" class="mt-5 hidden">
                     <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
-
                         <div class="flex justify-between text-sm text-gray-600 mb-1">
                             <span>Duration</span>
                             <span id="duration">0 jam</span>
@@ -129,7 +111,6 @@
                             <span>Total</span>
                             <span id="total_price">Rp 0</span>
                         </div>
-
                     </div>
                 </div>
 
@@ -178,8 +159,31 @@
             let courtId = document.getElementById('court_id').value;
             let date = dateInput.value;
 
-            if (!courtId || !date) return;
+            // RESET UI
+            resetSummary();
+            timeSlots.innerHTML = '';
+            document.getElementById('slots').value = '';
+            document.getElementById('start_time').value = '';
+            document.getElementById('end_time').value = '';
 
+            btnSubmit.disabled = true;
+            btnSubmit.classList.remove('bg-yellow-500', 'cursor-pointer');
+            btnSubmit.classList.add('bg-yellow-300', 'cursor-not-allowed');
+
+            // VALIDASI STEP BY STEP (JANGAN LANGSUNG RETURN)
+            if (!courtId) {
+                timeSlots.innerHTML =
+                    '<p class="text-gray-400 text-sm col-span-3">Silahkan Pilih Lapangan Terlebih Dahulu</p>';
+                return;
+            }
+
+            if (!date) {
+                timeSlots.innerHTML =
+                    '<p class="text-gray-400 text-sm col-span-3">Silahkan Pilih Tanggal Terlebih Dahulu</p>';
+                return;
+            }
+
+            // LOADING
             timeSlots.innerHTML = `<p class="text-gray-400 text-sm col-span-3">Loading...</p>`;
 
             fetch(`/customer/check-availability?court_id=${courtId}&date=${date}`)
@@ -188,33 +192,52 @@
                     bookedTimes = data;
                     generateSlots();
                 });
+
+
         }
 
         // GENERATE SLOT
         function generateSlots() {
             timeSlots.innerHTML = '';
 
+            let selectedDate = dateInput.value;
+            let now = new Date();
+
             for (let i = openTime; i < closeTime; i++) {
 
                 let start = String(i).padStart(2, '0') + ':00';
                 let end = String(i + 1).padStart(2, '0') + ':00';
 
+                // CEK SLOT SUDAH DIBOOK
                 let isBooked = bookedTimes.some(b =>
                     (b.start_time < end && b.end_time > start)
                 );
+
+                // CEK SLOT SUDAH LEWAT
+                let isPast = false;
+
+                if (selectedDate === now.toISOString().split('T')[0]) {
+                    let currentHour = now.getHours();
+                    if (i <= currentHour) {
+                        isPast = true;
+                    }
+                }
 
                 let btn = document.createElement('button');
                 btn.type = 'button';
                 btn.innerText = `${start} - ${end}`;
 
-                btn.className = `
-            p-3 rounded-xl border text-sm transition
-            ${isBooked
-                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                : 'bg-white hover:bg-yellow-100'}
-        `;
+                // DISABLE CONDITION
+                if (isBooked) {
+                    btn.className = 'p-3 rounded-xl border text-sm bg-red-100 text-red-400 cursor-not-allowed';
+                    btn.disabled = true;
 
-                if (!isBooked) {
+                } else if (isPast) {
+                    btn.className = 'p-3 rounded-xl border text-sm bg-gray-200 text-gray-400 cursor-not-allowed';
+                    btn.disabled = true;
+
+                } else {
+                    btn.className = 'p-3 rounded-xl border text-sm bg-white hover:bg-yellow-100 cursor-pointer';
                     btn.onclick = () => selectSlot(start, end, btn);
                 }
 
@@ -228,14 +251,50 @@
             let index = selectedSlots.findIndex(s => s.start === start);
 
             if (index !== -1) {
+                // UNSELECT
                 selectedSlots.splice(index, 1);
                 element.classList.remove('bg-yellow-500', 'text-white');
             } else {
+
+                // VALIDASI BERURUTAN
+                if (selectedSlots.length > 0) {
+
+                    // ambil semua jam yang sudah dipilih
+                    let times = selectedSlots.map(s => s.start);
+
+                    // ambil jam terkecil & terbesar
+                    let min = times.sort()[0];
+                    let max = times.sort()[times.length - 1];
+
+                    // slot baru harus nyambung ke min atau max
+                    if (!(end === min || start === max)) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Oops!',
+                            text: 'Pilih slot harus berurutan ya',
+                            confirmButtonColor: '#FBBF24'
+                        });
+                        return;
+                    }
+                }
+
+                // TAMBAH SLOT
                 selectedSlots.push({
                     start,
                     end
                 });
                 element.classList.add('bg-yellow-500', 'text-white');
+            }
+
+            // RESET kalau kosong
+            if (selectedSlots.length === 0) {
+                resetSummary();
+
+                btnSubmit.disabled = true;
+                btnSubmit.classList.remove('bg-yellow-500', 'cursor-pointer');
+                btnSubmit.classList.add('bg-yellow-300', 'cursor-not-allowed');
+
+                return;
             }
 
             updateSelectedTime();
@@ -254,9 +313,11 @@
             document.getElementById('start_time').value = start;
             document.getElementById('end_time').value = end;
 
+            document.getElementById('slots').value = JSON.stringify(selectedSlots);
+
             btnSubmit.disabled = false;
-            btnSubmit.classList.remove('bg-yellow-300');
-            btnSubmit.classList.add('bg-yellow-500');
+            btnSubmit.classList.remove('bg-yellow-300', 'cursor-not-allowed');
+            btnSubmit.classList.add('bg-yellow-500', 'cursor-pointer');
 
             updateSummary();
             updatePrice();
@@ -274,7 +335,6 @@
 
         // PRICE
         function updatePrice() {
-
             let totalHours = selectedSlots.length;
             let total = totalHours * selectedCourtPrice;
 
@@ -283,6 +343,18 @@
                 'Rp ' + Number(total).toLocaleString('id-ID');
 
             document.getElementById('price_info').classList.remove('hidden');
+        }
+
+        // RESET SUMMARY
+        function resetSummary() {
+            document.getElementById('summary_court').innerText = '-';
+            document.getElementById('summary_date').innerText = '-';
+            document.getElementById('summary_time').innerText = '-';
+
+            document.getElementById('duration').innerText = '0 jam';
+            document.getElementById('total_price').innerText = 'Rp 0';
+
+            document.getElementById('price_info').classList.add('hidden');
         }
 
         // EVENTS
