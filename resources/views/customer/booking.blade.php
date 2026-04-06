@@ -31,20 +31,46 @@
                             Select Court
                         </label>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
                             @foreach ($courts as $court)
                                 <div onclick="selectCourt(this, {{ $court->id }}, {{ $court->price }}, '{{ $court->name }}')"
-                                    class="court-card border rounded-xl p-3 cursor-pointer hover:shadow transition">
+                                    class="court-card group relative cursor-pointer bg-white rounded-2xl border shadow-sm hover:shadow-md transition duration-200 overflow-hidden">
 
-                                    <img src="{{ asset('storage/' . $court->image) }}"
-                                        class="w-full h-32 object-cover rounded-lg mb-2">
+                                    <!-- BADGE -->
+                                    <div class="absolute top-3 right-3 hidden selected-badge">
+                                        <span class="bg-yellow-400 text-white text-xs px-3 py-1 rounded-full shadow">
+                                            ✓ Selected
+                                        </span>
+                                    </div>
 
-                                    <p class="font-semibold">{{ $court->name }}</p>
-                                    <p class="text-sm text-gray-500">
-                                        {{ $court->type }} • Rp {{ number_format($court->price) }}/jam
-                                    </p>
+                                    <!-- IMAGE -->
+                                    <div class="overflow-hidden">
+                                        <img src="{{ asset('storage/' . $court->image) }}"
+                                            class="w-full h-44 object-cover group-hover:scale-105 transition duration-300">
+                                    </div>
+
+                                    <!-- CONTENT -->
+                                    <div class="p-4 space-y-2">
+                                        <h3 class="font-semibold text-gray-800 text-base">
+                                            {{ $court->name }}
+                                        </h3>
+
+                                        <p class="text-xs text-gray-500">
+                                            {{ $court->type }}
+                                        </p>
+
+                                        <div class="flex justify-between items-center mt-2">
+                                            <span class="text-sm font-semibold text-yellow-500">
+                                                Rp {{ number_format($court->price, 0, ',', '.') }}
+                                                / jam
+                                            </span>
+
+                                        </div>
+                                    </div>
                                 </div>
                             @endforeach
+
                         </div>
 
                         <input type="hidden" name="court_id" id="court_id">
@@ -79,45 +105,62 @@
             <!-- RIGHT -->
             <div class="bg-white shadow rounded-2xl p-5 sm:p-6 h-fit">
 
-                <h2 class="font-semibold mb-4">Booking Summary</h2>
+                <div class="bg-white rounded-2xl shadow p-5 space-y-4">
 
-                <div class="text-sm space-y-2 text-gray-600">
 
-                    <div class="flex justify-between">
-                        <span>Court</span>
-                        <span id="summary_court">-</span>
+                    <!-- TITLE -->
+                    <h2 class="font-semibold text-gray-800 flex items-center gap-2">
+                        <i data-lucide="clipboard-list" class="w-5 h-5 text-yellow-500"></i>
+                        Booking Summary
+                    </h2>
+
+                    <!-- INFO -->
+                    <div class="space-y-2 text-sm">
+
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Court</span>
+                            <span id="summary_court" class="font-medium text-gray-800">-</span>
+                        </div>
+
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Date</span>
+                            <span id="summary_date" class="font-medium text-gray-800">-</span>
+                        </div>
+
+                        <div class="flex justify-between">
+                            <span class="text-gray-500">Time</span>
+                            <span id="summary_time" class="font-medium text-gray-800">-</span>
+                        </div>
+
                     </div>
 
-                    <div class="flex justify-between">
-                        <span>Date</span>
-                        <span id="summary_date">-</span>
+                    <!-- PRICE -->
+                    <div id="price_info" class="hidden bg-yellow-50 border border-yellow-200 rounded-xl p-4 space-y-2">
+
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-500">Duration</span>
+                            <span id="duration" class="font-medium">0 jam</span>
+                        </div>
+
+                        <div class="flex justify-between items-center">
+                            <span class="font-semibold text-gray-800">Total</span>
+                            <span id="total_price" class="text-lg font-bold text-yellow-600">
+                                Rp 0
+                            </span>
+                        </div>
+
                     </div>
 
-                    <div class="flex justify-between">
-                        <span>Time</span>
-                        <span id="summary_time">-</span>
-                    </div>
+                    <!-- BUTTON -->
+                    <button id="submitBtn"
+                        class="w-full bg-yellow-400 hover:bg-yellow-500 text-white py-3 rounded-xl font-semibold transition disabled:bg-yellow-200 cursor-not-allowed"
+                        disabled>
+                        Confirm Booking
+                    </button>
+
 
                 </div>
 
-                <div id="price_info" class="mt-5 hidden">
-                    <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
-                        <div class="flex justify-between text-sm text-gray-600 mb-1">
-                            <span>Duration</span>
-                            <span id="duration">0 jam</span>
-                        </div>
-
-                        <div class="flex justify-between text-lg font-bold text-gray-800">
-                            <span>Total</span>
-                            <span id="total_price">Rp 0</span>
-                        </div>
-                    </div>
-                </div>
-
-                <button id="submitBtn" form="bookingForm" disabled
-                    class="mt-6 w-full bg-yellow-300 text-white py-3 rounded-xl font-semibold cursor-not-allowed transition">
-                    Confirm Booking
-                </button>
 
             </div>
 
@@ -138,16 +181,27 @@
 
         // SELECT COURT
         function selectCourt(element, id, price, name) {
+
             document.querySelectorAll('.court-card').forEach(card => {
                 card.classList.remove('ring-2', 'ring-yellow-400', 'bg-yellow-50');
+
+                let badge = card.querySelector('.selected-badge');
+                if (badge) badge.classList.add('hidden');
             });
 
             element.classList.add('ring-2', 'ring-yellow-400', 'bg-yellow-50');
 
+            let badge = element.querySelector('.selected-badge');
+            if (badge) badge.classList.remove('hidden');
+
             document.getElementById('court_id').value = id;
             selectedCourtPrice = price;
 
-            document.getElementById('summary_court').innerText = name;
+
+            let courtEl = document.getElementById('summary_court');
+            if (courtEl) {
+                courtEl.innerText = name;
+            }
 
             loadSlots();
         }
@@ -159,9 +213,9 @@
             let courtId = document.getElementById('court_id').value;
             let date = dateInput.value;
 
-            // RESET UI
             resetSummary();
             timeSlots.innerHTML = '';
+
             document.getElementById('slots').value = '';
             document.getElementById('start_time').value = '';
             document.getElementById('end_time').value = '';
@@ -170,21 +224,17 @@
             btnSubmit.classList.remove('bg-yellow-500', 'cursor-pointer');
             btnSubmit.classList.add('bg-yellow-300', 'cursor-not-allowed');
 
-            // VALIDASI STEP BY STEP (JANGAN LANGSUNG RETURN)
             if (!courtId) {
-                timeSlots.innerHTML =
-                    '<p class="text-gray-400 text-sm col-span-3">Silahkan Pilih Lapangan Terlebih Dahulu</p>';
+                timeSlots.innerHTML = '<p class="text-gray-400">Pilih lapangan dulu</p>';
                 return;
             }
 
             if (!date) {
-                timeSlots.innerHTML =
-                    '<p class="text-gray-400 text-sm col-span-3">Silahkan Pilih Tanggal Terlebih Dahulu</p>';
+                timeSlots.innerHTML = '<p class="text-gray-400">Pilih tanggal dulu</p>';
                 return;
             }
 
-            // LOADING
-            timeSlots.innerHTML = `<p class="text-gray-400 text-sm col-span-3">Loading...</p>`;
+            timeSlots.innerHTML = '<p class="text-gray-400">Loading...</p>';
 
             fetch(`/customer/check-availability?court_id=${courtId}&date=${date}`)
                 .then(res => res.json())
@@ -192,8 +242,6 @@
                     bookedTimes = data;
                     generateSlots();
                 });
-
-
         }
 
         // GENERATE SLOT
@@ -208,26 +256,20 @@
                 let start = String(i).padStart(2, '0') + ':00';
                 let end = String(i + 1).padStart(2, '0') + ':00';
 
-                // CEK SLOT SUDAH DIBOOK
                 let isBooked = bookedTimes.some(b =>
                     (b.start_time < end && b.end_time > start)
                 );
 
-                // CEK SLOT SUDAH LEWAT
                 let isPast = false;
 
                 if (selectedDate === now.toISOString().split('T')[0]) {
-                    let currentHour = now.getHours();
-                    if (i <= currentHour) {
-                        isPast = true;
-                    }
+                    if (i <= now.getHours()) isPast = true;
                 }
 
                 let btn = document.createElement('button');
                 btn.type = 'button';
                 btn.innerText = `${start} - ${end}`;
 
-                // DISABLE CONDITION
                 if (isBooked) {
                     btn.className = 'p-3 rounded-xl border text-sm bg-red-100 text-red-400 cursor-not-allowed';
                     btn.disabled = true;
@@ -245,48 +287,49 @@
             }
         }
 
-        // SELECT SLOT
+        // SELECT SLOT (SMART MULTI SELECT)
         function selectSlot(start, end, element) {
 
             let index = selectedSlots.findIndex(s => s.start === start);
 
+            // UNSELECT
             if (index !== -1) {
-                // UNSELECT
                 selectedSlots.splice(index, 1);
                 element.classList.remove('bg-yellow-500', 'text-white');
             } else {
 
-                // VALIDASI BERURUTAN
-                if (selectedSlots.length > 0) {
+                if (selectedSlots.length === 0) {
+                    selectedSlots.push({
+                        start,
+                        end
+                    });
+                    element.classList.add('bg-yellow-500', 'text-white');
+                } else {
+                    let last = selectedSlots[selectedSlots.length - 1];
 
-                    // ambil semua jam yang sudah dipilih
-                    let times = selectedSlots.map(s => s.start);
-
-                    // ambil jam terkecil & terbesar
-                    let min = times.sort()[0];
-                    let max = times.sort()[times.length - 1];
-
-                    // slot baru harus nyambung ke min atau max
-                    if (!(end === min || start === max)) {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Oops!',
-                            text: 'Pilih slot harus berurutan ya',
-                            confirmButtonColor: '#FBBF24'
+                    // BERURUTAN
+                    if (last.end === start) {
+                        selectedSlots.push({
+                            start,
+                            end
                         });
-                        return;
+                        element.classList.add('bg-yellow-500', 'text-white');
+                    } else {
+                        // RESET OTOMATIS (tanpa alert)
+                        document.querySelectorAll('#time_slots button').forEach(btn => {
+                            btn.classList.remove('bg-yellow-500', 'text-white');
+                        });
+
+                        selectedSlots = [{
+                            start,
+                            end
+                        }];
+                        element.classList.add('bg-yellow-500', 'text-white');
                     }
                 }
-
-                // TAMBAH SLOT
-                selectedSlots.push({
-                    start,
-                    end
-                });
-                element.classList.add('bg-yellow-500', 'text-white');
             }
 
-            // RESET kalau kosong
+            // KOSONG
             if (selectedSlots.length === 0) {
                 resetSummary();
 
@@ -302,8 +345,6 @@
 
         // UPDATE
         function updateSelectedTime() {
-
-            if (selectedSlots.length === 0) return;
 
             selectedSlots.sort((a, b) => a.start.localeCompare(b.start));
 
@@ -347,7 +388,8 @@
 
         // RESET SUMMARY
         function resetSummary() {
-            document.getElementById('summary_court').innerText = '-';
+            //
+
             document.getElementById('summary_date').innerText = '-';
             document.getElementById('summary_time').innerText = '-';
 
@@ -357,7 +399,7 @@
             document.getElementById('price_info').classList.add('hidden');
         }
 
-        // EVENTS
+        // EVENT
         dateInput.addEventListener('change', loadSlots);
     </script>
 
