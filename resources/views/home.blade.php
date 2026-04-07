@@ -8,5 +8,6 @@
     @include('sections.about')
     @include('sections.courts')
     @include('sections.pricing')
+    @include('sections.work')
 
 @endsection

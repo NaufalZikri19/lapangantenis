@@ -32,7 +32,7 @@
 
                 <span x-show="open" class="font-bold text-lg text-gray-800">
                     <span class="text-gray-900">Gumbreg</span>
-                    <span class="text-yellow-500">Court</span>
+                    <span class="text-yellow-500">QuickBook</span>
                 </span>
 
                 <button @click="open = !open" class="p-2 rounded-lg hover:bg-gray-100 text-gray-600">

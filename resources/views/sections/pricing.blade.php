@@ -1,101 +1,90 @@
 <!-- PRICING SECTION -->
 <div class="border-t border-gray-200"></div>
-<section id="pricing" class="py-28 bg-gray-100">
+
+<section id="pricing" class="py-24 bg-gray-100">
+
     <div class="max-w-5xl mx-auto px-6 text-center">
 
-        <!-- Section Header -->
-        <div class="mb-20">
+        <!-- Header -->
+        <div class="mb-16">
             <span class="text-yellow-500 text-sm font-semibold tracking-widest uppercase">
-                Pricing
+                Harga
             </span>
-            <h2 class="text-4xl font-bold text-gray-900 mt-3">
-                Pricing Plans
+
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mt-3">
+                Harga Berdasarkan Jenis Lapangan
             </h2>
+
             <p class="text-gray-500 mt-4 max-w-2xl mx-auto">
-                Pilih paket sewa lapangan sesuai kebutuhan Anda.
+                Pilih jenis lapangan sesuai preferensi Anda, baik indoor maupun outdoor dengan fasilitas terbaik.
             </p>
+
             <div class="w-16 h-1 bg-yellow-500 mx-auto mt-6 rounded-full"></div>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-8">
+        <!-- Cards -->
+        <div class="grid md:grid-cols-2 gap-8">
 
-            <!-- WEEKDAY -->
-            <div class="bg-white rounded-3xl p-10 shadow-sm hover:shadow-md transition duration-300">
-                <h3 class="text-lg font-semibold text-gray-700">Weekday</h3>
+            <!-- INDOOR -->
+            <div class="bg-white rounded-3xl p-8 shadow-sm hover:shadow-lg hover:-translate-y-1 transition">
 
-                <div class="mt-6">
-                    <p class="text-4xl font-bold text-gray-900">Rp100.000</p>
-                    <p class="text-sm text-gray-500 mt-2">per jam</p>
+                <h3 class="text-xl font-semibold text-gray-800">Indoor Court</h3>
+
+                <div class="mt-5">
+                    <p class="text-3xl font-bold text-gray-900">Rp110.000</p>
+                    <p class="text-sm text-gray-500 mt-1">mulai dari / jam</p>
                 </div>
 
-                <ul class="mt-8 space-y-3 text-sm text-gray-600">
-                    <li>Senin - Jumat</li>
-                    <li>08.00 - 16.00</li>
-                    <li>Outdoor / Indoor</li>
+                <ul class="mt-6 space-y-3 text-sm text-gray-600 text-left">
+                    <li>✔ Terlindung dari cuaca</li>
+                    <li>✔ Cocok untuk latihan intens</li>
+                    <li>✔ Pencahayaan stabil</li>
+                    <li>✔ Tersedia siang & malam</li>
                 </ul>
-                @guest
-                    <a href="{{ route('login') }}"
-                        class="mt-10 inline-block w-full bg-gray-900 text-white py-3 rounded-full font-medium hover:bg-gray-800 transition">
-                        Book Now
-                    </a>
-                @endguest
+
+                <p class="mt-6 text-xs text-gray-400">
+                    Ideal untuk permainan yang konsisten tanpa gangguan cuaca
+                </p>
 
             </div>
 
 
-            <!-- WEEKEND (HIGHLIGHTED CLEAN) -->
-            <div class="relative bg-white rounded-3xl p-10 shadow-sm border border-yellow-400 transition duration-300">
+            <!-- OUTDOOR -->
+            <div
+                class="relative bg-white rounded-3xl p-8 shadow-md border border-yellow-400 hover:-translate-y-1 transition">
 
                 <div
                     class="absolute -top-3 left-1/2 -translate-x-1/2 bg-yellow-400 text-white text-xs px-4 py-1 rounded-full font-semibold">
-                    Most Popular
+                    Recommended
                 </div>
 
-                <h3 class="text-lg font-semibold text-gray-700">Weekend</h3>
+                <h3 class="text-xl font-semibold text-gray-800">Outdoor Court</h3>
 
-                <div class="mt-6">
-                    <p class="text-4xl font-bold text-gray-900">Rp150.000</p>
-                    <p class="text-sm text-gray-500 mt-2">per jam</p>
+                <div class="mt-5">
+                    <p class="text-3xl font-bold text-gray-900">Rp120.000</p>
+                    <p class="text-sm text-gray-500 mt-1">mulai dari / jam</p>
                 </div>
 
-                <ul class="mt-8 space-y-3 text-sm text-gray-600">
-                    <li>Sabtu - Minggu</li>
-                    <li>08.00 - 18.00</li>
-                    <li>All Courts</li>
+                <ul class="mt-6 space-y-3 text-sm text-gray-600 text-left">
+                    <li>✔ Suasana outdoor alami</li>
+                    <li>✔ Cocok untuk bermain santai</li>
+                    <li>✔ Harga lebih terjangkau</li>
+                    <li>✔ Tersedia weekday & weekend</li>
                 </ul>
-                @guest
-                    <a href="{{ route('login') }}"
-                        class="mt-10 inline-block w-full bg-yellow-500 text-white py-3 rounded-full font-medium hover:bg-yellow-400 transition">
-                        Book Now
-                    </a>
-                @endguest
 
-            </div>
+                <p class="mt-6 text-xs text-gray-400">
+                    Pilihan terbaik untuk bermain santai bersama teman
+                </p>
 
-
-            <!-- NIGHT -->
-            <div class="bg-white rounded-3xl p-10 shadow-sm hover:shadow-md transition duration-300">
-                <h3 class="text-lg font-semibold text-gray-700">Night Session</h3>
-
-                <div class="mt-6">
-                    <p class="text-4xl font-bold text-gray-900">Rp180.000</p>
-                    <p class="text-sm text-gray-500 mt-2">per jam</p>
-                </div>
-
-                <ul class="mt-8 space-y-3 text-sm text-gray-600">
-                    <li>18.00 - 22.00</li>
-                    <li>Lampu Stadion</li>
-                    <li>Premium Court</li>
-                </ul>
-                @guest
-                    <a href="{{ route('login') }}"
-                        class="mt-10 inline-block w-full bg-gray-900 text-white py-3 rounded-full font-medium hover:bg-gray-800 transition">
-                        Book Now
-                    </a>
-                @endguest
             </div>
 
         </div>
 
+        <!-- Guidance -->
+        <div class="mt-4 text-sm text-gray-500">
+            Untuk melakukan booking, silakan login terlebih dahulu melalui sistem.
+        </div>
+
     </div>
+
 </section>

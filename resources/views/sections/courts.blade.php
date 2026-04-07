@@ -4,9 +4,9 @@
 
         <div class="text-center mb-20">
             <span class="text-yellow-500 text-sm font-semibold tracking-widest uppercase">
-                Courts
+                Lapangan Kami
             </span>
-            <h2 class="text-4xl font-bold text-gray-900">
+            <h2 class="text-4xl font-bold text-gray-900 mt-3">
                 Discover Our Courts
             </h2>
 

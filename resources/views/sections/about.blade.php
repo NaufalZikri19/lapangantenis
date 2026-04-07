@@ -5,7 +5,7 @@
         <!-- Section Header -->
         <div class="text-center mb-20">
             <span class="text-yellow-500 text-sm font-semibold tracking-widest uppercase">
-                About Us
+                Tentang Kami
             </span>
             <h2 class="text-4xl font-bold text-gray-900 mt-3">
                 Tentang Gumbreg Tennis Court
