@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -134,12 +135,27 @@ Route::middleware(['auth', 'nocache'])->group(function () {
 
     Route::prefix('customer')->group(function () {
 
-        Route::get('/dashboard', function () {
+        Route::get('/dashboard', function (Request $request) {
 
+            $search = $request->search;
             $now = Carbon::now();
 
-            $activeBookings = Booking::with('court')
-                ->where('user_id', Auth::id())
+            $query = Booking::with('court')
+                ->where('user_id', Auth::id());
+
+            // 🔍 SEARCH LOGIC
+            if ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->whereHas('court', function ($q2) use ($search) {
+                        $q2->where('name', 'like', "%{$search}%");
+                    })
+                        ->orWhere('status', 'like', "%{$search}%")
+                        ->orWhere('date', 'like', "%{$search}%");
+                });
+            }
+
+            // ACTIVE BOOKING
+            $activeBookings = $query->clone()
                 ->whereIn('status', ['pending', 'confirmed'])
                 ->where(function ($query) use ($now) {
                     $query->where('date', '>', $now->toDateString())
@@ -150,16 +166,14 @@ Route::middleware(['auth', 'nocache'])->group(function () {
                 })
                 ->get();
 
-            $recentBookings = Booking::with('court')
-                ->where('user_id', Auth::id())
+            // RECENT
+            $recentBookings = $query->clone()
                 ->latest()
                 ->take(5)
                 ->get();
 
             $activeBooking = $activeBookings->count();
-
-            $totalBooking = Booking::where('user_id', Auth::id())->count();
-
+            $totalBooking = $query->count();
             $courts = Court::where('status', 1)->count();
 
             return view('customer.dashboard', compact(
