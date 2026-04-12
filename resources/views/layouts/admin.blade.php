@@ -80,6 +80,17 @@
                     <span x-show="open">Bookings</span>
                 </a>
 
+                <a href="/admin/payments" title="Payments" class="flex items-center gap-3 py-2 rounded-lg transition"
+                    :class="[
+                        open ? 'px-4' : 'justify-center',
+                        '{{ request()->is('admin/payments*') }}'
+                        === '1' ?
+                        'bg-yellow-100 text-yellow-500' :
+                        'hover:bg-yellow-100 hover:text-yellow-500'
+                    ]">
+                    <i data-lucide="credit-card"></i>
+                    <span x-show="open">Payments</span>
+                </a>    
             </nav>
 
             <!-- BOTTOM -->
@@ -126,22 +137,6 @@
 
                 <!-- RIGHT -->
                 <div class="flex items-center gap-4 mt-1">
-
-                    <form method="GET" action="{{ route('admin.bookings') }}" class="relative hidden md:block">
-
-                        <!-- ICON -->
-                        <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                            <i data-lucide="search" class="w-4 h-4"></i>
-                        </span>
-
-                        <!-- INPUT -->
-                        <input type="text" name="search" value="{{ request('search') }}"
-                            placeholder="Cari booking..."
-                            class="w-64 h-10 pl-10 pr-4 rounded-full bg-gray-100
-           focus:bg-white focus:ring-2 focus:ring-yellow-400
-           outline-none text-sm transition shadow-sm">
-
-                    </form>
 
                     <!-- AVATAR -->
                     <div class="relative">

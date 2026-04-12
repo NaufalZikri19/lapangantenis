@@ -13,7 +13,6 @@ class BookingController extends Controller
 {
 
     // FORM BOOKING
-
     public function create()
     {
         $courts = Court::where('status', 1)->get();
@@ -22,47 +21,41 @@ class BookingController extends Controller
     }
 
 
-    // STORE BOOKING (REFINED)
-
+    // STORE BOOKING
     public function store(Request $request)
     {
-        //  AUTH CHECK
         if (!Auth::check()) {
             return redirect()->route('login');
         }
 
-        //  VALIDASI DASAR
         $request->validate([
             'court_id' => 'required|exists:courts,id',
             'booking_date' => 'required|date|after_or_equal:today',
             'slots' => 'required'
         ]);
 
-        // 🔍 DECODE SLOT
         $slots = json_decode($request->slots, true);
 
         if (!$slots || !is_array($slots)) {
             return back()->with('error', 'Format slot tidak valid');
         }
 
-        // 🔍 VALIDASI STRUKTUR SLOT
         foreach ($slots as $slot) {
             if (!isset($slot['start']) || !isset($slot['end'])) {
                 return back()->with('error', 'Format slot tidak valid');
             }
         }
 
-        // 🔍 SORT SLOT
         usort($slots, fn($a, $b) => strcmp($a['start'], $b['start']));
 
-        // 🔍 VALIDASI BERURUTAN
+        // VALIDASI BERURUTAN
         for ($i = 0; $i < count($slots) - 1; $i++) {
             if ($slots[$i]['end'] !== $slots[$i + 1]['start']) {
                 return back()->with('error', 'Slot harus berurutan');
             }
         }
 
-        // 🔍 VALIDASI JAM OPERASIONAL
+        // VALIDASI JAM OPERASIONAL
         $open = 8;
         $close = 22;
 
@@ -71,10 +64,7 @@ class BookingController extends Controller
             $start = strtotime($slot['start']);
             $end = strtotime($slot['end']);
 
-            $startHour = (int) date('H', $start);
-            $endHour = (int) date('H', $end);
-
-            if ($startHour < $open || $endHour > $close) {
+            if ((int)date('H', $start) < $open || (int)date('H', $end) > $close) {
                 return back()->with('error', 'Di luar jam operasional');
             }
 
@@ -82,9 +72,6 @@ class BookingController extends Controller
                 return back()->with('error', 'Slot harus jam bulat');
             }
         }
-
-
-        // TRANSACTION (ANTI RACE CONDITION)
 
         DB::beginTransaction();
 
@@ -108,24 +95,19 @@ class BookingController extends Controller
                 }
             }
 
-            // GABUNG SLOT
-            $start_time = $slots[0]['start'];
-            $end_time = $slots[count($slots) - 1]['end'];
-
-            Booking::create([
+            $booking = Booking::create([
                 'user_id' => Auth::id(),
                 'court_id' => $request->court_id,
                 'date' => $request->booking_date,
-                'start_time' => $start_time,
-                'end_time' => $end_time,
+                'start_time' => $slots[0]['start'],
+                'end_time' => $slots[count($slots) - 1]['end'],
                 'status' => 'pending'
             ]);
 
             DB::commit();
 
-            return redirect()->route('customer.dashboard')
-                ->with('success', 'Booking berhasil dibuat!');
-
+            return redirect()->route('booking.payment', $booking->id)
+                ->with('success', 'Booking berhasil! Silakan lakukan pembayaran');
         } catch (\Exception $e) {
 
             DB::rollBack();
@@ -135,8 +117,66 @@ class BookingController extends Controller
     }
 
 
-    // CHECK AVAILABILITY (API READY)
+    // HALAMAN PAYMENT
+    public function payment($id)
+    {
+        $booking = Booking::with('court')->findOrFail($id);
 
+        // SECURITY
+        if ($booking->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        // JIKA SUDAH DIBAYAR
+        if ($booking->payment_status === 'confirmed') {
+            return redirect()->route('customer.dashboard')
+                ->with('success', 'Booking sudah dikonfirmasi');
+        }
+
+        return view('customer.payment', compact('booking'));
+    }
+
+
+    // UPLOAD PAYMENT
+    public function uploadPayment(Request $request, $id)
+    {
+        $request->validate([
+            'payment_method' => 'required|in:qris,transfer',
+            'payment_proof' => 'required|image|max:2048'
+        ]);
+
+        $booking = Booking::findOrFail($id);
+
+        // SECURITY
+        if ($booking->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        // SUDAH DIBAYAR
+        if ($booking->payment_status === 'confirmed') {
+            return back()->with('error', 'Pembayaran sudah dikonfirmasi');
+        }
+
+        // SEDANG DIPROSES
+        if ($booking->payment_status === 'waiting') {
+            return back()->with('error', 'Pembayaran sedang diverifikasi');
+        }
+
+        $file = $request->file('payment_proof')->store('payments', 'public');
+
+        $booking->update([
+            'payment_method' => $request->payment_method,
+            'payment_proof' => $file,
+            'payment_status' => 'waiting',
+            'paid_at' => now()
+        ]);
+
+        return redirect()->route('customer.dashboard')
+            ->with('success', 'Bukti pembayaran berhasil dikirim');
+    }
+
+
+    // CHECK AVAILABILITY
     public function checkAvailability(Request $request)
     {
         $request->validate([

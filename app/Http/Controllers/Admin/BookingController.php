@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class BookingController extends Controller
 {
@@ -16,53 +17,56 @@ class BookingController extends Controller
 
         $query = Booking::with(['user', 'court']);
 
-        //  SEARCH
+        // SEARCH
         if ($request->filled('search')) {
 
             $search = $request->search;
 
             $query->where(function ($q) use ($search) {
 
-                // user name
+                // NORMAL SEARCH
+
                 $q->whereHas('user', function ($q2) use ($search) {
                     $q2->where('name', 'like', "%{$search}%");
                 })
+                    ->orWhereHas('court', function ($q2) use ($search) {
+                        $q2->where('name', 'like', "%{$search}%");
+                    })
+                    ->orWhere('status', 'like', "%{$search}%")
+                    ->orWhere('date', 'like', "%{$search}%");
 
-                // court name
-                ->orWhereHas('court', function ($q2) use ($search) {
-                    $q2->where('name', 'like', "%{$search}%");
-                })
+                // MONTH SEARCH
 
-                // date
-                ->orWhere('date', 'like', "%{$search}%")
+                try {
+                    $month = Carbon::parse($search)->month;
 
-                // status
-                ->orWhere('status', 'like', "%{$search}%");
+                    $q->orWhereMonth('date', $month);
+                } catch (\Exception $e) {
+                    // ignore kalau bukan format tanggal
+                }
+
+                // YEAR SEARCH
+
+                if (is_numeric($search) && strlen($search) == 4) {
+                    $q->orWhereYear('date', $search);
+                }
             });
         }
 
-        // 📄 PAGINATION (lebih ringan dari get())
-        $bookings = $query->latest()->paginate(10)->withQueryString();
-
-        return view('admin.bookings.index', compact('bookings'));
-    }
-
-
-    // CONFIRM BOOKING
-    public function confirm($id)
-    {
-        $booking = Booking::findOrFail($id);
-
-        // ❗ hanya pending yang boleh diubah
-        if ($booking->status !== 'pending') {
-            return back()->with('error', 'Booking tidak bisa diubah');
+        // FILTER BARU
+        if ($request->filter === 'month') {
+            $query->whereMonth('date', Carbon::now()->month)
+                ->whereYear('date', Carbon::now()->year);
         }
 
-        $booking->update([
-            'status' => 'confirmed'
-        ]);
+        if ($request->filter === 'year') {
+            $query->whereYear('date', Carbon::now()->year);
+        }
 
-        return back()->with('success', 'Booking berhasil dikonfirmasi');
+        // PAGINATION (lebih ringan dari get())
+        $bookings = $query->where('payment_status', 'confirmed')->latest()->paginate(10)->withQueryString();
+
+        return view('admin.bookings.index', compact('bookings'));
     }
 
 

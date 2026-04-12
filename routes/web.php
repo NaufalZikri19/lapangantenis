@@ -13,6 +13,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Admin\CourtController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
+use App\Http\Controllers\Admin\PaymentController;
 
 /*
 | Models
@@ -123,6 +124,19 @@ Route::middleware(['auth', 'nocache'])->group(function () {
 
         Route::get('/bookings/{id}/cancel', [AdminBookingController::class, 'cancel'])
             ->name('booking.cancel');
+
+        /*
+        | PAYMENT VERIFICATION
+        */
+
+        Route::get('/payments', [PaymentController::class, 'index'])
+            ->name('admin.payments');
+
+        Route::get('/payments/{id}/approve', [PaymentController::class, 'approve'])
+            ->name('admin.payments.approve');
+
+        Route::get('/payments/{id}/reject', [PaymentController::class, 'reject'])
+            ->name('admin.payments.reject');
     });
 
 
@@ -143,7 +157,7 @@ Route::middleware(['auth', 'nocache'])->group(function () {
             $query = Booking::with('court')
                 ->where('user_id', Auth::id());
 
-            // 🔍 SEARCH LOGIC
+            // CUSTOMER SEARCH LOGIC
             if ($search) {
                 $query->where(function ($q) use ($search) {
                     $q->whereHas('court', function ($q2) use ($search) {
@@ -199,6 +213,12 @@ Route::middleware(['auth', 'nocache'])->group(function () {
 
         Route::get('/check-availability', [BookingController::class, 'checkAvailability'])
             ->name('booking.check');
+
+        Route::get('/payment/{id}', [BookingController::class, 'payment'])
+            ->name('booking.payment');
+
+        Route::post('/payment/{id}', [BookingController::class, 'uploadPayment'])
+            ->name('booking.uploadPayment');
     });
 
 
