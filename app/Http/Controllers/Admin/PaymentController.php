@@ -39,7 +39,8 @@ class PaymentController extends Controller
         $booking = Booking::findOrFail($id);
 
         $booking->update([
-            'payment_status' => 'rejected'
+            'payment_status' => 'rejected',
+            'status' => 'cancelled'
         ]);
 
         return back()->with('success', 'Payment rejected');

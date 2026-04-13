@@ -12,7 +12,11 @@ class Booking extends Model
         'date',
         'start_time',
         'end_time',
-        'status'
+        'status',
+        'payment_method',
+        'payment_proof',
+        'payment_status',
+        'paid_at'
     ];
     public function user()
     {

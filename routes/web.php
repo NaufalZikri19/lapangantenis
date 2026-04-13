@@ -169,7 +169,7 @@ Route::middleware(['auth', 'nocache'])->group(function () {
             }
 
             // ACTIVE BOOKING
-            $activeBookings = $query->clone()
+            $activeBookings = Booking::where('user_id', Auth::id())
                 ->whereIn('status', ['pending', 'confirmed'])
                 ->where(function ($query) use ($now) {
                     $query->where('date', '>', $now->toDateString())
@@ -178,6 +178,7 @@ Route::middleware(['auth', 'nocache'])->group(function () {
                                 ->where('end_time', '>', $now->format('H:i:s'));
                         });
                 })
+                ->latest()
                 ->get();
 
             // RECENT

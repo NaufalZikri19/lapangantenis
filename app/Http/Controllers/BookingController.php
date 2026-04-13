@@ -140,6 +140,7 @@ class BookingController extends Controller
     // UPLOAD PAYMENT
     public function uploadPayment(Request $request, $id)
     {
+
         $request->validate([
             'payment_method' => 'required|in:qris,transfer',
             'payment_proof' => 'required|image|max:2048'
