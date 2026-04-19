@@ -58,7 +58,7 @@
                     <div>
                         <h3 class="font-semibold text-gray-800">Cek Jadwal</h3>
                         <p class="text-sm text-gray-500">
-                            Gunakan sistem atau AI chatbot untuk melihat ketersediaan jadwal.
+                            Setelah pilih lapangan, silahkan untuk melihat ketersediaan jadwal.
                         </p>
                     </div>
                 </div>
@@ -114,7 +114,7 @@
                     </button>
 
                     <p x-show="open === 3" x-transition x-cloak class="mt-3 text-sm text-gray-500">
-                        Anda dapat melihat langsung di sistem atau menggunakan AI chatbot untuk mengecek jadwal.
+                        Anda dapat melihat langsung di sistem untuk mengecek jadwal.
                     </p>
                 </div>
 

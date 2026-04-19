@@ -21,11 +21,6 @@
                 dalam satu platform digital terintegrasi.
             </p>
 
-            <!-- AI Highlight -->
-            <p class="mt-3 text-sm md:text-base text-yellow-400 font-medium">
-                ⚡ Didukung AI Chatbot untuk cek ketersediaan otomatis
-            </p>
-
             <!-- CTA Buttons -->
             <div class="mt-8 flex justify-center gap-4 flex-wrap">
 

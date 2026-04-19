@@ -204,12 +204,6 @@
         </div>
 
 
-        {{-- CHATBOT --}}
-        <button
-            class="fixed bottom-6 right-6 md:right-10 bg-yellow-400 hover:bg-yellow-500 text-white p-4 rounded-full shadow-lg transition">
-            <i data-lucide="bot" class="w-5 h-5"></i>
-        </button>
-
     </div>
 
 @endsection

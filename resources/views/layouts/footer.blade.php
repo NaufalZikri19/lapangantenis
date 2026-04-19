@@ -82,11 +82,6 @@
                         <span>Jadwal real-time</span>
                     </div>
 
-                    <div class="flex gap-3">
-                        <i data-lucide="bot" class="w-5 h-5 text-yellow-400"></i>
-                        <span>AI Chatbot bantuan 24/7</span>
-                    </div>
-
                 </div>
             </div>
 
