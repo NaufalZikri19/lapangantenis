@@ -1,12 +1,12 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="max-w-3xl">
+    <div class="w-full">
 
         <!-- TITLE -->
         <h1 class="text-xl font-bold mb-6 flex items-center gap-2">
             <i data-lucide="plus-circle" class="w-5 h-5 text-yellow-500"></i>
-            Add Court
+            Tambah Lapangan
         </h1>
 
         <!-- CARD -->
@@ -18,37 +18,37 @@
                 <!-- COURT NAME -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">
-                        Court Name
+                        Nama Lapangan
                     </label>
                     <input type="text" name="name"
                         class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-yellow-400 focus:outline-none"
-                        placeholder="e.g. Lapangan 1">
+                        placeholder="Contoh: Lapangan 1">
                 </div>
 
                 <!-- COURT TYPE -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">
-                        Court Type
+                        Jenis Lapangan
                     </label>
                     <input type="text" name="type"
                         class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-yellow-400 focus:outline-none"
-                        placeholder="e.g. Indoor / Outdoor">
+                        placeholder="Contoh: Indoor / Outdoor">
                 </div>
 
                 <!-- PRICE -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">
-                        Price (per hour)
+                        Harga (per jam)
                     </label>
                     <input type="number" name="price"
                         class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-yellow-400 focus:outline-none"
-                        placeholder="e.g. 100000">
+                        placeholder="Contoh: 100000">
                 </div>
 
                 <!-- IMAGE -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">
-                        Court Image
+                        Foto Lapangan
                     </label>
 
                     <input type="file" name="image" accept="image/*"
@@ -63,13 +63,13 @@
 
                     <a href="{{ route('courts.index') }}"
                         class="px-4 py-2 rounded-lg border text-gray-600 hover:bg-gray-100 transition">
-                        Cancel
+                        Batal
                     </a>
 
                     <button type="submit"
-                        class="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded-lg shadow transition">
+                        class="flex items-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-white px-5 py-2 rounded-lg shadow transition">
                         <i data-lucide="save" class="w-4 h-4"></i>
-                        Save Court
+                        Simpan Lapangan
                     </button>
 
                 </div>

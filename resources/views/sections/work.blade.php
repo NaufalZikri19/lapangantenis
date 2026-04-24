@@ -5,11 +5,11 @@
         <!-- Header -->
         <div class="text-center max-w-2xl mx-auto">
             <span class="text-sm text-yellow-500 font-semibold uppercase tracking-wide">
-                How It Works
+                Alur Booking
             </span>
 
             <h2 class="mt-3 text-3xl md:text-4xl font-bold text-gray-900">
-                Cara Booking & Informasi Penting
+                Cara Melakukan Booking & FAQ
             </h2>
 
             <p class="mt-4 text-gray-500">

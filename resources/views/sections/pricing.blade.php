@@ -28,7 +28,7 @@
             <!-- INDOOR -->
             <div class="bg-white rounded-3xl p-8 shadow-sm hover:shadow-lg hover:-translate-y-1 transition">
 
-                <h3 class="text-xl font-semibold text-gray-800">Indoor Court</h3>
+                <h3 class="text-xl font-semibold text-gray-800">Lapangan A</h3>
 
                 <div class="mt-5">
                     <p class="text-3xl font-bold text-gray-900">Rp110.000</p>
@@ -58,7 +58,7 @@
                     Recommended
                 </div>
 
-                <h3 class="text-xl font-semibold text-gray-800">Outdoor Court</h3>
+                <h3 class="text-xl font-semibold text-gray-800">Lapangan B</h3>
 
                 <div class="mt-5">
                     <p class="text-3xl font-bold text-gray-900">Rp120.000</p>
@@ -66,7 +66,6 @@
                 </div>
 
                 <ul class="mt-6 space-y-3 text-sm text-gray-600 text-left">
-                    <li>✔ Suasana outdoor alami</li>
                     <li>✔ Cocok untuk bermain santai</li>
                     <li>✔ Harga lebih terjangkau</li>
                     <li>✔ Tersedia weekday & weekend</li>

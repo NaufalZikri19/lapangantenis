@@ -2,10 +2,10 @@
 
 @section('content')
 
-    <div class="w-full max-w-5xl mx-auto px-4">
+    <div class="w-full">
 
         <h1 class="text-2xl font-bold mb-6">
-            Book Tennis Court
+            Booking Lapangan Tenis
         </h1>
 
         {{-- ALERT --}}
@@ -28,7 +28,7 @@
                     <!-- COURT -->
                     <div class="mb-6">
                         <label class="block text-sm font-medium text-gray-600 mb-3">
-                            Select Court
+                            Pilih Lapangan
                         </label>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -40,7 +40,7 @@
                                     <!-- BADGE -->
                                     <div class="absolute top-3 right-3 hidden selected-badge">
                                         <span class="bg-yellow-400 text-white text-xs px-3 py-1 rounded-full shadow">
-                                            ✓ Selected
+                                            Terpilih
                                         </span>
                                     </div>
 
@@ -79,7 +79,7 @@
                     <!-- DATE -->
                     <div class="mb-5">
                         <label class="block text-sm font-medium text-gray-600 mb-2">
-                            Booking Date
+                            Tanggal Main
                         </label>
 
                         <input type="date" id="booking_date" name="booking_date" min="{{ date('Y-m-d') }}"
@@ -89,7 +89,7 @@
                     <!-- TIME SLOT -->
                     <div class="mb-6">
                         <label class="block text-sm font-medium text-gray-600 mb-2">
-                            Select Time Slot
+                            Pilih Jam Main
                         </label>
 
                         <div id="time_slots" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"></div>
@@ -111,24 +111,24 @@
                     <!-- TITLE -->
                     <h2 class="font-semibold text-gray-800 flex items-center gap-2">
                         <i data-lucide="clipboard-list" class="w-5 h-5 text-yellow-500"></i>
-                        Booking Summary
+                        Ringkasan Booking
                     </h2>
 
                     <!-- INFO -->
                     <div class="space-y-2 text-sm">
 
                         <div class="flex justify-between">
-                            <span class="text-gray-500">Court</span>
+                            <span class="text-gray-500">Lapangan</span>
                             <span id="summary_court" class="font-medium text-gray-800">-</span>
                         </div>
 
                         <div class="flex justify-between">
-                            <span class="text-gray-500">Date</span>
+                            <span class="text-gray-500">Tanggal</span>
                             <span id="summary_date" class="font-medium text-gray-800">-</span>
                         </div>
 
                         <div class="flex justify-between">
-                            <span class="text-gray-500">Time</span>
+                            <span class="text-gray-500">Jam Main</span>
                             <span id="summary_time" class="font-medium text-gray-800">-</span>
                         </div>
 
@@ -138,7 +138,7 @@
                     <div id="price_info" class="hidden bg-yellow-50 border border-yellow-200 rounded-xl p-4 space-y-2">
 
                         <div class="flex justify-between text-sm">
-                            <span class="text-gray-500">Duration</span>
+                            <span class="text-gray-500">Durasi</span>
                             <span id="duration" class="font-medium">0 jam</span>
                         </div>
 
@@ -155,7 +155,7 @@
                     <button id="submitBtn" form="bookingForm" type="submit"
                         class="w-full bg-yellow-400 hover:bg-yellow-500 text-white py-3 rounded-xl font-semibold transition disabled:bg-yellow-200 cursor-not-allowed"
                         disabled>
-                        Confirm Booking
+                        Pesan Sekarang
                     </button>
 
 
@@ -256,9 +256,19 @@
                 let start = String(i).padStart(2, '0') + ':00';
                 let end = String(i + 1).padStart(2, '0') + ':00';
 
-                let isBooked = bookedTimes.some(b =>
-                    (b.start_time < end && b.end_time > start)
-                );
+                function toMinutes(time) {
+                    let [h, m] = time.split(':').map(Number);
+                    return h * 60 + m;
+                }
+
+                let isBooked = bookedTimes.some(b => {
+                    let bStart = toMinutes(b.start_time);
+                    let bEnd = toMinutes(b.end_time);
+                    let sStart = toMinutes(start);
+                    let sEnd = toMinutes(end);
+
+                    return sStart < bEnd && sEnd > bStart;
+                });
 
                 let isPast = false;
 
@@ -401,6 +411,17 @@
 
         // EVENT
         dateInput.addEventListener('change', loadSlots);
+
+        document.getElementById('bookingForm').addEventListener('submit', function (e) {
+
+            if (!selectedSlots.length) {
+                alert('Pilih slot terlebih dahulu!');
+                e.preventDefault();
+                return;
+            }
+
+            document.getElementById('slots').value = JSON.stringify(selectedSlots);
+        });
     </script>
 
 @endsection

@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <div class="space-y-6">
+    <div class="w-full space-y-6">
 
         {{-- HERO --}}
         <div
@@ -13,10 +13,10 @@
             <!-- TEXT -->
             <div class="relative z-10">
                 <h2 class="text-xl md:text-2xl font-bold">
-                    Welcome back, {{ auth()->user()->name }}
+                    Halo, {{ auth()->user()->name }}
                 </h2>
                 <p class="text-sm opacity-90 mt-1">
-                    Manage your tennis bookings easily & quickly
+                    Atur jadwal main tenis dengan mudah & cepat
                 </p>
             </div>
 
@@ -25,11 +25,11 @@
                 class="relative z-20 bg-white text-yellow-500 font-semibold px-5 py-2 rounded-lg shadow hover:scale-105 hover:bg-gray-100 transition-all duration-200 flex items-center gap-2 w-fit cursor-pointer">
 
                 <i data-lucide="clock-plus" class="w-4 h-4"></i>
-                <span>Book Court</span>
+                <span>Booking Lapangan</span>
 
             </a>
 
-            <!-- DECORATION (FIXED) -->
+            <!-- DECORATION -->
             <div class="pointer-events-none absolute right-0 top-0 w-40 h-40 bg-white/10 rounded-full blur-3xl z-0"></div>
         </div>
 
@@ -46,7 +46,7 @@
                     </div>
 
                     <div>
-                        <p class="text-gray-500 text-sm">Active Booking</p>
+                        <p class="text-gray-500 text-sm">Pemesanan Aktif</p>
                         <h2 class="text-2xl font-bold leading-none">{{ $activeBooking }}</h2>
                     </div>
                 </div>
@@ -63,7 +63,7 @@
                     </div>
 
                     <div>
-                        <p class="text-gray-500 text-sm">Total Booking</p>
+                        <p class="text-gray-500 text-sm">Total Pemesanan</p>
                         <h2 class="text-2xl font-bold leading-none">{{ $totalBooking }}</h2>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
                     </div>
 
                     <div>
-                        <p class="text-gray-500 text-sm">Available Courts</p>
+                        <p class="text-gray-500 text-sm">Jumlah Lapangan</p>
                         <h2 class="text-2xl font-bold leading-none">{{ $courts }}</h2>
                     </div>
                 </div>
@@ -95,7 +95,7 @@
 
             <h2 class="font-semibold mb-4 flex items-center gap-2 text-lg">
                 <i data-lucide="shield-check" class="w-4 h-4"></i>
-                <span>Active Booking</span>
+                <span>Pemesanan Aktif</span>
             </h2>
 
             @forelse($activeBookings as $booking)
@@ -111,8 +111,8 @@
 
                 <div
                     class="flex flex-col md:flex-row md:justify-between md:items-center border-l-4
-                {{ $isOngoing ? 'border-yellow-400 bg-yellow-50' : 'border-green-400' }}
-                rounded-lg p-4 mb-3 gap-2 hover:shadow transition">
+                                                                                                                                                                                                                                                                        {{ $isOngoing ? 'border-yellow-400 bg-yellow-50' : 'border-green-400' }}
+                                                                                                                                                                                                                                                                        rounded-lg p-4 mb-3 gap-2 hover:shadow transition">
 
                     <div class="flex items-start gap-3">
                         <i data-lucide="map-pin" class="w-4 h-4 text-gray-400 mt-1"></i>
@@ -139,8 +139,8 @@
 
                     <span
                         class="px-3 py-1 rounded-full text-xs w-fit
-                    {{ $isOngoing ? 'bg-yellow-100 text-yellow-600' : 'bg-green-100 text-green-600' }}">
-                        {{ $isOngoing ? 'Ongoing' : ucfirst($booking->status) }}
+                                                                                                                        {{ $isOngoing ? 'bg-yellow-100 text-yellow-600' : 'bg-green-100 text-green-600' }}">
+                        {{ $isOngoing ? 'Sedang berlangsung' : $booking->status_label }}
                     </span>
 
                 </div>
@@ -153,46 +153,88 @@
 
 
         {{-- BOOKING HISTORY --}}
-        <div class="bg-white rounded-xl shadow border overflow-hidden">
+        <div id="history" class="bg-white rounded-xl shadow border overflow-hidden">
 
-            <div class="p-5 md:p-6 border-b">
+            <div class="p-5 md:p-6 border-b flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+
                 <h2 class="font-semibold flex items-center gap-2 text-lg">
                     <i data-lucide="history" class="w-4 h-4"></i>
-                    <span>Booking History</span>
+                    <span>Riwayat Pemesanan</span>
                 </h2>
+
+                <form method="GET" action="{{ route('customer.dashboard') }}#history" class="relative w-full md:w-64"
+                    id="searchForm">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari booking..."
+                        class="w-full border rounded-lg pl-10 pr-3 py-2 text-sm focus:ring-2 focus:ring-yellow-400"
+                        oninput="debounceSearch()">
+
+                    <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"></i>
+                </form>
+
             </div>
 
             <div class="overflow-x-auto">
-                <table class="w-full text-sm min-w-[500px]">
-                    <thead class="text-gray-500 border-b bg-gray-50">
-                        <tr>
-                            <th class="text-left py-3 px-4">Court</th>
-                            <th class="text-left py-3 px-4">Date</th>
-                            <th class="text-left py-3 px-4">Time</th>
-                            <th class="text-left py-3 px-4">Status</th>
+                <table class="w-full text-sm min-w-[600px] border-separate border-spacing-y-2">
+
+                    <thead>
+                        <tr class="text-gray-500">
+                            <th class="text-center py-3 px-5">Lapangan</th>
+                            <th class="text-center py-3 px-5">Tanggal</th>
+                            <th class="text-center py-3 px-5">Jam</th>
+                            <th class="text-center py-3 px-5">Status</th>
+                            <th class="text-center py-3 px-5">Aksi</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         @foreach ($recentBookings as $booking)
-                            <tr class="border-b hover:bg-gray-50 transition">
-                                <td class="py-3 px-4">{{ $booking->court->name }}</td>
-                                <td class="px-4">{{ \Carbon\Carbon::parse($booking->date)->format('d M Y') }}</td>
-                                <td class="px-4">{{ $booking->start_time }} - {{ $booking->end_time }}</td>
-                                <td class="px-4">
-                                    @if ($booking->status == 'confirmed')
-                                        <span
-                                            class="bg-green-100 text-green-600 px-2 py-1 rounded-full text-xs">Confirmed</span>
-                                    @elseif($booking->status == 'pending')
-                                        <span
-                                            class="bg-yellow-100 text-yellow-600 px-2 py-1 rounded-full text-xs">Pending</span>
-                                    @elseif($booking->status == 'completed')
-                                        <span
-                                            class="bg-blue-100 text-blue-600 px-2 py-1 rounded-full text-xs">Completed</span>
+                            <tr class="bg-white shadow-sm rounded-lg hover:bg-gray-50 transition text-center">
+
+                                <td class="py-3 px-5 whitespace-nowrap">
+                                    {{ $booking->court->name }}
+                                </td>
+
+                                <td class="py-3 px-5 whitespace-nowrap">
+                                    {{ \Carbon\Carbon::parse($booking->date)->format('d M Y') }}
+                                </td>
+
+                                <td class="py-3 px-5 whitespace-nowrap">
+                                    {{ $booking->start_time }} - {{ $booking->end_time }}
+                                </td>
+
+                                <td class="py-3 px-5">
+                                    <span class="{{ $booking->status_class }} px-3 py-1 rounded-full text-xs">
+                                        {{ $booking->status_label }}
+                                    </span>
+                                </td>
+
+                                <td class="py-3 px-5">
+
+                                    @if($booking->payment_status === 'unpaid')
+                                        <a href="{{ route('booking.payment', $booking->id) }}"
+                                            class="inline-flex items-center gap-1 bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded text-xs">
+                                            Bayar
+                                        </a>
+
+                                    @elseif($booking->payment_status === 'waiting')
+                                        <span class="text-blue-500 text-xs font-medium">
+                                            Menunggu Verifikasi
+                                        </span>
+
+                                    @elseif($booking->payment_status === 'confirmed')
+                                        <span class="text-green-600 text-xs font-medium">
+                                            Lunas
+                                        </span>
+
+                                    @elseif($booking->status === 'expired')
+                                        <span class="text-red-500 text-xs">
+                                             Kadaluarsa
+                                        </span>
+
                                     @else
-                                        <span
-                                            class="bg-red-100 text-red-600 px-2 py-1 rounded-full text-xs">Cancelled</span>
+                                        <span class="text-gray-400 text-xs">-</span>
                                     @endif
+
                                 </td>
                             </tr>
                         @endforeach
@@ -205,5 +247,19 @@
 
 
     </div>
+
+    <script>
+        let searchTimeout;
+
+        function debounceSearch() {
+            clearTimeout(searchTimeout);
+
+            searchTimeout = setTimeout(() => {
+                const form = document.getElementById('searchForm');
+                form.action = window.location.pathname + '#history';
+                form.submit();
+            }, 500);
+        }
+    </script>
 
 @endsection

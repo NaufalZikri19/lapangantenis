@@ -13,7 +13,7 @@ class BookingController extends Controller
     public function index(Request $request)
     {
         // AUTO COMPLETE BOOKING
-        Booking::autoComplete();
+        Booking::syncStatus();
 
         $query = Booking::with(['user', 'court']);
 
@@ -85,5 +85,13 @@ class BookingController extends Controller
         ]);
 
         return back()->with('success', 'Booking berhasil dibatalkan');
+    }
+
+    public function destroy($id)
+    {
+        $booking = Booking::findOrFail($id);
+        $booking->delete();
+
+        return back()->with('success', 'Booking berhasil dihapus');
     }
 }

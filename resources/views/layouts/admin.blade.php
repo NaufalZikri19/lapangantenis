@@ -14,6 +14,8 @@
 
     <!-- SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body class="bg-gray-100">
@@ -25,7 +27,7 @@
 
         <!-- SIDEBAR -->
         <aside :style="`width: ${open ? '256px' : '80px'}`"
-            class="fixed top-0 left-0 h-screen bg-white border-r flex flex-col py-6 shadow-sm transition-all duration-300 z-50 overflow-y-auto">
+            class="fixed top-0 left-0 h-screen bg-white border-r flex flex-col pt-6 shadow-sm transition-all duration-300 z-50 overflow-y-auto">
 
             <!-- LOGO -->
             <div class="flex items-center justify-between px-4 mb-6">
@@ -64,8 +66,8 @@
                         'bg-yellow-100 text-yellow-500' :
                         'hover:bg-yellow-100 hover:text-yellow-500'
                     ]">
-                    <i data-lucide="layout-grid"></i>
-                    <span x-show="open">Courts</span>
+                    <i data-lucide="circle-star"></i>
+                    <span x-show="open">Data Lapangan</span>
                 </a>
 
                 <a href="/admin/bookings" title="Bookings" class="flex items-center gap-3 py-2 rounded-lg transition"
@@ -77,7 +79,7 @@
                         'hover:bg-yellow-100 hover:text-yellow-500'
                     ]">
                     <i data-lucide="calendar"></i>
-                    <span x-show="open">Bookings</span>
+                    <span x-show="open">Data Pemesanan</span>
                 </a>
 
                 <a href="/admin/payments" title="Payments" class="flex items-center gap-3 py-2 rounded-lg transition"
@@ -89,28 +91,79 @@
                         'hover:bg-yellow-100 hover:text-yellow-500'
                     ]">
                     <i data-lucide="credit-card"></i>
-                    <span x-show="open">Payments</span>
-                </a>    
-            </nav>
-
-            <!-- BOTTOM -->
-            <div class="mt-auto flex flex-col gap-2 px-2">
-
-                <a href="{{ route('profile.edit') }}" title="Settings"
-                    class="flex items-center gap-3 py-2 rounded-lg text-gray-500"
-                    :class="open ? 'px-4 hover:bg-gray-100' : 'justify-center hover:bg-gray-100'">
-                    <i data-lucide="settings"></i>
-                    <span x-show="open">Settings</span>
+                    <span x-show="open">Pembayaran</span>
                 </a>
 
+                <a href="{{ route('admin.users') }}" title="Users"
+                    class="flex items-center gap-3 py-2 rounded-lg transition" :class="[
+        open ? 'px-4' : 'justify-center',
+        '{{ request()->is('admin/users*') }}'
+        === '1'
+        ? 'bg-yellow-100 text-yellow-500'
+        : 'hover:bg-yellow-100 hover:text-yellow-500'
+    ]">
+
+                    <i data-lucide="users"></i>
+
+                    <span x-show="open">Data User</span>
+                </a>
+            </nav>
+
+            <!-- USER DROPDOWN -->
+            <div class="mt-auto p-3 border-t bg-gray-50">
+
+                <div x-data="{ openUser: false }" class="relative">
+
+                    <!-- TRIGGER -->
+                    <button @click="openUser = !openUser"
+                        class="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
+
+                        <!-- AVATAR -->
+                        <div
+                            class="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center font-bold text-gray-900">
+                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                        </div>
+
+                        <!-- INFO -->
+                        <div class="flex-1 text-left" x-show="open">
+                            <p class="text-sm font-semibold text-gray-800">
+                                {{ Auth::user()->name }}
+                            </p>
+                            <p class="text-xs text-gray-500 truncate">
+                                {{ Auth::user()->email }}
+                            </p>
+                        </div>
+
+                        <!-- ICON -->
+                        <i data-lucide="chevron-up" class="w-4 h-4 text-gray-400 transition-transform"
+                            :class="openUser ? 'rotate-180' : ''" x-show="open">
+                        </i>
+
+                    </button>
+
+                    <!-- DROPDOWN (DROP-UP) -->
+                    <div x-show="openUser" @click.outside="openUser = false" x-transition
+                        class="absolute bottom-full left-0 mb-2 w-full bg-white border rounded-xl shadow-lg overflow-hidden z-50">
+
+                        <a href="{{ route('profile.edit') }}"
+                            class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100 transition">
+                            <i data-lucide="user" class="w-4 h-4"></i>
+                            Profil
+                        </a>
+
+                        <button onclick="confirmLogout()"
+                            class="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-500 hover:bg-red-50 transition">
+                            <i data-lucide="log-out" class="w-4 h-4"></i>
+                            Logout
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- FORM LOGOUT -->
                 <form id="logout-form" method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="button" onclick="confirmLogout()" title="Logout"
-                        class="flex items-center gap-3 py-2 w-full rounded-lg text-red-400"
-                        :class="open ? 'px-4 hover:bg-red-50' : 'justify-center hover:bg-red-50'">
-                        <i data-lucide="log-out"></i>
-                        <span x-show="open">Logout</span>
-                    </button>
                 </form>
 
             </div>
@@ -121,46 +174,22 @@
         <div :style="`margin-left: ${open ? '256px' : '80px'}`" class="min-h-screen transition-all duration-300">
 
             <!--  HEADER -->
-            <header
-                class="h-16 bg-white border-b px-6 flex justify-between items-start py-3
-           sticky top-0 z-40">
+            <header class="sticky top-0 z-40 bg-gray-50 border-b px-8 py-5">
 
-                <!-- LEFT -->
-                <div>
-                    <h1 class="text-lg font-semibold text-gray-800">
-                        Dashboard
-                    </h1>
-                    <p class="text-xs text-gray-400">
-                        Overview & analytics
-                    </p>
-                </div>
+                <div class="flex items-start gap-4 max-w-7xl">
 
-                <!-- RIGHT -->
-                <div class="flex items-center gap-4 mt-1">
+                    <!-- ACCENT -->
+                    <div class="w-1.5 h-10 bg-yellow-400 rounded-full mt-1"></div>
 
-                    <!-- AVATAR -->
-                    <div class="relative">
+                    <!-- TEXT -->
+                    <div>
+                        <h1 class="text-xl font-semibold text-gray-800">
+                            Selamat Datang, {{ Auth::user()->name }}
+                        </h1>
 
-                        <div @click="profileOpen = !profileOpen"
-                            class="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center font-bold text-gray-900">
-                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-                        </div>
-
-                        <!-- DROPDOWN -->
-                        <div x-show="profileOpen" @click.outside="profileOpen = false"
-                            class="absolute right-0 mt-2 w-40 bg-white rounded-xl shadow-md py-2 z-50">
-
-                            <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm hover:bg-gray-100">
-                                Profile
-                            </a>
-
-                            <button onclick="confirmLogout()"
-                                class="w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100">
-                                Logout
-                            </button>
-
-                        </div>
-
+                        <p class="text-sm text-gray-500 mt-1">
+                            Kelola seluruh aktivitas sistem dengan mudah
+                        </p>
                     </div>
 
                 </div>
@@ -208,7 +237,7 @@
 
             let timeout;
 
-            searchInput.addEventListener('keyup', function() {
+            searchInput.addEventListener('keyup', function () {
 
                 clearTimeout(timeout);
 

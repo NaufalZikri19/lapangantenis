@@ -15,10 +15,10 @@
 
                 <div>
                     <h1 class="text-2xl font-semibold text-gray-800">
-                        Booking Management
+                        Data Pemesanan
                     </h1>
                     <p class="text-sm text-gray-500">
-                        Manage and monitor all booking activities
+                        Kelola dan monitor semua aktivitas pemesanan
                     </p>
                 </div>
 
@@ -26,7 +26,7 @@
 
             <!-- SEARCH -->
             <form method="GET" class="relative w-full md:w-72">
-                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari Data Booking..."
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari Pemesanan..."
                     class="w-full pl-10 pr-3 py-2 text-sm border rounded-lg bg-gray-50 focus:outline-none focus:ring-2 focus:ring-yellow-400">
                 <i data-lucide="search" class="w-4 h-4 absolute left-3 top-2.5 text-gray-400"></i>
             </form>
@@ -39,29 +39,26 @@
             <!-- SEGMENTED FILTER -->
             <div class="flex bg-gray-100 p-1 rounded-lg text-sm">
 
-                <a href="{{ route('admin.bookings') }}"
-                    class="px-4 py-1.5 rounded-md transition
-                {{ !request('filter') ? 'bg-white shadow text-gray-900' : 'text-gray-500' }}">
-                    View all
+                <a href="{{ route('admin.bookings') }}" class="px-4 py-1.5 rounded-md transition
+                    {{ !request('filter') ? 'bg-white shadow text-gray-900' : 'text-gray-500' }}">
+                    Semua
                 </a>
 
-                <a href="{{ route('admin.bookings', ['filter' => 'month']) }}"
-                    class="px-4 py-1.5 rounded-md transition
-                {{ request('filter') == 'month' ? 'bg-white shadow text-gray-900' : 'text-gray-500' }}">
-                    This Month
+                <a href="{{ route('admin.bookings', ['filter' => 'month']) }}" class="px-4 py-1.5 rounded-md transition
+                    {{ request('filter') == 'month' ? 'bg-white shadow text-gray-900' : 'text-gray-500' }}">
+                    Bulan Ini
                 </a>
 
-                <a href="{{ route('admin.bookings', ['filter' => 'year']) }}"
-                    class="px-4 py-1.5 rounded-md transition
-                {{ request('filter') == 'year' ? 'bg-white shadow text-gray-900' : 'text-gray-500' }}">
-                    This Year
+                <a href="{{ route('admin.bookings', ['filter' => 'year']) }}" class="px-4 py-1.5 rounded-md transition
+                    {{ request('filter') == 'year' ? 'bg-white shadow text-gray-900' : 'text-gray-500' }}">
+                    Tahun Ini
                 </a>
 
             </div>
 
             <!-- COUNT -->
             <div class="text-sm text-gray-500">
-                {{ $bookings->total() }} bookings
+                {{ $bookings->total() }} Pemesanan
             </div>
 
         </div>
@@ -76,13 +73,13 @@
                 <!-- HEADER -->
                 <thead class="bg-gray-50 text-gray-500 uppercase text-xs tracking-wide">
                     <tr>
-                        <th class="p-4 text-left">Customer</th>
-                        <th class="p-4 text-left">Court</th>
-                        <th class="p-4">Date</th>
-                        <th class="p-4">Time</th>
-                        <th class="p-4">Booking</th>
-                        <th class="p-4">Payment</th>
-                        <th class="p-4 text-right">Action</th>
+                        <th class="p-4 text-center">Pelanggan</th>
+                        <th class="p-4 text-center">Lapangan</th>
+                        <th class="p-4 text-center">Tanggal</th>
+                        <th class="p-4 text-center">Jam</th>
+                        <th class="p-4 text-center">Status</th>
+                        <th class="p-4 text-center">Pembayaran</th>
+                        <th class="p-4 text-center">Action</th>
                     </tr>
                 </thead>
 
@@ -92,74 +89,66 @@
                         <tr class="hover:bg-gray-50 transition">
 
                             <!-- CUSTOMER -->
-                            <td class="p-4 font-medium text-gray-700">
+                            <td class="p-4 font-medium text-gray-700 text-center">
                                 {{ $booking->user->name }}
                             </td>
 
                             <!-- COURT -->
-                            <td class="p-4">
-                                <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-xs font-medium">
+                            <td class="p-4 text-center">
+                                <span
+                                    class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-700">
                                     {{ $booking->court->name }}
                                 </span>
                             </td>
 
                             <!-- DATE -->
-                            <td class="p-4 text-gray-600">
+                            <td class="p-4 text-gray-600 text-center">
                                 {{ \Carbon\Carbon::parse($booking->date)->format('d M Y') }}
                             </td>
 
                             <!-- TIME -->
-                            <td class="p-4 text-gray-600">
+                            <td class="p-4 text-gray-600 text-center">
                                 {{ $booking->start_time }} - {{ $booking->end_time }}
                             </td>
 
                             <!-- BOOKING STATUS -->
-                            <td class="p-4">
-                                <span
-                                    class="px-3 py-1 rounded-full text-xs font-medium
-                                    {{ $booking->status == 'pending' ? 'bg-yellow-100 text-yellow-600' : '' }}
-                                    {{ $booking->status == 'confirmed' ? 'bg-green-100 text-green-600' : '' }}
-                                    {{ $booking->status == 'completed' ? 'bg-gray-200 text-gray-600' : '' }}
-                                    {{ $booking->status == 'cancelled' ? 'bg-red-100 text-red-600' : '' }}
-                                ">
+                            <td class="p-4 text-center">
+                                <span class="px-3 py-1 rounded-full text-xs font-medium
+                                            {{ $booking->status == 'pending' ? 'bg-yellow-100 text-yellow-600' : '' }}
+                                            {{ $booking->status == 'confirmed' ? 'bg-green-100 text-green-600' : '' }}
+                                            {{ $booking->status == 'completed' ? 'bg-gray-200 text-gray-600' : '' }}
+                                            {{ $booking->status == 'cancelled' ? 'bg-red-100 text-red-600' : '' }}
+                                        ">
                                     {{ ucfirst($booking->status) }}
                                 </span>
                             </td>
 
                             <!-- PAYMENT STATUS -->
-                            <td class="p-4">
-                                <span
-                                    class="px-3 py-1 rounded-full text-xs font-medium
-                                    {{ $booking->payment_status == 'waiting' ? 'bg-yellow-100 text-yellow-600' : '' }}
-                                    {{ $booking->payment_status == 'confirmed' ? 'bg-green-100 text-green-600' : '' }}
-                                    {{ $booking->payment_status == 'rejected' ? 'bg-red-100 text-red-600' : '' }}
-                                    {{ !$booking->payment_status ? 'bg-gray-100 text-gray-400' : '' }}
-                                ">
+                            <td class="p-4 text-center">
+                                <span class="px-3 py-1 rounded-full text-xs font-medium
+                                            {{ $booking->payment_status == 'waiting' ? 'bg-yellow-100 text-yellow-600' : '' }}
+                                            {{ $booking->payment_status == 'confirmed' ? 'bg-green-100 text-green-600' : '' }}
+                                            {{ $booking->payment_status == 'rejected' ? 'bg-red-100 text-red-600' : '' }}
+                                            {{ !$booking->payment_status ? 'bg-gray-100 text-gray-400' : '' }}
+                                        ">
                                     {{ $booking->payment_status ?? 'Not Paid' }}
                                 </span>
                             </td>
 
                             <!-- ACTION -->
-                            <td class="p-4 text-right space-x-2">
+                            <td class="p-4 text-center space-x-2">
 
                                 @if ($booking->status == 'pending')
                                     <button onclick="cancelBooking('{{ route('booking.cancel', $booking->id) }}')"
                                         class="px-3 py-1 text-xs rounded-lg bg-red-500 text-white hover:bg-red-400">
-                                        Cancel
+                                        Batal
                                     </button>
                                 @elseif ($booking->status == 'confirmed')
-                                    <span class="text-xs text-gray-400">Active</span>
+                                    <span class="text-xs text-gray-400">Aktif</span>
                                 @elseif ($booking->status == 'completed')
-                                    <span class="text-xs text-gray-400">Finished</span>
+                                    <span class="text-xs text-gray-400">Selesai</span>
                                 @else
-                                    <span class="text-xs text-gray-400">No Action</span>
-                                @endif
-
-                                <!-- VIEW PAYMENT -->
-                                @if ($booking->payment_proof)
-                                    <a href="{{ route('admin.payments') }}" class="text-xs text-blue-500 hover:underline">
-                                        Payment
-                                    </a>
+                                    <span class="text-xs text-gray-400">Tidak Ada Aksi</span>
                                 @endif
 
                             </td>

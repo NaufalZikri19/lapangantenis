@@ -1,25 +1,32 @@
 @extends('layouts.admin')
 
 @section('content')
+
     <!-- STAT CARDS -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
 
         <div class="bg-white rounded-2xl shadow-md p-6 border-l-4 border-yellow-500">
-            <p class="text-gray-500 text-sm">Total Courts</p>
+            <p class="text-gray-500 text-sm">Total Lapangan</p>
             <h2 class="text-3xl font-bold mt-2 counter" data-target="{{ $totalCourts }}">0</h2>
-            <p class="text-yellow-500 text-sm mt-1">Lapangan tersedia</p>
+            <p class="text-yellow-500 text-sm mt-1">Lapangan aktif</p>
         </div>
 
         <div class="bg-white rounded-2xl shadow-md p-6 border-l-4 border-blue-500">
-            <p class="text-gray-500 text-sm">Today's Booking</p>
+            <p class="text-gray-500 text-sm">Pemesanan Hari Ini</p>
             <h2 class="text-3xl font-bold mt-2 counter" data-target="{{ $todayBookings }}">0</h2>
-            <p class="text-blue-500 text-sm mt-1">Booking hari ini</p>
+            <p class="text-blue-500 text-sm mt-1">Hari ini</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-md p-6 border-l-4 border-green-500">
+            <p class="text-gray-500 text-sm">Booking Selesai</p>
+            <h2 class="text-3xl font-bold mt-2 counter" data-target="{{ $completed }}">0</h2>
+            <p class="text-green-500 text-sm mt-1">Completed</p>
         </div>
 
         <div class="bg-white rounded-2xl shadow-md p-6 border-l-4 border-purple-500">
-            <p class="text-gray-500 text-sm">Total Customers</p>
+            <p class="text-gray-500 text-sm">Total Pelanggan</p>
             <h2 class="text-3xl font-bold mt-2 counter" data-target="{{ $totalCustomers }}">0</h2>
-            <p class="text-purple-500 text-sm mt-1">User terdaftar</p>
+            <p class="text-purple-500 text-sm mt-1">User</p>
         </div>
 
     </div>
@@ -30,41 +37,33 @@
 
         <!-- LINE -->
         <div class="bg-white rounded-2xl shadow-md p-6">
-
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-lg font-semibold">Booking Overview</h2>
-                <span class="text-sm text-gray-400">Last 7 days</span>
+                <h2 class="text-lg font-semibold">Ringkasan Pemesanan</h2>
+                <span class="text-sm text-gray-400">7 hari terakhir</span>
             </div>
 
-            <!-- FIX HEIGHT BIAR AMAN -->
             <div class="h-[250px] sm:h-[300px]">
-                <canvas id="bookingChart" class="w-full h-full"></canvas>
+                <canvas id="bookingChart"></canvas>
             </div>
-
         </div>
 
         <!-- DONUT -->
         <div class="bg-white rounded-2xl shadow-md p-6">
 
-            <h2 class="text-lg font-semibold mb-6 text-center xl:text-left">
-                Booking Status
-            </h2>
+            <h2 class="text-lg font-semibold mb-6">Status Pemesanan</h2>
 
-            <div class="flex flex-col xl:flex-row items-center gap-6">
+            <div class="flex flex-col xl:flex-row items-center justify-center gap-6 min-h-[250px]">
+                <div class="flex items-center justify-center w-full h-full">
+                    <div class="relative w-40 h-40">
+                        <canvas id="statusChart"></canvas>
 
-                <!-- CHART -->
-                <div class="relative w-36 h-36 sm:w-48 sm:h-48">
-
-                    <canvas id="statusChart"></canvas>
-
-                    <!-- CENTER -->
-                    <div class="absolute inset-0 flex flex-col items-center justify-center">
-                        <span class="text-2xl font-bold">
-                            {{ $confirmed + $pending + $cancelled }}
-                        </span>
-                        <span class="text-xs text-gray-400">Total</span>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center">
+                            <span class="text-2xl font-bold">
+                                {{ $confirmed + $pending + $completed + $cancelled }}
+                            </span>
+                            <span class="text-xs text-gray-400">Total</span>
+                        </div>
                     </div>
-
                 </div>
 
                 <!-- LEGEND -->
@@ -73,7 +72,7 @@
                     <div class="flex justify-between">
                         <span class="flex items-center gap-2">
                             <span class="w-3 h-3 bg-green-500 rounded-full"></span>
-                            Confirmed
+                            Dikonfirmasi
                         </span>
                         <span>{{ $confirmed }}</span>
                     </div>
@@ -81,15 +80,23 @@
                     <div class="flex justify-between">
                         <span class="flex items-center gap-2">
                             <span class="w-3 h-3 bg-yellow-500 rounded-full"></span>
-                            Pending
+                            Menunggu
                         </span>
                         <span>{{ $pending }}</span>
                     </div>
 
                     <div class="flex justify-between">
                         <span class="flex items-center gap-2">
+                            <span class="w-3 h-3 bg-blue-500 rounded-full"></span>
+                            Selesai
+                        </span>
+                        <span>{{ $completed }}</span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span class="flex items-center gap-2">
                             <span class="w-3 h-3 bg-red-500 rounded-full"></span>
-                            Cancelled
+                            Dibatalkan
                         </span>
                         <span>{{ $cancelled }}</span>
                     </div>
@@ -106,47 +113,29 @@
     <!-- TODAY SCHEDULE -->
     <div class="bg-white rounded-2xl shadow-md p-6 mb-8">
 
-        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-4">
-            <h2 class="text-lg font-semibold">Today Schedule</h2>
-            <span class="text-sm text-gray-400">
-                {{ now()->format('d M Y') }}
-            </span>
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-semibold">Jadwal Hari Ini</h2>
+            <span class="text-sm text-gray-400">{{ now()->format('d M Y') }}</span>
         </div>
 
         <div class="space-y-3">
 
             @forelse($todaySchedule as $item)
-                <div
-                    class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 p-3 rounded-xl hover:bg-gray-50 transition">
+                <div class="flex justify-between items-center p-3 rounded-xl hover:bg-gray-50">
 
                     <div>
-                        <p class="font-medium text-gray-800">
-                            {{ $item->start_time }} - {{ $item->end_time }}
-                        </p>
-                        <p class="text-sm text-gray-500">
-                            {{ $item->court->name }}
-                        </p>
+                        <p class="font-medium">{{ $item->start_time }} - {{ $item->end_time }}</p>
+                        <p class="text-sm text-gray-500">{{ $item->court->name }}</p>
                     </div>
 
-                    @if ($item->status == 'confirmed')
-                        <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-xs font-semibold w-fit">
-                            Confirmed
-                        </span>
-                    @elseif($item->status == 'pending')
-                        <span class="bg-yellow-100 text-yellow-600 px-3 py-1 rounded-full text-xs font-semibold w-fit">
-                            Pending
-                        </span>
-                    @else
-                        <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs font-semibold w-fit">
-                            Cancelled
-                        </span>
-                    @endif
+                    <!-- CLEAN STATUS -->
+                    <span class="px-3 py-1 rounded-full text-xs font-semibold {{ $item->status_class }}">
+                        {{ $item->status_label }}
+                    </span>
 
                 </div>
             @empty
-                <div class="text-center py-6 text-gray-400 text-sm">
-                    No bookings today
-                </div>
+                <p class="text-center text-gray-400">Belum ada booking</p>
             @endforelse
 
         </div>
@@ -154,27 +143,27 @@
     </div>
 
 
-    <!-- TABLE -->
+    <!-- RECENT BOOKINGS -->
     <div class="bg-white rounded-2xl shadow-md p-6">
 
-        <h2 class="text-lg font-semibold mb-4">Recent Bookings</h2>
+        <h2 class="text-lg font-semibold mb-4">Pemesanan Terbaru</h2>
 
         <div class="overflow-x-auto">
-            <table class="w-full text-sm min-w-[600px]">
+            <table class="w-full text-sm">
 
                 <thead>
-                    <tr class="text-left text-gray-400 border-b">
-                        <th class="py-3">Customer</th>
-                        <th>Court</th>
-                        <th>Date</th>
-                        <th>Time</th>
+                    <tr class="text-center text-gray-400 border-b">
+                        <th class="py-3">Pelanggan</th>
+                        <th>Lapangan</th>
+                        <th>Tanggal</th>
+                        <th>Jam</th>
                         <th>Status</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     @forelse($recentBookings as $booking)
-                        <tr class="border-b hover:bg-gray-50 transition">
+                        <tr class="border-b text-center hover:bg-gray-50">
 
                             <td class="py-3 font-medium">
                                 {{ $booking->user->name }}
@@ -185,19 +174,9 @@
                             <td>{{ $booking->start_time }} - {{ $booking->end_time }}</td>
 
                             <td>
-                                @if ($booking->status == 'pending')
-                                    <span class="bg-yellow-100 text-yellow-600 px-3 py-1 rounded-full text-xs">
-                                        Pending
-                                    </span>
-                                @elseif($booking->status == 'confirmed')
-                                    <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-xs">
-                                        Confirmed
-                                    </span>
-                                @else
-                                    <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs">
-                                        Cancelled
-                                    </span>
-                                @endif
+                                <span class="px-3 py-1 rounded-full text-xs {{ $booking->status_class }}">
+                                    {{ $booking->status_label }}
+                                </span>
                             </td>
 
                         </tr>
@@ -214,13 +193,49 @@
         </div>
 
     </div>
+
 @endsection
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
 
-        // LINE CHART
-        new Chart(document.getElementById('bookingChart'), {
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        // DONUT CHART
+        new Chart(document.getElementById('statusChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Dikonfirmasi', 'Menunggu', 'Selesai', 'Dibatalkan'],
+                datasets: [{
+                    data: [
+                    {{ $confirmed }},
+                    {{ $pending }},
+                    {{ $completed }},
+                        {{ $cancelled }}
+                    ],
+                    backgroundColor: [
+                        '#22c55e',
+                        '#eab308',
+                        '#3b82f6',
+                        '#ef4444'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                cutout: '70%',
+                plugins: { legend: { display: false } }
+            }
+        });
+
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const ctx = document.getElementById('bookingChart');
+
+        if (!ctx) return;
+
+        new Chart(ctx, {
             type: 'line',
             data: {
                 labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
@@ -234,59 +249,22 @@
             },
             options: {
                 responsive: true,
-                plugins: {
-                    legend: {
-                        display: true
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
+                maintainAspectRatio: false,
             }
         });
 
-        // DONUT CHART (FIXED)
-        new Chart(document.getElementById('statusChart'), {
-            type: 'doughnut',
-            data: {
-                labels: ['Confirmed', 'Pending', 'Cancelled'],
-                datasets: [{
-                    data: [
-                        {{ $confirmed }},
-                        {{ $pending }},
-                        {{ $cancelled }}
-                    ],
-                    backgroundColor: [
-                        '#22c55e',
-                        '#eab308',
-                        '#ef4444'
-                    ],
-                    borderWidth: 0,
-                    hoverOffset: 6
-                }]
-            },
-            options: {
-                cutout: '75%',
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                }
-            }
-        });
+    });
 
-        // ========================
-        // COUNTER ANIMATION
-        // ========================
+
+    document.addEventListener("DOMContentLoaded", function () {
+
         const counters = document.querySelectorAll('.counter');
 
         counters.forEach(counter => {
             const target = +counter.getAttribute('data-target');
-            let count = 0;
 
-            const speed = 50; // makin kecil = makin cepat
+            let count = 0;
+            const speed = 20;
 
             const updateCount = () => {
                 const increment = Math.ceil(target / speed);
@@ -302,7 +280,6 @@
 
             updateCount();
         });
-
 
     });
 </script>
