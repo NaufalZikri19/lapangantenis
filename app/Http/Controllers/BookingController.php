@@ -233,7 +233,7 @@ class BookingController extends Controller
                 'start_time' => $slots[0]['start'],
                 'end_time' => $slots[count($slots) - 1]['end'],
                 'status' => 'pending',
-                'expired_at' => now()->addMinutes(1)
+                'expired_at' => now()->addMinutes(10)
             ]);
 
             DB::commit();

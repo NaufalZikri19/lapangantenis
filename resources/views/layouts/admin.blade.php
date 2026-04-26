@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Dashboard</title>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- Alpine -->
@@ -15,135 +16,125 @@
     <!-- SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <!-- Chart -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
+
 </head>
 
 <body class="bg-gray-100">
 
     <div x-data="{
-        open: localStorage.getItem('sidebar') === 'true',
-        profileOpen: false
-    }" x-init="$watch('open', val => localStorage.setItem('sidebar', val))" class="min-h-screen">
+    open: false,
+    isDesktop: window.innerWidth >= 768
+}" x-init="
+    window.addEventListener('resize', () => {
+        isDesktop = window.innerWidth >= 768
+        if(isDesktop) open = true
+    })
+" class="min-h-screen flex">
 
         <!-- SIDEBAR -->
-        <aside :style="`width: ${open ? '256px' : '80px'}`"
-            class="fixed top-0 left-0 h-screen bg-white border-r flex flex-col pt-6 shadow-sm transition-all duration-300 z-50 overflow-y-auto">
+        <aside :class="open ? 'w-64' : 'w-20'"
+            class="hidden md:flex flex-col bg-white border-r shadow-sm transition-all duration-300 h-screen sticky top-0">
 
             <!-- LOGO -->
-            <div class="flex items-center justify-between px-4 mb-6">
-
+            <div class="flex items-center justify-between px-4 py-4">
                 <span x-show="open" class="font-bold text-lg text-gray-800">
-                    <span class="text-gray-900">Gumbreg</span>
+                    <span>Gumbreg</span>
                     <span class="text-yellow-500">QuickBook</span>
                 </span>
 
-                <button @click="open = !open" class="p-2 rounded-lg hover:bg-gray-100 text-gray-600">
+                <button @click="open = !open" class="p-2 rounded-lg hover:bg-gray-100">
                     <i data-lucide="menu"></i>
                 </button>
-
             </div>
 
             <!-- MENU -->
-            <nav class="flex flex-col gap-2 text-gray-500 px-2">
+            <nav class="flex flex-col gap-2 px-2 text-gray-500">
 
-                <a href="/admin/dashboard" title="Dashboard" class="flex items-center gap-3 py-2 rounded-lg transition"
-                    :class="[
-                        open ? 'px-4' : 'justify-center',
-                        '{{ request()->is('admin/dashboard') }}'
-                        === '1' ?
-                        'bg-yellow-100 text-yellow-500' :
-                        'hover:bg-yellow-100 hover:text-yellow-500'
-                    ]">
+                <a href="/admin/dashboard" class="flex items-center gap-3 py-2 rounded-lg transition" :class="[
+                    open ? 'px-4' : 'justify-center',
+                    '{{ request()->is('admin/dashboard') }}' === '1'
+                    ? 'bg-yellow-100 text-yellow-500'
+                    : 'hover:bg-yellow-100 hover:text-yellow-500'
+                ]">
                     <i data-lucide="layout-dashboard"></i>
                     <span x-show="open">Dashboard</span>
                 </a>
 
-                <a href="/admin/courts" title="Courts" class="flex items-center gap-3 py-2 rounded-lg transition"
-                    :class="[
-                        open ? 'px-4' : 'justify-center',
-                        '{{ request()->is('admin/courts*') }}'
-                        === '1' ?
-                        'bg-yellow-100 text-yellow-500' :
-                        'hover:bg-yellow-100 hover:text-yellow-500'
-                    ]">
+                <a href="/admin/courts" class="flex items-center gap-3 py-2 rounded-lg transition" :class="[
+                    open ? 'px-4' : 'justify-center',
+                    '{{ request()->is('admin/courts*') }}' === '1'
+                    ? 'bg-yellow-100 text-yellow-500'
+                    : 'hover:bg-yellow-100 hover:text-yellow-500'
+                ]">
                     <i data-lucide="circle-star"></i>
                     <span x-show="open">Data Lapangan</span>
                 </a>
 
-                <a href="/admin/bookings" title="Bookings" class="flex items-center gap-3 py-2 rounded-lg transition"
-                    :class="[
-                        open ? 'px-4' : 'justify-center',
-                        '{{ request()->is('admin/bookings*') }}'
-                        === '1' ?
-                        'bg-yellow-100 text-yellow-500' :
-                        'hover:bg-yellow-100 hover:text-yellow-500'
-                    ]">
+                <a href="/admin/bookings" class="flex items-center gap-3 py-2 rounded-lg transition" :class="[
+                    open ? 'px-4' : 'justify-center',
+                    '{{ request()->is('admin/bookings*') }}' === '1'
+                    ? 'bg-yellow-100 text-yellow-500'
+                    : 'hover:bg-yellow-100 hover:text-yellow-500'
+                ]">
                     <i data-lucide="calendar"></i>
                     <span x-show="open">Data Pemesanan</span>
                 </a>
 
-                <a href="/admin/payments" title="Payments" class="flex items-center gap-3 py-2 rounded-lg transition"
-                    :class="[
-                        open ? 'px-4' : 'justify-center',
-                        '{{ request()->is('admin/payments*') }}'
-                        === '1' ?
-                        'bg-yellow-100 text-yellow-500' :
-                        'hover:bg-yellow-100 hover:text-yellow-500'
-                    ]">
+                <a href="/admin/payments" class="flex items-center gap-3 py-2 rounded-lg transition" :class="[
+                    open ? 'px-4' : 'justify-center',
+                    '{{ request()->is('admin/payments*') }}' === '1'
+                    ? 'bg-yellow-100 text-yellow-500'
+                    : 'hover:bg-yellow-100 hover:text-yellow-500'
+                ]">
                     <i data-lucide="credit-card"></i>
                     <span x-show="open">Pembayaran</span>
                 </a>
 
-                <a href="{{ route('admin.users') }}" title="Users"
-                    class="flex items-center gap-3 py-2 rounded-lg transition" :class="[
-        open ? 'px-4' : 'justify-center',
-        '{{ request()->is('admin/users*') }}'
-        === '1'
-        ? 'bg-yellow-100 text-yellow-500'
-        : 'hover:bg-yellow-100 hover:text-yellow-500'
-    ]">
-
+                <a href="{{ route('admin.users') }}" class="flex items-center gap-3 py-2 rounded-lg transition" :class="[
+                    open ? 'px-4' : 'justify-center',
+                    '{{ request()->is('admin/users*') }}' === '1'
+                    ? 'bg-yellow-100 text-yellow-500'
+                    : 'hover:bg-yellow-100 hover:text-yellow-500'
+                ]">
                     <i data-lucide="users"></i>
-
                     <span x-show="open">Data User</span>
                 </a>
+
             </nav>
 
-            <!-- USER DROPDOWN -->
+            <!-- USER -->
             <div class="mt-auto p-3 border-t bg-gray-50">
 
                 <div x-data="{ openUser: false }" class="relative">
 
-                    <!-- TRIGGER -->
                     <button @click="openUser = !openUser"
-                        class="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
+                        class="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100">
 
-                        <!-- AVATAR -->
-                        <div
-                            class="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center font-bold text-gray-900">
+                        <div class="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center font-bold">
                             {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                         </div>
 
-                        <!-- INFO -->
-                        <div class="flex-1 text-left" x-show="open">
-                            <p class="text-sm font-semibold text-gray-800">
-                                {{ Auth::user()->name }}
-                            </p>
-                            <p class="text-xs text-gray-500 truncate">
-                                {{ Auth::user()->email }}
-                            </p>
+                        <div x-show="open" class="flex-1 text-left">
+                            <p class="text-sm font-semibold">{{ Auth::user()->name }}</p>
+                            <p class="text-xs text-gray-500">{{ Auth::user()->email }}</p>
                         </div>
 
-                        <!-- ICON -->
-                        <i data-lucide="chevron-up" class="w-4 h-4 text-gray-400 transition-transform"
+                        <i data-lucide="chevron-up" class="w-4 h-4 text-gray-400 transition-transform duration-200"
                             :class="openUser ? 'rotate-180' : ''" x-show="open">
                         </i>
 
                     </button>
 
-                    <!-- DROPDOWN (DROP-UP) -->
-                    <div x-show="openUser" @click.outside="openUser = false" x-transition
-                        class="absolute bottom-full left-0 mb-2 w-full bg-white border rounded-xl shadow-lg overflow-hidden z-50">
+                    <div x-show="openUser" x-transition @click.outside="openUser = false"
+                        class="absolute bottom-full left-0 mb-2 w-56 bg-white border rounded-xl shadow-lg z-50 overflow-hidden">
 
                         <a href="{{ route('profile.edit') }}"
                             class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100 transition">
@@ -158,10 +149,8 @@
                         </button>
 
                     </div>
-
                 </div>
 
-                <!-- FORM LOGOUT -->
                 <form id="logout-form" method="POST" action="{{ route('logout') }}">
                     @csrf
                 </form>
@@ -170,24 +159,131 @@
 
         </aside>
 
+
+        <!-- MOBILE SIDEBAR -->
+        <div x-show="open && !isDesktop" class="fixed inset-0 bg-black/40 z-40" @click="open = false"></div>
+
+        <aside x-show="open && !isDesktop" x-cloak class="fixed top-0 left-0 w-64 h-full bg-white z-50 shadow"
+            @click.stop>
+
+            <div class="p-4 font-bold">Menu</div>
+
+            <nav class="flex flex-col gap-2 px-2 text-gray-500">
+
+                <a href="/admin/dashboard" class="flex items-center gap-3 py-2 rounded-lg transition" :class="[
+                    open ? 'px-4' : 'justify-center',
+                    '{{ request()->is('admin/dashboard') }}' === '1'
+                        ? 'bg-yellow-100 text-yellow-500'
+                        : 'hover:bg-yellow-100 hover:text-yellow-500'
+                ]">
+                    <i data-lucide="layout-dashboard"></i>
+                    <span x-show="open">Dashboard</span>
+                </a>
+
+                <a href="/admin/courts" class="flex items-center gap-3 py-2 rounded-lg transition" :class="[
+                    open ? 'px-4' : 'justify-center',
+                    '{{ request()->is('admin/courts*') }}' === '1'
+                        ? 'bg-yellow-100 text-yellow-500'
+                        : 'hover:bg-yellow-100 hover:text-yellow-500'
+                ]">
+                    <i data-lucide="circle-star"></i>
+                    <span x-show="open">Data Lapangan</span>
+                </a>
+
+                <a href="/admin/bookings" class="flex items-center gap-3 py-2 rounded-lg transition" :class="[
+                    open ? 'px-4' : 'justify-center',
+                    '{{ request()->is('admin/bookings*') }}' === '1'
+                        ? 'bg-yellow-100 text-yellow-500'
+                        : 'hover:bg-yellow-100 hover:text-yellow-500'
+                ]">
+                    <i data-lucide="calendar"></i>
+                    <span x-show="open">Data Pemesanan</span>
+                </a>
+
+                <a href="/admin/payments" class="flex items-center gap-3 py-2 rounded-lg transition" :class="[
+                    open ? 'px-4' : 'justify-center',
+                    '{{ request()->is('admin/payments*') }}' === '1'
+                        ? 'bg-yellow-100 text-yellow-500'
+                        : 'hover:bg-yellow-100 hover:text-yellow-500'
+                ]">
+                    <i data-lucide="credit-card"></i>
+                    <span x-show="open">Pembayaran</span>
+                </a>
+
+                <a href="{{ route('admin.users') }}" class="flex items-center gap-3 py-2 rounded-lg transition" :class="[
+                    open ? 'px-4' : 'justify-center',
+                    '{{ request()->is('admin/users*') }}' === '1'
+                        ? 'bg-yellow-100 text-yellow-500'
+                        : 'hover:bg-yellow-100 hover:text-yellow-500'
+                ]">
+                    <i data-lucide="users"></i>
+                    <span x-show="open">Data User</span>
+                </a>
+
+            </nav>
+
+            <div class="mt-auto p-3 border-t bg-gray-50">
+
+                <div x-data="{ openUser: false }" class="relative">
+
+                    <button @click="openUser = !openUser"
+                        class="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100">
+
+                        <div class="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center font-bold">
+                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                        </div>
+
+                        <div x-show="open" class="flex-1 text-left">
+                            <p class="text-sm font-semibold">{{ Auth::user()->name }}</p>
+                            <p class="text-xs text-gray-500">{{ Auth::user()->email }}</p>
+                        </div>
+                    </button>
+
+                    <div x-show="openUser" @click.outside="openUser = false"
+                        class="absolute bottom-full mb-2 w-full bg-white border rounded-xl shadow">
+
+                        <a href="{{ route('profile.edit') }}" class="block px-4 py-2 hover:bg-gray-100">
+                            Profil
+                        </a>
+
+                        <button onclick="confirmLogout()"
+                            class="w-full text-left px-4 py-2 text-red-500 hover:bg-red-50">
+                            Logout
+                        </button>
+
+                    </div>
+                </div>
+
+                <form id="logout-form" method="POST" action="{{ route('logout') }}">
+                    @csrf
+                </form>
+
+            </div>
+
+        </aside>
+
+
         <!-- MAIN -->
-        <div :style="`margin-left: ${open ? '256px' : '80px'}`" class="min-h-screen transition-all duration-300">
+        <div class="flex-1 flex flex-col">
 
-            <!--  HEADER -->
-            <header class="sticky top-0 z-40 bg-gray-50 border-b px-8 py-5">
+            <!-- HEADER -->
+            <header class="bg-gray-50 border-b px-4 md:px-6 lg:px-8 py-5">
 
-                <div class="flex items-start gap-4 max-w-7xl">
+                <div class="flex items-center gap-4 w-full">
 
-                    <!-- ACCENT -->
-                    <div class="w-1.5 h-10 bg-yellow-400 rounded-full mt-1"></div>
+                    <!-- MOBILE BTN -->
+                    <button @click="open = true" class="md:hidden">
+                        <i data-lucide="menu"></i>
+                    </button>
 
-                    <!-- TEXT -->
+                    <div class="w-1.5 h-10 bg-yellow-400 rounded-full"></div>
+
                     <div>
                         <h1 class="text-xl font-semibold text-gray-800">
                             Selamat Datang, {{ Auth::user()->name }}
                         </h1>
 
-                        <p class="text-sm text-gray-500 mt-1">
+                        <p class="text-sm text-gray-500">
                             Kelola seluruh aktivitas sistem dengan mudah
                         </p>
                     </div>
@@ -196,8 +292,10 @@
 
             </header>
 
+
             <!-- CONTENT -->
-            <main class="p-6 md:p-8">
+            <main :class="open ? 'max-w-7xl mx-auto' : 'max-w-full'"
+                class="p-3 sm:p-4 md:p-6 lg:p-8 w-full transition-all duration-300">
                 @yield('content')
             </main>
 
@@ -205,12 +303,12 @@
 
     </div>
 
-    <!-- ICON INIT -->
+
+    <!-- INIT -->
     <script>
         lucide.createIcons();
     </script>
 
-    <!-- LOGOUT -->
     <script>
         function confirmLogout() {
             Swal.fire({
@@ -229,29 +327,10 @@
             });
         }
 
+        document.addEventListener("alpine:updated", () => {
+            lucide.createIcons();
+        });
 
-        const searchInput = document.getElementById('searchInput');
-        const clearBtn = document.getElementById('clearSearch');
-
-        if (searchInput) {
-
-            let timeout;
-
-            searchInput.addEventListener('keyup', function () {
-
-                clearTimeout(timeout);
-
-                timeout = setTimeout(() => {
-                    this.form.submit(); //  kirim ke backend
-                }, 500);
-
-            });
-
-            clearBtn.addEventListener('click', () => {
-                searchInput.value = '';
-                searchInput.form.submit();
-            });
-        }
     </script>
 
 </body>

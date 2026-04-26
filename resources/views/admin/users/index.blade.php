@@ -2,11 +2,11 @@
 
 @section('content')
 
-    <div class="max-w-6xl mx-auto space-y-6">
+    <div class="w-full space-y-6">
 
         <!-- HEADER -->
-        <div class="flex justify-between items-center">
-            <h1 class="text-xl font-semibold text-gray-800">
+        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
+            <h1 class="text-xl md:text-2xl font-semibold text-gray-800">
                 Data User
             </h1>
 
@@ -16,13 +16,13 @@
         </div>
 
         <!-- CARD -->
-        <div class="bg-white rounded-2xl shadow border overflow-hidden">
+        <div class="bg-white rounded-2xl shadow-sm border overflow-hidden">
 
             <div class="overflow-x-auto">
-                <table class="w-full text-sm">
+                <table class="w-full min-w-[800px] text-sm">
 
                     <!-- HEAD -->
-                    <thead class="bg-gray-50 text-gray-500">
+                    <thead class="bg-gray-50 text-gray-500 text-xs uppercase">
                         <tr>
                             <th class="text-left px-6 py-4">User</th>
                             <th class="text-left px-6 py-4">Email</th>
@@ -33,15 +33,15 @@
                     </thead>
 
                     <!-- BODY -->
-                    <tbody>
+                    <tbody class="divide-y">
+
                         @forelse($users as $user)
-                                        <tr class="border-t hover:bg-gray-50 transition">
+                                        <tr class="hover:bg-gray-50 transition">
 
                                             <!-- USER -->
                                             <td class="px-6 py-4">
                                                 <div class="flex items-center gap-3">
 
-                                                    <!-- AVATAR -->
                                                     <div
                                                         class="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center font-bold text-gray-900">
                                                         {{ strtoupper(substr($user->name, 0, 1)) }}
@@ -70,35 +70,36 @@
                                             </td>
 
                                             <!-- PROGRESS -->
-                                            <td class="px-6 py-4 w-56">
+                                            <td class="px-6 py-4 w-[220px]">
 
-                                                <div class="space-y-1">
+                                                <div class="space-y-2">
+
                                                     <div class="flex justify-between text-xs">
                                                         <span class="text-gray-500">Kelengkapan</span>
-                                                        <span class="font-medium">
+                                                        <span class="font-semibold text-gray-700">
                                                             {{ $user->biodata_completion }}%
                                                         </span>
                                                     </div>
 
-                                                    <!-- PROGRESS BAR -->
-                                                    <div class="w-full bg-gray-200 rounded-full h-2">
-                                                        <div class="h-2 rounded-full transition-all
-                                                                                    {{ $user->biodata_completion < 40 ? 'bg-red-400' :
+                                                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                                        <div class="h-2.5 rounded-full transition-all duration-500
+                                                                {{ $user->biodata_completion < 40 ? 'bg-red-400' :
                             ($user->biodata_completion < 80 ? 'bg-yellow-400' : 'bg-green-500') }}"
                                                             style="width: {{ $user->biodata_completion }}%">
                                                         </div>
                                                     </div>
+
                                                 </div>
 
                                             </td>
 
                                             <!-- ACTION -->
-                                            <td class="px-6 py-4 text-center">
+                                            <td class="px-6 py-4">
 
                                                 <div class="flex justify-center gap-2">
 
                                                     <a href="{{ route('admin.users.show', $user->id) }}"
-                                                        class="px-3 py-1 text-xs bg-blue-100 text-blue-600 rounded-full hover:bg-blue-200">
+                                                        class="px-3 py-1.5 text-xs font-medium bg-blue-100 text-blue-600 rounded-full hover:bg-blue-200 transition">
                                                         Detail
                                                     </a>
 
@@ -107,7 +108,7 @@
                                                         @method('DELETE')
 
                                                         <button onclick="return confirm('Yakin hapus user?')"
-                                                            class="px-3 py-1 text-xs bg-red-100 text-red-600 rounded-full hover:bg-red-200">
+                                                            class="px-3 py-1.5 text-xs font-medium bg-red-100 text-red-600 rounded-full hover:bg-red-200 transition">
                                                             Hapus
                                                         </button>
                                                     </form>
@@ -124,6 +125,7 @@
                                 </td>
                             </tr>
                         @endforelse
+
                     </tbody>
 
                 </table>
