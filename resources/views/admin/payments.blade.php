@@ -12,10 +12,10 @@
 
             <div>
                 <h1 class="text-2xl font-semibold text-gray-800">
-                    Payments
+                    Pembayaran
                 </h1>
                 <p class="text-sm text-gray-500">
-                    Verify and manage customer payments
+                    Kelola pembayaran pelanggan
                 </p>
             </div>
 
@@ -33,13 +33,14 @@
                 <!-- HEADER -->
                 <thead class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wide">
                     <tr>
-                        <th class="p-4 text-left">Customer</th>
-                        <th class="p-4">Court</th>
-                        <th class="p-4">Date</th>
-                        <th class="p-4">Method</th>
-                        <th class="p-4">Proof</th>
-                        <th class="p-4">Status</th>
-                        <th class="p-4 text-right">Action</th>
+                        <th class="p-4 text-center">Pelanggan</th>
+                        <th class="p-4 text-center">Lapangan</th>
+                        <th class="p-4 text-center">Tanggal</th>
+                        <th class="p-4 text-center">Jam</th>
+                        <th class="p-4 text-center">Metode Pembayaran</th>
+                        <th class="p-4 text-center">Bukti</th>
+                        <th class="p-4 text-center">Status</th>
+                        <th class="p-4 text-center">Aksi</th>
                     </tr>
                 </thead>
 
@@ -50,20 +51,25 @@
                         <tr class="hover:bg-gray-50 transition">
 
                             <!-- USER -->
-                            <td class="p-4 font-medium text-gray-700">
+                            <td class="p-4 font-medium text-gray-700 text-center">
                                 {{ $booking->user->name ?? '-' }}
                             </td>
 
                             <!-- COURT -->
-                            <td class="p-4">
+                            <td class="p-4 text-center">
                                 <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-xs font-medium">
                                     {{ $booking->court->name ?? '-' }}
                                 </span>
                             </td>
 
                             <!-- DATE -->
-                            <td class="p-4 text-gray-600">
+                            <td class="p-4 text-gray-600 text-center">
                                 {{ $booking->date ? \Carbon\Carbon::parse($booking->date)->format('d M Y') : '-' }}
+                            </td>
+
+                            <!-- TIME -->
+                            <td class="p-4 text-gray-600 text-center">
+                                {{ $booking->start_time }} - {{ $booking->end_time }}
                             </td>
 
                             <!-- METHOD -->
@@ -104,31 +110,31 @@
                             </td>
 
                             <!-- ACTION -->
-                            <td class="p-4 text-right space-x-2">
+                            <td class="p-4 text-center">
 
                                 @if ($booking->payment_status == 'waiting')
                                     <a href="{{ route('admin.payments.approve', $booking->id) }}"
                                         onclick="return confirm('Approve pembayaran ini?')"
                                         class="px-3 py-1 text-xs rounded-md bg-green-500 text-white hover:bg-green-400">
-                                        Approve
+                                        Setujui
                                     </a>
 
                                     <a href="{{ route('admin.payments.reject', $booking->id) }}"
                                         onclick="return confirm('Tolak pembayaran ini?')"
                                         class="px-3 py-1 text-xs rounded-md bg-red-500 text-white hover:bg-red-400">
-                                        Reject
+                                        Tolak
                                     </a>
                                 @elseif($booking->payment_status == 'confirmed')
                                     <span class="text-xs text-green-500 font-medium">
-                                        Paid
+                                        Lunas
                                     </span>
                                 @elseif($booking->payment_status == 'rejected')
                                     <span class="text-xs text-red-500 font-medium">
-                                        Rejected
+                                        Ditolak
                                     </span>
                                 @else
                                     <span class="text-xs text-gray-400">
-                                        No Action
+                                        Tidak Ada Aksi
                                     </span>
                                 @endif
 
@@ -139,7 +145,7 @@
                     @empty
                         <tr>
                             <td colspan="7" class="text-center py-8 text-gray-400">
-                                No payment data
+                                Belum ada pembayaran
                             </td>
                         </tr>
                     @endforelse

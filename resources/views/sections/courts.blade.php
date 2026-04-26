@@ -8,7 +8,7 @@
                 Lapangan Kami
             </span>
             <h2 class="text-4xl font-bold text-gray-900 mt-3">
-                Discover Our Courts
+                Jenis Lapangan
             </h2>
 
             <p class="text-gray-500 mt-4 max-w-2xl mx-auto">
@@ -40,16 +40,11 @@
                 <div class="p-8">
 
                     <h3 class="text-2xl font-semibold text-gray-900">
-                        Court A
+                        Lapangan A
                     </h3>
 
                     <p class="text-gray-500 mt-1">
-                        Outdoor Hard Court
-                    </p>
-
-                    <!-- HIGHLIGHT (GANTI HARGA) -->
-                    <p class="mt-4 text-sm font-semibold text-yellow-600">
-                        Premium Outdoor Experience
+                        Indoor
                     </p>
 
                     <!-- INFO -->
@@ -74,8 +69,8 @@
                         <div class="flex items-start gap-2">
                             <i data-lucide="layers" class="w-4 h-4 text-yellow-500 mt-1"></i>
                             <div>
-                                <p class="font-medium text-gray-800">Surface</p>
-                                <p>Hard Court</p>
+                                <p class="font-medium text-gray-800">Lantai</p>
+                                <p>Vinly</p>
                             </div>
                         </div>
 
@@ -90,10 +85,9 @@
                         </p>
 
                         <div class="flex flex-wrap gap-2 text-xs">
-                            <span class="bg-gray-100 px-3 py-1 rounded-full">Lampu Malam</span>
+                            <span class="bg-gray-100 px-3 py-1 rounded-full">Tersedia Papan Skor</span>
+                            <span class="bg-gray-100 px-3 py-1 rounded-full">Penerangan</span>
                             <span class="bg-gray-100 px-3 py-1 rounded-full">Area Penonton</span>
-                            <span class="bg-gray-100 px-3 py-1 rounded-full">Locker Room</span>
-                            <span class="bg-gray-100 px-3 py-1 rounded-full">Drinking Water</span>
                         </div>
                     </div>
 
@@ -117,16 +111,11 @@
                 <div class="p-8">
 
                     <h3 class="text-2xl font-semibold text-gray-900">
-                        Court B
+                        Lapangan B
                     </h3>
 
                     <p class="text-gray-500 mt-1">
-                        Indoor Court
-                    </p>
-
-                    <!-- HIGHLIGHT -->
-                    <p class="mt-4 text-sm font-semibold text-yellow-600">
-                        Indoor Comfort & Stability
+                        Indoor
                     </p>
 
                     <div class="grid grid-cols-2 gap-5 mt-6 text-sm text-gray-600">
@@ -135,7 +124,7 @@
                             <i data-lucide="clock" class="w-4 h-4 text-yellow-500 mt-1"></i>
                             <div>
                                 <p class="font-medium text-gray-800">Jam</p>
-                                <p>08.00 – 23.00</p>
+                                <p>08.00 – 22.00</p>
                             </div>
                         </div>
 
@@ -150,8 +139,8 @@
                         <div class="flex items-start gap-2">
                             <i data-lucide="layers" class="w-4 h-4 text-yellow-500 mt-1"></i>
                             <div>
-                                <p class="font-medium text-gray-800">Surface</p>
-                                <p>Synthetic Court</p>
+                                <p class="font-medium text-gray-800">Lantai</p>
+                                <p>Vinyl</p>
                             </div>
                         </div>
 
@@ -165,10 +154,9 @@
                         </p>
 
                         <div class="flex flex-wrap gap-2 text-xs">
-                            <span class="bg-gray-100 px-3 py-1 rounded-full">Indoor AC</span>
-                            <span class="bg-gray-100 px-3 py-1 rounded-full">LED Lighting</span>
-                            <span class="bg-gray-100 px-3 py-1 rounded-full">Changing Room</span>
-                            <span class="bg-gray-100 px-3 py-1 rounded-full">Parking Area</span>
+                            <span class="bg-gray-100 px-3 py-1 rounded-full">Penerangan</span>
+                            <span class="bg-gray-100 px-3 py-1 rounded-full">Ruang Ganti</span>
+                            <span class="bg-gray-100 px-3 py-1 rounded-full">Area Parkir</span>
                         </div>
                     </div>
 

@@ -15,10 +15,10 @@
 
                 <div>
                     <h1 class="text-2xl font-semibold text-gray-800">
-                        Courts
+                        Lapangan
                     </h1>
                     <p class="text-sm text-gray-500">
-                        Manage available courts and pricing
+                        Kelola lapangan yang tersedia dan harga
                     </p>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                 class="inline-flex items-center gap-2 bg-yellow-500 hover:bg-yellow-400 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition">
 
                 <i data-lucide="plus" class="w-4 h-4"></i>
-                Add Court
+                Tambah Lapangan
             </a>
 
         </div>
@@ -45,11 +45,11 @@
                 <!-- HEADER -->
                 <thead class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wide">
                     <tr>
-                        <th class="p-4 text-left">Court</th>
-                        <th class="p-4">Type</th>
-                        <th class="p-4">Price</th>
-                        <th class="p-4">Status</th>
-                        <th class="p-4 text-right">Action</th>
+                        <th class="p-4 text-center">Lapangan</th>
+                        <th class="p-4 text-center">Tipe</th>
+                        <th class="p-4 text-center">Harga</th>
+                        <th class="p-4 text-center">Status</th>
+                        <th class="p-4 text-center">Aksi</th>
                     </tr>
                 </thead>
 
@@ -60,7 +60,7 @@
                         <tr class="hover:bg-gray-50 transition">
 
                             <!-- NAME -->
-                            <td class="p-4 font-medium text-gray-700">
+                            <td class="p-4 font-medium text-gray-700 text-center">
                                 {{ $court->name }}
                             </td>
 
@@ -68,7 +68,7 @@
                             <td class="p-4 text-center">
                                 <span
                                     class="px-3 py-1 rounded-full text-xs font-medium
-                            {{ $court->type == 'indoor' ? 'bg-blue-100 text-blue-600' : 'bg-purple-100 text-purple-600' }}">
+                                    {{ $court->type == 'indoor' ? 'bg-blue-100 text-blue-600' : 'bg-purple-100 text-purple-600' }}">
                                     {{ ucfirst($court->type) }}
                                 </span>
                             </td>
@@ -80,32 +80,40 @@
 
                             <!-- STATUS -->
                             <td class="p-4 text-center">
-                                <span
-                                    class="px-3 py-1 rounded-full text-xs font-medium
-                            {{ $court->status == 1 ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600' }}">
+                                <span class="px-3 py-1 rounded-full text-xs font-medium
+                                    {{ $court->status == 1 ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600' }}">
 
-                                    {{ $court->status == 1 ? 'Available' : 'Unavailable' }}
+                                    {{ $court->status == 1 ? 'Tersedia' : 'Tidak Tersedia' }}
                                 </span>
                             </td>
 
                             <!-- ACTION -->
-                            <td class="p-4 text-right space-x-2">
+                            <td class="p-4 text-center">
+                                <div class="flex items-center justify-center gap-2">
 
-                                <a href="{{ route('courts.edit', $court->id) }}"
-                                    class="px-3 py-1 text-xs rounded-md bg-blue-500 text-white hover:bg-blue-400">
-                                    Edit
-                                </a>
+                                    <!-- EDIT -->
+                                    <a href="{{ route('courts.edit', $court->id) }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg
+                           bg-blue-50 text-blue-600 hover:bg-blue-100 transition">
 
-                                <form action="{{ route('courts.destroy', $court->id) }}" method="POST" class="inline">
-                                    @csrf
-                                    @method('DELETE')
+                                        <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                                        Edit
+                                    </a>
 
-                                    <button onclick="return confirm('Yakin hapus?')"
-                                        class="px-3 py-1 text-xs rounded-md bg-red-500 text-white hover:bg-red-400">
-                                        Delete
-                                    </button>
-                                </form>
+                                    <!-- DELETE -->
+                                    <form action="{{ route('courts.destroy', $court->id) }}" method="POST"
+                                        onsubmit="return confirm('Yakin hapus?')">
+                                        @csrf
+                                        @method('DELETE')
 
+                                        <button class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg
+                               bg-red-50 text-red-600 hover:bg-red-100 transition">
+
+                                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                                            Hapus
+                                        </button>
+                                    </form>
+
+                                </div>
                             </td>
 
                         </tr>
@@ -113,7 +121,7 @@
                     @empty
                         <tr>
                             <td colspan="5" class="text-center py-8 text-gray-400">
-                                No courts available
+                                Belum ada lapangan
                             </td>
                         </tr>
                     @endforelse

@@ -11,7 +11,7 @@
                 Tentang Gumbreg Tennis Court
             </h2>
             <p class="text-gray-500 mt-4 max-w-2xl mx-auto">
-                Platform penyewaan lapangan tenis berbasis web dengan sistem booking modern dan terintegrasi AI.
+                Platform penyewaan lapangan tenis berbasis web dengan sistem booking modern
             </p>
             <div class="w-16 h-1 bg-yellow-500 mx-auto mt-6 rounded-full"></div>
         </div>
@@ -34,7 +34,7 @@
 
                 <p class="text-gray-600 leading-relaxed mb-10">
                     Website ini dilengkapi dengan fitur manajemen jadwal real-time
-                    serta integrasi AI chatbot yang membantu pengguna dalam
+                    yang membantu pengguna dalam
                     mengecek ketersediaan dan melakukan reservasi.
                 </p>
 
@@ -53,11 +53,6 @@
                     <div>
                         <p class="text-3xl font-bold text-yellow-500">Real-Time</p>
                         <p class="mt-1">Booking System</p>
-                    </div>
-
-                    <div>
-                        <p class="text-3xl font-bold text-yellow-500">AI</p>
-                        <p class="mt-1">Chatbot Assistant</p>
                     </div>
 
                 </div>

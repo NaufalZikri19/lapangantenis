@@ -14,6 +14,9 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Admin\CourtController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\DashboardController as DashboardController;
+use App\Http\Controllers\Admin\UserController;
 
 /*
 | Models
@@ -22,6 +25,8 @@ use App\Http\Controllers\Admin\PaymentController;
 use App\Models\Court;
 use App\Models\Booking;
 use App\Models\User;
+use App\Models\Regency;
+use App\Models\Province;
 
 
 
@@ -30,7 +35,15 @@ use App\Models\User;
 */
 
 Route::get('/', function () {
-    return view('home');
+    return auth()->check()
+        ? redirect()->route('dashboard')
+        : view('home');
+});
+
+Route::get('/api/regencies/{province}', function ($provinceId) {
+    return Regency::where('province_id', $provinceId)
+        ->orderBy('name')
+        ->get(['id', 'name']);
 });
 
 
@@ -63,81 +76,52 @@ Route::middleware(['auth', 'nocache'])->group(function () {
 
     */
 
-    Route::prefix('admin')->group(function () {
+    Route::prefix('admin')
+        ->middleware('is_admin')
+        ->group(function () {
 
-        Route::get('/dashboard', function () {
+            Route::get('/dashboard', [AdminDashboardController::class, 'index'])
+                ->name('admin.dashboard');
 
-            $today = Carbon::today();
-            $todaySchedule = Booking::with('court')
-                ->whereDate('date', $today)
-                ->orderBy('start_time')
-                ->get();
+            Route::resource('courts', CourtController::class);
 
-            $confirmed = Booking::where('status', 'confirmed')->count();
-            $pending = Booking::where('status', 'pending')->count();
-            $cancelled = Booking::where('status', 'cancelled')->count();
+            Route::get('/bookings', [AdminBookingController::class, 'index'])
+                ->name('admin.bookings');
 
-            $totalCourts = Court::count();
+            Route::get('/bookings/{id}/confirm', [AdminBookingController::class, 'confirm'])
+                ->name('booking.confirm');
 
-            $todayBookings = Booking::whereDate('date', Carbon::today())->count();
+            Route::get('/bookings/{id}/cancel', [AdminBookingController::class, 'cancel'])
+                ->name('booking.cancel');
 
-            $totalCustomers = User::where('role', 'customer')->count();
+            Route::get('/payments', [PaymentController::class, 'index'])
+                ->name('admin.payments');
 
-            $recentBookings = Booking::with(['user', 'court'])
-                ->latest()
-                ->take(5)
-                ->get();
+            Route::get('/payments/{id}/approve', [PaymentController::class, 'approve'])
+                ->name('admin.payments.approve');
 
-            return view('admin.dashboard', compact(
-                'totalCourts',
-                'todayBookings',
-                'totalCustomers',
-                'todaySchedule',
-                'confirmed',
-                'pending',
-                'cancelled',
-                'recentBookings'
-            ));
-        })->name('admin.dashboard');
+            Route::get('/payments/{id}/reject', [PaymentController::class, 'reject'])
+                ->name('admin.payments.reject');
 
+            // USER MANAGEMENT
+            Route::get('/users', [UserController::class, 'index'])
+                ->name('admin.users');
 
-        /*
+            Route::get('/users/{id}', [UserController::class, 'show'])
+                ->name('admin.users.show');
 
-        | COURTS CRUD
+            Route::get('/users/{id}/edit', [UserController::class, 'edit'])
+                ->name('admin.users.edit');
 
-        */
+            Route::put('/users/{id}', [UserController::class, 'update'])
+                ->name('admin.users.update');
 
-        Route::resource('courts', CourtController::class);
+            Route::delete('/users/{id}', [UserController::class, 'destroy'])
+                ->name('admin.users.delete');
 
-
-        /*
-
-        | BOOKING MANAGEMENT
-
-        */
-
-        Route::get('/bookings', [AdminBookingController::class, 'index'])
-            ->name('admin.bookings');
-
-        Route::get('/bookings/{id}/confirm', [AdminBookingController::class, 'confirm'])
-            ->name('booking.confirm');
-
-        Route::get('/bookings/{id}/cancel', [AdminBookingController::class, 'cancel'])
-            ->name('booking.cancel');
-
-        /*
-        | PAYMENT VERIFICATION
-        */
-
-        Route::get('/payments', [PaymentController::class, 'index'])
-            ->name('admin.payments');
-
-        Route::get('/payments/{id}/approve', [PaymentController::class, 'approve'])
-            ->name('admin.payments.approve');
-
-        Route::get('/payments/{id}/reject', [PaymentController::class, 'reject'])
-            ->name('admin.payments.reject');
-    });
+            Route::get('/users/{id}/export/bookings', [UserController::class, 'exportBookingPdf'])
+                ->name('admin.users.export.bookings');
+        });
 
 
 
@@ -149,80 +133,29 @@ Route::middleware(['auth', 'nocache'])->group(function () {
 
     Route::prefix('customer')->group(function () {
 
-        Route::get('/dashboard', function (Request $request) {
+        Route::get('/dashboard', [DashboardController::class, 'index'])
+            ->name('customer.dashboard');
 
-            $search = $request->search;
-            $now = Carbon::now();
+        Route::middleware(['profile.complete'])->group(function () {
 
-            $query = Booking::with('court')
-                ->where('user_id', Auth::id());
+            Route::get('/booking', [BookingController::class, 'create'])
+                ->name('booking.create');
 
-            // CUSTOMER SEARCH LOGIC
-            if ($search) {
-                $query->where(function ($q) use ($search) {
-                    $q->whereHas('court', function ($q2) use ($search) {
-                        $q2->where('name', 'like', "%{$search}%");
-                    })
-                        ->orWhere('status', 'like', "%{$search}%")
-                        ->orWhere('date', 'like', "%{$search}%");
-                });
-            }
+            Route::post('/booking', [BookingController::class, 'store'])
+                ->name('booking.store');
 
-            // ACTIVE BOOKING
-            $activeBookings = Booking::where('user_id', Auth::id())
-                ->whereIn('status', ['pending', 'confirmed'])
-                ->where(function ($query) use ($now) {
-                    $query->where('date', '>', $now->toDateString())
-                        ->orWhere(function ($q) use ($now) {
-                            $q->where('date', $now->toDateString())
-                                ->where('end_time', '>', $now->format('H:i:s'));
-                        });
-                })
-                ->latest()
-                ->get();
+            Route::get('/payment/{id}', [BookingController::class, 'payment'])
+                ->name('booking.payment');
 
-            // RECENT
-            $recentBookings = $query->clone()
-                ->latest()
-                ->take(5)
-                ->get();
+            Route::post('/payment/{id}', [BookingController::class, 'uploadPayment'])
+                ->name('booking.uploadPayment');
 
-            $activeBooking = $activeBookings->count();
-            $totalBooking = $query->count();
-            $courts = Court::where('status', 1)->count();
-
-            return view('customer.dashboard', compact(
-                'activeBookings',
-                'recentBookings',
-                'activeBooking',
-                'totalBooking',
-                'courts'
-            ));
-        })->name('customer.dashboard');
-
-        /*
-
-        | BOOKING COURT
-
-        */
-
-        Route::get('/booking', [BookingController::class, 'create'])
-            ->name('booking.create');
-
-        Route::post('/booking', [BookingController::class, 'store'])
-            ->name('booking.store');
+        });
 
         Route::get('/check-availability', [BookingController::class, 'checkAvailability'])
             ->name('booking.check');
 
-        Route::get('/payment/{id}', [BookingController::class, 'payment'])
-            ->name('booking.payment');
-
-        Route::post('/payment/{id}', [BookingController::class, 'uploadPayment'])
-            ->name('booking.uploadPayment');
     });
-
-
 
     /*
 
@@ -233,6 +166,8 @@ Route::middleware(['auth', 'nocache'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/profile/biodata', [ProfileController::class, 'updateBiodata'])
+        ->name('profile.biodata.update');
 
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });

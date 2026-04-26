@@ -39,11 +39,10 @@
         <!-- MENU -->
         <nav class="mt-6 px-4 space-y-2 flex-1 overflow-y-auto">
 
-            <a href="{{ route('customer.dashboard') }}"
-                class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium
+            <a href="{{ route('customer.dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium
                 {{ request()->routeIs('customer.dashboard')
-                    ? 'bg-yellow-100 text-yellow-600'
-                    : 'text-gray-600 hover:bg-gray-100' }}">
+    ? 'bg-yellow-100 text-yellow-600'
+    : 'text-gray-600 hover:bg-gray-100' }}">
                 <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
                 Dashboard
             </a>
@@ -100,11 +99,10 @@
 
         <nav class="mt-6 px-4 space-y-2 flex-1 overflow-y-auto">
 
-            <a href="{{ route('customer.dashboard') }}"
-                class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium
+            <a href="{{ route('customer.dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium
                 {{ request()->routeIs('customer.dashboard')
-                    ? 'bg-yellow-100 text-yellow-600'
-                    : 'text-gray-600 hover:bg-gray-100' }}">
+    ? 'bg-yellow-100 text-yellow-600'
+    : 'text-gray-600 hover:bg-gray-100' }}">
                 <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
                 Dashboard
             </a>
@@ -120,32 +118,58 @@
 
         <!-- USER -->
         <div class="p-4 border-t bg-gray-50">
-            <div class="flex items-center gap-3 mb-4">
-                <div
-                    class="w-10 h-10 rounded-full bg-yellow-500 text-white flex items-center justify-center font-semibold">
-                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+
+            <div x-data="{ open: false }" class="relative">
+
+                <!-- TRIGGER -->
+                <button @click="open = !open"
+                    class="w-full flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 transition">
+
+                    <!-- AVATAR -->
+                    <div
+                        class="w-10 h-10 rounded-full bg-yellow-500 text-white flex items-center justify-center font-semibold">
+                        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                    </div>
+
+                    <!-- INFO -->
+                    <div class="flex-1 text-left">
+                        <p class="text-sm font-semibold text-gray-800">
+                            {{ auth()->user()->name }}
+                        </p>
+                        <p class="text-xs text-gray-500">
+                            {{ auth()->user()->email }}
+                        </p>
+                    </div>
+
+                    <!-- ICON -->
+                    <i data-lucide="chevron-up" class="w-4 h-4 text-gray-400"></i>
+                </button>
+
+                <!-- DROPDOWN (DROP-UP) -->
+                <div x-show="open" @click.outside="open = false" x-transition
+                    class="absolute bottom-full left-0 mb-2 w-full bg-white border rounded-xl shadow-lg overflow-hidden z-50">
+
+                    <a href="{{ route('profile.edit') }}"
+                        class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-gray-100 transition">
+                        <i data-lucide="user" class="w-4 h-4"></i>
+                        Profile
+                    </a>
+
+                    <button onclick="confirmLogout()"
+                        class="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-500 hover:bg-red-50 transition">
+                        <i data-lucide="log-out" class="w-4 h-4"></i>
+                        Logout
+                    </button>
+
                 </div>
-                <div>
-                    <p class="text-sm font-semibold">{{ auth()->user()->name }}</p>
-                    <p class="text-xs text-gray-500">Customer</p>
-                </div>
+
             </div>
 
-            <a href="{{ route('profile.edit') }}"
-                class="flex items-center gap-2 px-3 py-2 text-sm rounded-lg hover:bg-gray-100">
-                <i data-lucide="user" class="w-4 h-4"></i>
-                Profile
-            </a>
-
-            <button onclick="confirmLogout()"
-                class="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-500 rounded-lg hover:bg-red-50">
-                <i data-lucide="log-out" class="w-4 h-4"></i>
-                Logout
-            </button>
-
+            <!-- FORM LOGOUT -->
             <form id="logout-form" method="POST" action="{{ route('logout') }}">
                 @csrf
             </form>
+
         </div>
     </aside>
 
@@ -164,17 +188,6 @@
             </div>
 
             <div class="flex items-center gap-4">
-
-                <!-- SEARCH -->
-                <form method="GET" action="{{ route('customer.dashboard') }}"
-                    class="hidden md:flex items-center bg-gray-100 px-3 py-2 rounded-lg">
-
-                    <i data-lucide="search" class="w-4 h-4 text-gray-400"></i>
-
-                    <input type="text" name="search" value="{{ request('search') }}"
-                        placeholder="Search booking..." class="bg-transparent outline-none text-sm ml-2 w-40">
-                </form>
-
                 <!-- USER DROPDOWN -->
                 <div x-data="{ open: false }" class="relative">
                     <button @click="open = !open" class="flex items-center gap-2">

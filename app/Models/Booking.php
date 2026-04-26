@@ -13,11 +13,18 @@ class Booking extends Model
         'start_time',
         'end_time',
         'status',
+        'expired_at',
         'payment_method',
         'payment_proof',
         'payment_status',
         'paid_at'
     ];
+
+    protected $casts = [
+        'expired_at' => 'datetime',
+    ];
+
+    protected $appends = ['status_label', 'status_class'];
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -28,10 +35,44 @@ class Booking extends Model
         return $this->belongsTo(Court::class);
     }
 
-    public static function autoComplete()
+    public static function syncStatus()
     {
-        return self::where('status', 'confirmed')
-            ->whereRaw("TIMESTAMP(date, end_time) < ?", [now()])
+        $now = now();
+
+        // EXPIRED
+        self::where('status', 'pending')
+            ->whereNotNull('expired_at')
+            ->where('expired_at', '<', $now)
+            ->update(['status' => 'expired']);
+
+        // COMPLETED
+        self::where('status', 'confirmed')
+            ->whereRaw("TIMESTAMP(date, end_time) < ?", [$now])
             ->update(['status' => 'completed']);
     }
+
+    public function getStatusLabelAttribute()
+    {
+        return match ($this->status) {
+            'pending' => 'Menunggu',
+            'confirmed' => 'Dikonfirmasi',
+            'completed' => 'Selesai',
+            'cancelled' => 'Dibatalkan',
+            'expired' => 'Kadaluarsa',
+            default => ucfirst($this->status)
+        };
+    }
+
+    public function getStatusClassAttribute()
+    {
+        return match ($this->status) {
+            'pending' => 'bg-yellow-100 text-yellow-600',
+            'confirmed' => 'bg-green-100 text-green-600',
+            'completed' => 'bg-blue-100 text-blue-600',
+            'cancelled' => 'bg-red-100 text-red-600',
+            'expired' => 'bg-gray-200 text-gray-500',
+            default => 'bg-gray-100 text-gray-400'
+        };
+    }
+
 }
