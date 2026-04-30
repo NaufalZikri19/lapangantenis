@@ -1,13 +1,13 @@
 @extends('layouts.app')
 
-@section('title', 'Gumbreg Tennis Court')
+@section('title', 'Gumbreg QuickBook - Booking Lapangan Tenis Lebih Mudah')
 
 @section('content')
 
     @include('sections.hero')
     @include('sections.about')
-    @include('sections.courts')
-    @include('sections.pricing')
-    @include('sections.work')
+    @include('sections.how-it-works')
+    @include('sections.dashboard-preview')
+    @include('sections.cta')
 
 @endsection

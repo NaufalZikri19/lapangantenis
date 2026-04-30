@@ -1,221 +1,93 @@
-<!DOCTYPE html>
-<html lang="en">
+<header x-data="{ scrolled: false, mobileMenuOpen: false }" @scroll.window="scrolled = (window.pageYOffset > 20)"
+    :class="scrolled ? 'bg-white/90 backdrop-blur-md shadow-sm border-b border-gray-100 py-3' : 'bg-transparent py-5'"
+    class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
 
-<head>
-    <meta charset="UTF-8">
-    <title>Gumbreg Tennis Court</title>
-
-    <!-- Alpine -->
-    <script src="https://unpkg.com/alpinejs" defer></script>
-
-    <!-- Lucide -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-
-    <!-- Tailwind (optional kalau pakai CDN) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-
-<body x-data="{ open: false, active: 'home', scrolled: false }" :class="open ? 'overflow-hidden' : ''" class="isolate relative z-0">
-
-    <!-- ================= NAVBAR ================= -->
-    <header class="fixed top-0 left-0 w-full z-50">
-
-        <!-- BACKGROUND -->
-        <div :class="scrolled
-            ?
-            'bg-white/80 backdrop-blur-xl shadow-md border-b border-gray-200' :
-            'bg-transparent'"
-            class="absolute inset-0 -z-10 transition-all duration-500">
-        </div>
-
-        <!-- NAV -->
-        <nav x-init="const onScroll = () => {
-            scrolled = window.scrollY > 50;
-
-            const sections = ['home', 'about', 'court', 'pricing' ,'how-it-works'];
-            sections.forEach(id => {
-                const el = document.getElementById(id);
-                if (!el) return;
-
-                const offset = el.offsetTop - 120;
-                const height = el.offsetHeight;
-
-                if (window.scrollY >= offset && window.scrollY < offset + height) {
-                    active = id;
-                }
-            });
-        };
-
-        window.addEventListener('scroll', onScroll);
-        onScroll();" class="relative max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="flex items-center justify-between">
 
             <!-- LOGO -->
-            <a href="#home" class="text-2xl font-bold tracking-tight">
-                <span :class="scrolled ? 'text-gray-900' : 'text-white'">
-                    Gumbreg
+            <a href="/" class="flex items-center gap-2 group">
+                <img src="{{ asset('image/logo.png') }}" alt="Logo Gumbreg QuickBook"
+                    class="w-10 h-10 rounded-xl shadow-sm group-hover:scale-105 transition-transform duration-200 object-cover bg-white">
+                <span class="text-xl font-bold tracking-tight text-gray-900">
+                    Gumbreg<span class="text-primary">QuickBook</span>
                 </span>
-                <span class="text-yellow-500">QuickBook</span>
             </a>
 
             <!-- DESKTOP MENU -->
-            <div class="hidden md:flex items-center gap-10 text-base font-medium">
+            <nav class="hidden md:flex items-center gap-8">
+                <a href="#about"
+                    class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200">Tentang
+                    Kami</a>
+                <a href="#cara-booking"
+                    class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200">Cara
+                    Booking</a>
+                <a href="#kontak"
+                    class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200">Kontak</a>
+            </nav>
 
-                <template
-                    x-for="menu in [
-                {id:'about', label:'Tentang Kami'},
-                {id:'court', label:'Lapangan'},
-                {id:'pricing', label:'Harga'},
-                {id:'how-it-works', label:'Cara Booking', icon:'list'},
-            ]"
-                    :key="menu.id">
-
-                    <a :href="'#' + menu.id" @click="open=false"
-                        :class="active === menu.id ?
-                            'text-yellow-500' :
-                            (scrolled ? 'text-gray-700' : 'text-white')"
-                        class="relative hover:text-yellow-400 transition">
-
-                        <span x-text="menu.label"></span>
-
-                        <span x-show="active === menu.id"
-                            class="absolute -bottom-2 left-0 w-full h-[2px] bg-yellow-500 rounded-full">
-                        </span>
-
-                    </a>
-
-                </template>
-
-            </div>
-
-            <!-- RIGHT -->
-            <div class="flex items-center gap-3">
-
+            <!-- AUTH BUTTONS -->
+            <div class="hidden md:flex items-center gap-4">
                 @guest
                     <a href="{{ route('login') }}"
-                        class="hidden md:flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition shadow-lg"
-                        :class="scrolled
-                            ?
-                            'bg-yellow-500 text-white hover:bg-yellow-400' :
-                            'bg-white text-black hover:bg-gray-200'">
-                        <i data-lucide="log-in" class="w-4 h-4"></i>
-                        Masuk
+                        class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200">
+                        Login
+                    </a>
+                    <a href="{{ route('register') }}"
+                        class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-sm font-medium text-gray-900 bg-primary hover:bg-primaryHover shadow-sm hover:shadow transition-all duration-200">
+                        Daftar Sekarang
+                    </a>
+                @else
+                    <a href="{{ route('dashboard') }}"
+                        class="inline-flex items-center justify-center px-5 py-2.5 rounded-xl text-sm font-medium text-gray-900 bg-primary hover:bg-primaryHover shadow-sm hover:shadow transition-all duration-200">
+                        Dashboard
                     </a>
                 @endguest
-
-                <!-- HAMBURGER -->
-                <button @click="open = true" :class="scrolled ? 'text-gray-800' : 'text-white'"
-                    class="md:hidden text-xl">
-                    <i data-lucide="menu"></i>
-                </button>
-
             </div>
 
-        </nav>
-    </header>
+            <!-- MOBILE MENU BUTTON -->
+            <button @click="mobileMenuOpen = !mobileMenuOpen"
+                class="md:hidden p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
+                <i x-show="!mobileMenuOpen" data-lucide="menu" class="w-6 h-6"></i>
+                <i x-show="mobileMenuOpen" x-cloak data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+    </div>
 
-    <!-- ================= SMOOTH SCROLL ================= -->
-    <script>
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
+    <!-- MOBILE MENU PANEL -->
+    <div x-show="mobileMenuOpen" x-cloak x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 -translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0"
+        x-transition:leave-end="opacity-0 -translate-y-4"
+        class="absolute top-full left-0 w-full bg-white border-b border-gray-100 shadow-lg md:hidden">
 
-                const target = document.querySelector(this.getAttribute('href'));
+        <div class="px-6 py-4 space-y-4">
+            <a href="#about" @click="mobileMenuOpen = false"
+                class="block text-base font-medium text-gray-700 hover:text-primary transition-colors">Tentang Kami</a>
+            <a href="#cara-booking" @click="mobileMenuOpen = false"
+                class="block text-base font-medium text-gray-700 hover:text-primary transition-colors">Cara Booking</a>
+            <a href="#kontak" @click="mobileMenuOpen = false"
+                class="block text-base font-medium text-gray-700 hover:text-primary transition-colors">Kontak</a>
 
-                if (target) {
-                    window.scrollTo({
-                        top: target.offsetTop - 100,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    </script>
+            <hr class="border-gray-100">
 
-    <!-- ================= SIDEBAR ================= -->
-    <template x-teleport="body">
-
-        <div x-show="open" x-cloak x-transition.opacity class="fixed inset-0 z-[9999] flex justify-end items-stretch">
-
-            <!-- BACKDROP -->
-            <div class="absolute inset-0 bg-black/60" @click="open = false">
-            </div>
-
-            <!-- PANEL -->
-            <div @click.stop x-show="open" x-transition:enter="transform transition ease-out duration-300"
-                x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0"
-                x-transition:leave="transform transition ease-in duration-200" x-transition:leave-start="translate-x-0"
-                x-transition:leave-end="translate-x-full" class="relative w-[75%] max-w-xs h-full isolate">
-
-                <!-- BACKGROUND -->
-                <div class="absolute inset-0 bg-black/40 backdrop-blur-xl border-l border-white/10"></div>
-
-                <!-- CONTENT -->
-                <div class="relative z-10 p-6 text-white overflow-y-auto h-full">
-
-                    <!-- HEADER -->
-                    <div class="flex justify-between items-center mb-6">
-                        <h2 class="font-semibold text-lg">Menu</h2>
-                        <button @click="open = false">✕</button>
-                    </div>
-
-                    <!-- DESC -->
-                    <p class="text-sm text-white/60 mb-6">
-                        Navigasi ke bagian yang ingin kamu lihat
-                    </p>
-
-                    <!-- MENU -->
-                    <nav class="flex flex-col gap-4 font-medium">
-
-                        <template
-                            x-for="menu in [
-                        {id:'home', label:'Home', icon:'home'},
-                        {id:'about', label:'About', icon:'info'},
-                        {id:'court', label:'Courts', icon:'map'},
-                        {id:'pricing', label:'Pricing', icon:'tag'}
-                    ]"
-                            :key="menu.id">
-
-                            <a :href="'#' + menu.id" @click="open=false"
-                                :class="active === menu.id ?
-                                    'bg-white text-black shadow' :
-                                    'text-white/80 hover:text-white hover:bg-white/10'"
-                                class="flex items-center gap-3 px-4 py-3 rounded-full transition">
-
-                                <i :data-lucide="menu.icon" class="w-5 h-5"></i>
-                                <span x-text="menu.label"></span>
-
-                            </a>
-
-                        </template>
-
-                        <hr class="my-3 border-white/10">
-
-                        @guest
-                            <a href="{{ route('login') }}"
-                                class="flex items-center justify-center gap-2 bg-yellow-500 text-white px-4 py-3 rounded-xl font-semibold hover:bg-yellow-400 transition">
-                                <i data-lucide="log-in" class="w-4 h-4"></i>
-                                Masuk
-                            </a>
-                        @endguest
-
-                    </nav>
-
-                </div>
+            <div class="flex flex-col gap-3 pt-2">
+                @guest
+                    <a href="{{ route('login') }}"
+                        class="w-full text-center py-2.5 text-base font-medium text-gray-700 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+                        Login
+                    </a>
+                    <a href="{{ route('register') }}"
+                        class="w-full text-center py-2.5 text-base font-medium text-gray-900 bg-primary rounded-xl shadow-sm hover:bg-primaryHover transition-colors">
+                        Daftar Sekarang
+                    </a>
+                @else
+                    <a href="{{ route('dashboard') }}"
+                        class="w-full text-center py-2.5 text-base font-medium text-gray-900 bg-primary rounded-xl shadow-sm hover:bg-primaryHover transition-colors">
+                        Dashboard
+                    </a>
+                @endguest
             </div>
         </div>
-    </template>
-
-    <!-- ================= LUCIDE INIT ================= -->
-    <script>
-        document.addEventListener("alpine:init", () => {
-            Alpine.effect(() => {
-                if (window.lucide) {
-                    lucide.createIcons();
-                }
-            });
-        });
-    </script>
-
-</body>
-
-</html>
+    </div>
+</header>

@@ -1,159 +1,149 @@
 @extends('layouts.admin')
 
 @section('content')
-    <!-- HEADER -->
-    <div class="bg-white border rounded-2xl shadow-sm p-5 mb-6">
+    <div class="w-full space-y-6">
 
-        <div class="flex items-center gap-3">
-
-            <div class="p-2 bg-yellow-100 text-yellow-600 rounded-lg">
-                <i data-lucide="credit-card" class="w-5 h-5"></i>
+        <!-- HEADER SECTION -->
+        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="p-2.5 bg-yellow-50 text-yellow-600 rounded-xl border border-yellow-100">
+                    <i data-lucide="credit-card" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-semibold text-gray-800">Pembayaran</h1>
+                    <p class="text-sm text-gray-500">Kelola dan verifikasi pembayaran pelanggan</p>
+                </div>
             </div>
-
-            <div>
-                <h1 class="text-2xl font-semibold text-gray-800">
-                    Pembayaran
-                </h1>
-                <p class="text-sm text-gray-500">
-                    Kelola pembayaran pelanggan
-                </p>
-            </div>
-
         </div>
 
-    </div>
+        <!-- TABLE CARD -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
 
-
-    <!-- TABLE -->
-    <div class="bg-white rounded-2xl shadow-sm border overflow-hidden">
-
-        <div class="overflow-x-auto">
-            <table class="w-full text-sm">
-
-                <!-- HEADER -->
-                <thead class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wide">
-                    <tr>
-                        <th class="p-4 text-center">Pelanggan</th>
-                        <th class="p-4 text-center">Lapangan</th>
-                        <th class="p-4 text-center">Tanggal</th>
-                        <th class="p-4 text-center">Jam</th>
-                        <th class="p-4 text-center">Metode Pembayaran</th>
-                        <th class="p-4 text-center">Bukti</th>
-                        <th class="p-4 text-center">Status</th>
-                        <th class="p-4 text-center">Aksi</th>
-                    </tr>
-                </thead>
-
-                <!-- BODY -->
-                <tbody class="divide-y">
-
-                    @forelse($bookings as $booking)
-                        <tr class="hover:bg-gray-50 transition">
-
-                            <!-- USER -->
-                            <td class="p-4 font-medium text-gray-700 text-center">
-                                {{ $booking->user->name ?? '-' }}
-                            </td>
-
-                            <!-- COURT -->
-                            <td class="p-4 text-center">
-                                <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-xs font-medium">
-                                    {{ $booking->court->name ?? '-' }}
-                                </span>
-                            </td>
-
-                            <!-- DATE -->
-                            <td class="p-4 text-gray-600 text-center">
-                                {{ $booking->date ? \Carbon\Carbon::parse($booking->date)->format('d M Y') : '-' }}
-                            </td>
-
-                            <!-- TIME -->
-                            <td class="p-4 text-gray-600 text-center">
-                                {{ $booking->start_time }} - {{ $booking->end_time }}
-                            </td>
-
-                            <!-- METHOD -->
-                            <td class="p-4 text-center">
-                                <span
-                                    class="px-3 py-1 rounded-full text-xs font-medium
-                            {{ $booking->payment_method == 'qris' ? 'bg-blue-100 text-blue-600' : '' }}
-                            {{ $booking->payment_method == 'transfer' ? 'bg-purple-100 text-purple-600' : '' }}
-                            {{ !$booking->payment_method ? 'bg-gray-100 text-gray-400' : '' }}">
-
-                                    {{ $booking->payment_method ? strtoupper($booking->payment_method) : '-' }}
-                                </span>
-                            </td>
-
-                            <!-- PROOF -->
-                            <td class="p-4 text-center">
-                                @if ($booking->payment_proof)
-                                    <a href="{{ asset('storage/' . $booking->payment_proof) }}" target="_blank">
-                                        <img src="{{ asset('storage/' . $booking->payment_proof) }}"
-                                            class="w-14 h-14 object-cover rounded-lg mx-auto hover:scale-105 transition">
-                                    </a>
-                                @else
-                                    <span class="text-xs text-gray-400">No Proof</span>
-                                @endif
-                            </td>
-
-                            <!-- STATUS -->
-                            <td class="p-4 text-center">
-                                <span
-                                    class="px-3 py-1 rounded-full text-xs font-medium
-                            {{ $booking->payment_status == 'waiting' ? 'bg-yellow-100 text-yellow-600' : '' }}
-                            {{ $booking->payment_status == 'confirmed' ? 'bg-green-100 text-green-600' : '' }}
-                            {{ $booking->payment_status == 'rejected' ? 'bg-red-100 text-red-600' : '' }}
-                            {{ !$booking->payment_status ? 'bg-gray-100 text-gray-400' : '' }}">
-
-                                    {{ $booking->payment_status ? ucfirst($booking->payment_status) : 'Unpaid' }}
-                                </span>
-                            </td>
-
-                            <!-- ACTION -->
-                            <td class="p-4 text-center">
-
-                                @if ($booking->payment_status == 'waiting')
-                                    <a href="{{ route('admin.payments.approve', $booking->id) }}"
-                                        onclick="return confirm('Approve pembayaran ini?')"
-                                        class="px-3 py-1 text-xs rounded-md bg-green-500 text-white hover:bg-green-400">
-                                        Setujui
-                                    </a>
-
-                                    <a href="{{ route('admin.payments.reject', $booking->id) }}"
-                                        onclick="return confirm('Tolak pembayaran ini?')"
-                                        class="px-3 py-1 text-xs rounded-md bg-red-500 text-white hover:bg-red-400">
-                                        Tolak
-                                    </a>
-                                @elseif($booking->payment_status == 'confirmed')
-                                    <span class="text-xs text-green-500 font-medium">
-                                        Lunas
-                                    </span>
-                                @elseif($booking->payment_status == 'rejected')
-                                    <span class="text-xs text-red-500 font-medium">
-                                        Ditolak
-                                    </span>
-                                @else
-                                    <span class="text-xs text-gray-400">
-                                        Tidak Ada Aksi
-                                    </span>
-                                @endif
-
-                            </td>
-
-                        </tr>
-
-                    @empty
+            <div class="overflow-x-auto">
+                <table class="w-full min-w-[900px] text-sm text-left">
+                    <thead class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider font-semibold">
                         <tr>
-                            <td colspan="7" class="text-center py-8 text-gray-400">
-                                Belum ada pembayaran
-                            </td>
+                            <th class="px-6 py-4">Pelanggan</th>
+                            <th class="px-6 py-4">Info Booking</th>
+                            <th class="px-6 py-4 text-center">Metode Pembayaran</th>
+                            <th class="px-6 py-4 text-center">Bukti</th>
+                            <th class="px-6 py-4 text-center">Status</th>
+                            <th class="px-6 py-4 text-right">Aksi</th>
                         </tr>
-                    @endforelse
+                    </thead>
+                    <tbody class="divide-y divide-gray-100 bg-white">
+                        @forelse($bookings as $booking)
+                            <tr class="hover:bg-gray-50 transition duration-200">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center font-bold text-xs shrink-0">
+                                            {{ strtoupper(substr($booking->user->name ?? 'U', 0, 1)) }}
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold text-gray-800">{{ $booking->user->name ?? '-' }}</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <p class="font-medium text-gray-800">{{ $booking->court->name ?? '-' }}</p>
+                                    <div class="text-xs text-gray-500 mt-0.5 flex flex-col gap-0.5">
+                                        <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3"></i>
+                                            {{ $booking->date ? \Carbon\Carbon::parse($booking->date)->format('d M Y') : '-' }}</span>
+                                        <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i>
+                                            {{ $booking->start_time }} - {{ $booking->end_time }}</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center">
+                                    <span class="px-3 py-1 rounded-full text-xs font-medium inline-flex items-center gap-1.5 justify-center
+                                            {{ $booking->payment_method == 'qris' ? 'bg-blue-100 text-blue-600' : '' }}
+                                            {{ $booking->payment_method == 'transfer' ? 'bg-indigo-100 text-indigo-600' : '' }}
+                                            {{ !$booking->payment_method ? 'bg-gray-100 text-gray-500' : '' }}">
+                                        @if($booking->payment_method == 'qris') <i data-lucide="qr-code"
+                                        class="w-3.5 h-3.5"></i> @endif
+                                        @if($booking->payment_method == 'transfer') <i data-lucide="landmark"
+                                        class="w-3.5 h-3.5"></i> @endif
+                                        {{ $booking->payment_method ? strtoupper($booking->payment_method) : '-' }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center">
+                                    @if ($booking->payment_proof)
+                                        <a href="{{ asset('storage/' . $booking->payment_proof) }}" target="_blank"
+                                            class="inline-block group relative">
+                                            <div
+                                                class="absolute inset-0 bg-black/40 rounded-lg opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-200">
+                                                <i data-lucide="external-link" class="w-4 h-4 text-white"></i>
+                                            </div>
+                                            <img src="{{ asset('storage/' . $booking->payment_proof) }}"
+                                                class="w-12 h-12 object-cover rounded-lg border border-gray-200">
+                                        </a>
+                                    @else
+                                        <span class="text-xs text-gray-400 italic">No Proof</span>
+                                    @endif
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center">
+                                    <span class="px-3 py-1 rounded-full text-xs font-medium 
+                                            {{ $booking->payment_status == 'waiting' ? 'bg-yellow-100 text-yellow-600' : '' }}
+                                            {{ $booking->payment_status == 'confirmed' ? 'bg-green-100 text-green-600' : '' }}
+                                            {{ $booking->payment_status == 'rejected' ? 'bg-red-100 text-red-600' : '' }}
+                                            {{ !$booking->payment_status ? 'bg-gray-100 text-gray-500' : '' }}">
+                                        {{ $booking->payment_status ? ucfirst($booking->payment_status) : 'Unpaid' }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-right">
+                                    <div class="flex items-center justify-end gap-2">
+                                        @if ($booking->payment_status == 'waiting')
+                                            <a href="{{ route('admin.payments.approve', $booking->id) }}"
+                                                onclick="return confirm('Approve pembayaran ini?')"
+                                                class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-full bg-green-100 text-green-600 hover:bg-green-200 transition duration-200">
+                                                <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Setujui
+                                            </a>
 
-                </tbody>
+                                            <a href="{{ route('admin.payments.reject', $booking->id) }}"
+                                                onclick="return confirm('Tolak pembayaran ini?')"
+                                                class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition duration-200">
+                                                <i data-lucide="x-circle" class="w-3.5 h-3.5"></i> Tolak
+                                            </a>
+                                        @elseif($booking->payment_status == 'confirmed')
+                                            <span
+                                                class="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium text-green-600 bg-green-50 rounded-full border border-green-100">
+                                                <i data-lucide="check" class="w-3.5 h-3.5"></i> Lunas
+                                            </span>
+                                        @elseif($booking->payment_status == 'rejected')
+                                            <span
+                                                class="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium text-red-600 bg-red-50 rounded-full border border-red-100">
+                                                <i data-lucide="x" class="w-3.5 h-3.5"></i> Ditolak
+                                            </span>
+                                        @else
+                                            <span class="text-xs text-gray-400 italic">Tidak ada aksi</span>
+                                        @endif
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="px-6 py-10 text-center">
+                                    <div class="flex flex-col items-center justify-center">
+                                        <div
+                                            class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center mb-3 border border-gray-100">
+                                            <i data-lucide="inbox" class="w-6 h-6 text-gray-400"></i>
+                                        </div>
+                                        <p class="text-gray-500 font-medium text-sm">Belum ada pembayaran</p>
+                                        <p class="text-xs text-gray-400 mt-1">Data pembayaran pelanggan akan muncul di sini.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
 
-            </table>
+            <!-- PAGINATION (If applicable) -->
+            @if(method_exists($bookings, 'links'))
+                <div class="p-4 border-t border-gray-100 bg-gray-50/50">
+                    {{ $bookings->links() }}
+                </div>
+            @endif
         </div>
-
     </div>
 @endsection

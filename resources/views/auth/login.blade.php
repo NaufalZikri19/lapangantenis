@@ -1,57 +1,78 @@
 <x-guest-layout>
 
-    <h1 class="text-3xl font-bold text-gray-900 mb-2">
-        Login
-    </h1>
-
-    <p class="text-gray-500 mb-8 text-sm">
-        Welcome back to Gumbreg Court
-    </p>
+    <div class="mb-10">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Selamat Datang Kembali</h1>
+        <p class="text-gray-500 text-sm">Silakan masuk ke akun Anda untuk melanjutkan booking lapangan tenis.</p>
+    </div>
 
     <form method="POST" action="{{ route('login') }}" class="space-y-6">
         @csrf
 
         <!-- Email -->
         <div>
-            <label class="block text-sm text-gray-700 mb-2">
-                Email
-            </label>
-            <input type="email" name="email"
-                class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition">
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Email</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i data-lucide="mail" class="w-5 h-5 text-gray-400"></i>
+                </div>
+                <input type="email" name="email" value="{{ old('email') }}" required autofocus
+                    placeholder="nama@email.com"
+                    class="w-full pl-11 pr-4 py-3.5 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
+            </div>
         </div>
 
         <!-- Password -->
         <div>
-            <label class="block text-sm text-gray-700 mb-2">
-                Password
+            <div class="flex items-center justify-between mb-2">
+                <label class="block text-sm font-semibold text-gray-700">Password</label>
+                @if (Route::has('password.request'))
+                    <a href="{{ route('password.request') }}"
+                        class="text-sm font-medium text-primary hover:text-primaryHover">Lupa sandi?</a>
+                @endif
+            </div>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i data-lucide="lock" class="w-5 h-5 text-gray-400"></i>
+                </div>
+                <input type="password" name="password" required placeholder="••••••••"
+                    class="w-full pl-11 pr-4 py-3.5 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
+            </div>
+        </div>
+
+        <!-- Remember Me -->
+        <div class="flex items-center">
+            <input id="remember_me" type="checkbox" name="remember"
+                class="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 bg-gray-50 transition-colors cursor-pointer">
+            <label for="remember_me" class="ml-2 block text-sm text-gray-600 cursor-pointer select-none">
+                Ingat saya di perangkat ini
             </label>
-            <input type="password" name="password"
-                class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition">
         </div>
 
         <button type="submit"
-            class="w-full bg-yellow-500 text-white py-3 rounded-xl font-semibold hover:bg-yellow-400 transition">
-            Login
+            class="w-full bg-primary text-gray-900 py-3.5 rounded-xl font-bold hover:bg-primaryHover transition-all shadow-sm flex justify-center items-center gap-2">
+            Masuk
+            <i data-lucide="arrow-right" class="w-5 h-5"></i>
         </button>
 
-        <!-- REGISTER LINK -->
-        <p class="text-sm text-center text-gray-500 mt-6">
-            Belum punya akun?
-            <a href="{{ route('register') }}" class="text-yellow-500 font-medium hover:underline">
-                Register
-            </a>
+        <p class="text-center text-gray-500 text-sm mt-6">
+            Belum memiliki akun?
+            <a href="{{ route('register') }}" class="text-primary font-bold hover:underline">Daftar Gratis</a>
         </p>
-
     </form>
 
     @if ($errors->has('email'))
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
-            document.addEventListener("DOMContentLoaded", function() {
+            document.addEventListener("DOMContentLoaded", function () {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Login gagal',
+                    title: 'Login Gagal',
                     text: 'Email atau password salah!',
-                    confirmButtonColor: '#FBBF24'
+                    confirmButtonColor: '#EAB308',
+                    customClass: {
+                        popup: 'rounded-2xl',
+                        confirmButton: 'rounded-xl px-6 py-2'
+                    }
                 });
             });
         </script>

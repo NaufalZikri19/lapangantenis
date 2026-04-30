@@ -11,6 +11,7 @@ use Carbon\Carbon;
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ChatbotController;
 use App\Http\Controllers\Admin\CourtController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\PaymentController;
@@ -156,6 +157,13 @@ Route::middleware(['auth', 'nocache'])->group(function () {
             ->name('booking.check');
 
     });
+
+    /*
+
+    | CHATBOT ROUTE
+
+    */
+    Route::post('/chatbot', [ChatbotController::class, 'handleChat'])->name('chatbot.handle');
 
     /*
 

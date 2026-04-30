@@ -6,8 +6,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Models\Province;
-use App\Models\Regency;
 
 class User extends Authenticatable
 {
@@ -20,18 +18,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'address_ktp',
-        'address',
-        'district',
-        'province_id',
-        'regency_id',
         'phone',
-        'nationality',
-        'birth_date',
-        'birth_place',
-        'gender',
-        'marital_status',
-        'religion'
+        'address',
     ];
 
     /**
@@ -50,7 +38,6 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'birth_date' => 'date',
         ];
     }
 
@@ -73,17 +60,7 @@ class User extends Authenticatable
     // Alamat lengkap
     public function getAddressFullAttribute()
     {
-        return collect([
-            $this->address,
-            $this->district,
-            $this->regency?->name,
-            $this->province?->name
-        ])->filter()->implode(', ');
-    }
-    // Umur (pakai Carbon otomatis dari cast)
-    public function getAgeAttribute()
-    {
-        return $this->birth_date?->age;
+        return $this->address ?: '-';
     }
 
     public function getBiodataCompletionAttribute()
@@ -91,17 +68,7 @@ class User extends Authenticatable
         $fields = [
             $this->name,
             $this->phone,
-            $this->gender,
-            $this->birth_date,
-            $this->birth_place,
-            $this->address_ktp,
             $this->address,
-            $this->district,
-            $this->regency_id,
-            $this->province_id,
-            $this->nationality,
-            $this->marital_status,
-            $this->religion,
         ];
 
         $filled = collect($fields)->filter()->count();
@@ -120,17 +87,7 @@ class User extends Authenticatable
         return collect([
             $this->name,
             $this->phone,
-            $this->gender,
-            $this->birth_date,
-            $this->birth_place,
-            $this->address_ktp,
             $this->address,
-            $this->district,
-            $this->regency_id,
-            $this->province_id,
-            $this->nationality,
-            $this->marital_status,
-            $this->religion,
         ])->contains(fn($value) => empty($value));
     }
 
@@ -141,17 +98,7 @@ class User extends Authenticatable
             'name' => $this->full_name,
             'email' => $this->email,
             'phone' => $this->phone_number,
-            'gender' => $this->gender,
-            'birth_date' => $this->birth_date,
-            'birth_place' => $this->birth_place,
-            'age' => $this->age,
-            'address_ktp' => $this->address_ktp,
-            'address_full' => $this->address_full,
-            'nationality' => $this->nationality,
-            'marital_status' => $this->marital_status,
-            'religion' => $this->religion,
-            'regency_id' => $this->regency_id,
-            'province_id' => $this->province_id,
+            'address' => $this->address_full,
         ];
     }
 
@@ -159,25 +106,5 @@ class User extends Authenticatable
     public function bookings()
     {
         return $this->hasMany(Booking::class);
-    }
-
-    public function province()
-    {
-        return $this->belongsTo(Province::class, 'province_id', 'id');
-    }
-
-    public function regency()
-    {
-        return $this->belongsTo(Regency::class, 'regency_id', 'id');
-    }
-
-    public function getProvinceNameAttribute()
-    {
-        return $this->province?->name;
-    }
-
-    public function getRegencyNameAttribute()
-    {
-        return $this->regency?->name;
     }
 }

@@ -25,19 +25,8 @@ class ProfileUpdateRequest extends FormRequest
                 'max:255',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
-
-            'phone' => ['nullable', 'numeric', 'max:20'],
-            'gender' => ['nullable', 'in:pria,wanita'],
-            'birth_date' => ['nullable', 'date'],
-            'birth_place' => ['nullable', 'string'],
-            'address_ktp' => ['nullable', 'string'],
+            'phone' => ['nullable', 'string', 'max:20'],
             'address' => ['nullable', 'string'],
-            'district' => ['nullable', 'string'],
-            'city' => ['nullable', 'string'],
-            'province' => ['nullable', 'string'],
-            'nationality' => ['nullable', 'string'],
-            'marital_status' => ['nullable', 'string'],
-            'religion' => ['nullable', 'string'],
         ];
     }
 }

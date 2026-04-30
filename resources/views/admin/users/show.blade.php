@@ -76,20 +76,6 @@
                         <span class="font-medium">{{ $user->phone ?? '-' }}</span>
                     </div>
 
-                    <div class="flex items-center gap-2">
-                        <i data-lucide="user" class="w-4 h-4 text-gray-400"></i>
-                        <span class="text-gray-500">Gender:</span>
-                        <span class="font-medium">{{ ucfirst($user->gender) ?? '-' }}</span>
-                    </div>
-
-                    <div class="flex items-center gap-2">
-                        <i data-lucide="calendar" class="w-4 h-4 text-gray-400"></i>
-                        <span class="text-gray-500">Tanggal Lahir:</span>
-                        <span class="font-medium">
-                            {{ $user->birth_date ? \Carbon\Carbon::parse($user->birth_date)->format('d M Y') : '-' }}
-                        </span>
-                    </div>
-
                 </div>
 
 
