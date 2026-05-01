@@ -19,6 +19,8 @@
                 <a href="#about"
                     class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200">Tentang
                     Kami</a>
+                <a href="#pricing"
+                    class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200">Harga</a>
                 <a href="#cara-booking"
                     class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200">Cara
                     Booking</a>
@@ -64,6 +66,8 @@
         <div class="px-6 py-4 space-y-4">
             <a href="#about" @click="mobileMenuOpen = false"
                 class="block text-base font-medium text-gray-700 hover:text-primary transition-colors">Tentang Kami</a>
+            <a href="#pricing" @click="mobileMenuOpen = false"
+                class="block text-base font-medium text-gray-700 hover:text-primary transition-colors">Harga</a>
             <a href="#cara-booking" @click="mobileMenuOpen = false"
                 class="block text-base font-medium text-gray-700 hover:text-primary transition-colors">Cara Booking</a>
             <a href="#kontak" @click="mobileMenuOpen = false"

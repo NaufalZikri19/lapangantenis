@@ -10,24 +10,24 @@
                 <i data-lucide="users" class="w-5 h-5"></i>
             </div>
             <div>
-                <h1 class="text-xl md:text-2xl font-semibold text-gray-800">Data User</h1>
-                <p class="text-sm text-gray-500">Kelola informasi pelanggan dan kelengkapan profil</p>
+                <h1 class="text-xl md:text-2xl font-semibold text-gray-800 dark:text-gray-100">Data User</h1>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Kelola informasi pelanggan dan kelengkapan profil</p>
             </div>
         </div>
 
         <div class="flex items-center gap-2">
-            <span class="px-3 py-1.5 bg-white text-gray-600 text-sm font-medium rounded-lg border border-gray-200 shadow-sm">
-                Total: <span class="text-gray-900 font-bold">{{ $users->total() }}</span> user
+            <span class="px-3 py-1.5 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 text-sm font-medium rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
+                Total: <span class="text-gray-900 dark:text-gray-100 font-bold">{{ $users->total() }}</span> user
             </span>
         </div>
     </div>
 
     <!-- TABLE CARD -->
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
 
         <div class="overflow-x-auto">
             <table class="w-full min-w-[800px] text-sm text-left">
-                <thead class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider font-semibold">
+                <thead class="bg-gray-50 dark:bg-gray-700/50 text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider font-semibold">
                     <tr>
                         <th class="px-6 py-4">User</th>
                         <th class="px-6 py-4">Kontak</th>
@@ -35,9 +35,9 @@
                         <th class="px-6 py-4 text-right">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-100 bg-white">
+                <tbody class="divide-y divide-gray-100 dark:divide-gray-700 bg-white dark:bg-gray-800">
                     @forelse($users as $user)
-                        <tr class="hover:bg-gray-50 transition duration-200">
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition duration-200">
                             <!-- USER -->
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center gap-3">
@@ -45,17 +45,17 @@
                                         {{ strtoupper(substr($user->name, 0, 1)) }}
                                     </div>
                                     <div>
-                                        <p class="font-semibold text-gray-800">{{ $user->name }}</p>
-                                        <p class="text-xs text-gray-400 mt-0.5">ID: #{{ str_pad($user->id, 4, '0', STR_PAD_LEFT) }}</p>
+                                        <p class="font-semibold text-gray-800 dark:text-gray-100">{{ $user->name }}</p>
+                                        <p class="text-xs text-gray-400 dark:text-gray-500 mt-0.5">ID: #{{ str_pad($user->id, 4, '0', STR_PAD_LEFT) }}</p>
                                     </div>
                                 </div>
                             </td>
 
                             <!-- KONTAK -->
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex flex-col gap-1 text-sm text-gray-600">
-                                    <span class="flex items-center gap-1.5"><i data-lucide="mail" class="w-3.5 h-3.5 text-gray-400"></i> {{ $user->email }}</span>
-                                    <span class="flex items-center gap-1.5"><i data-lucide="phone" class="w-3.5 h-3.5 text-gray-400"></i> {{ $user->phone ?? 'Belum ada no HP' }}</span>
+                                <div class="flex flex-col gap-1 text-sm text-gray-600 dark:text-gray-300">
+                                    <span class="flex items-center gap-1.5"><i data-lucide="mail" class="w-3.5 h-3.5 text-gray-400 dark:text-gray-500"></i> {{ $user->email }}</span>
+                                    <span class="flex items-center gap-1.5"><i data-lucide="phone" class="w-3.5 h-3.5 text-gray-400 dark:text-gray-500"></i> {{ $user->phone ?? 'Belum ada no HP' }}</span>
                                 </div>
                             </td>
 
@@ -63,12 +63,12 @@
                             <td class="px-6 py-4 w-[240px]">
                                 <div class="flex flex-col gap-2">
                                     <div class="flex justify-between items-center text-xs">
-                                        <span class="text-gray-500 font-medium">Kelengkapan</span>
+                                        <span class="text-gray-500 dark:text-gray-400 font-medium">Kelengkapan</span>
                                         <span class="font-bold {{ $user->biodata_completion < 40 ? 'text-red-600' : ($user->biodata_completion < 80 ? 'text-yellow-600' : 'text-green-600') }}">
                                             {{ $user->biodata_completion }}%
                                         </span>
                                     </div>
-                                    <div class="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden">
+                                    <div class="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-2.5 overflow-hidden">
                                         <div class="h-full rounded-full transition-all duration-500 ease-out {{ $user->biodata_completion < 40 ? 'bg-red-500' : ($user->biodata_completion < 80 ? 'bg-yellow-400' : 'bg-green-500') }}"
                                             style="width: {{ $user->biodata_completion }}%">
                                         </div>
@@ -99,11 +99,11 @@
                         <tr>
                             <td colspan="4" class="px-6 py-10 text-center">
                                 <div class="flex flex-col items-center justify-center">
-                                    <div class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center mb-3 border border-gray-100">
-                                        <i data-lucide="users-x" class="w-6 h-6 text-gray-400"></i>
+                                    <div class="w-12 h-12 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center mb-3 border border-gray-100 dark:border-gray-600">
+                                        <i data-lucide="users-x" class="w-6 h-6 text-gray-400 dark:text-gray-500"></i>
                                     </div>
-                                    <p class="text-gray-500 font-medium text-sm">Belum ada user terdaftar</p>
-                                    <p class="text-xs text-gray-400 mt-1">Data pelanggan akan muncul di sini.</p>
+                                    <p class="text-gray-500 dark:text-gray-400 font-medium text-sm">Belum ada user terdaftar</p>
+                                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Data pelanggan akan muncul di sini.</p>
                                 </div>
                             </td>
                         </tr>
@@ -113,7 +113,7 @@
         </div>
 
         <!-- PAGINATION -->
-        <div class="p-4 border-t border-gray-100 bg-gray-50/50">
+        <div class="p-4 border-t border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50">
             {{ $users->links() }}
         </div>
 

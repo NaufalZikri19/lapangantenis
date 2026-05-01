@@ -6,6 +6,7 @@
 
     @include('sections.hero')
     @include('sections.about')
+    @include('sections.pricing')
     @include('sections.how-it-works')
     @include('sections.dashboard-preview')
     @include('sections.cta')

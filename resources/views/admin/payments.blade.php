@@ -10,18 +10,20 @@
                     <i data-lucide="credit-card" class="w-5 h-5"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl md:text-2xl font-semibold text-gray-800">Pembayaran</h1>
-                    <p class="text-sm text-gray-500">Kelola dan verifikasi pembayaran pelanggan</p>
+                    <h1 class="text-xl md:text-2xl font-semibold text-gray-800 dark:text-gray-100">Pembayaran</h1>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Kelola dan verifikasi pembayaran pelanggan</p>
                 </div>
             </div>
         </div>
 
         <!-- TABLE CARD -->
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div
+            class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
 
             <div class="overflow-x-auto">
                 <table class="w-full min-w-[900px] text-sm text-left">
-                    <thead class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider font-semibold">
+                    <thead
+                        class="bg-gray-50 dark:bg-gray-700/50 text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider font-semibold">
                         <tr>
                             <th class="px-6 py-4">Pelanggan</th>
                             <th class="px-6 py-4">Info Booking</th>
@@ -31,9 +33,9 @@
                             <th class="px-6 py-4 text-right">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100 bg-white">
+                    <tbody class="divide-y divide-gray-100 dark:divide-gray-700 bg-white dark:bg-gray-800">
                         @forelse($bookings as $booking)
-                            <tr class="hover:bg-gray-50 transition duration-200">
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition duration-200">
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center gap-3">
                                         <div
@@ -41,13 +43,15 @@
                                             {{ strtoupper(substr($booking->user->name ?? 'U', 0, 1)) }}
                                         </div>
                                         <div>
-                                            <p class="font-semibold text-gray-800">{{ $booking->user->name ?? '-' }}</p>
+                                            <p class="font-semibold text-gray-800 dark:text-gray-100">
+                                                {{ $booking->user->name ?? '-' }}</p>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <p class="font-medium text-gray-800">{{ $booking->court->name ?? '-' }}</p>
-                                    <div class="text-xs text-gray-500 mt-0.5 flex flex-col gap-0.5">
+                                    <p class="font-medium text-gray-800 dark:text-gray-100">{{ $booking->court->name ?? '-' }}
+                                    </p>
+                                    <div class="text-xs text-gray-500 dark:text-gray-400 mt-0.5 flex flex-col gap-0.5">
                                         <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3"></i>
                                             {{ $booking->date ? \Carbon\Carbon::parse($booking->date)->format('d M Y') : '-' }}</span>
                                         <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i>
@@ -55,10 +59,11 @@
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
-                                    <span class="px-3 py-1 rounded-full text-xs font-medium inline-flex items-center gap-1.5 justify-center
-                                            {{ $booking->payment_method == 'qris' ? 'bg-blue-100 text-blue-600' : '' }}
-                                            {{ $booking->payment_method == 'transfer' ? 'bg-indigo-100 text-indigo-600' : '' }}
-                                            {{ !$booking->payment_method ? 'bg-gray-100 text-gray-500' : '' }}">
+                                    <span
+                                        class="px-3 py-1 rounded-full text-xs font-medium inline-flex items-center gap-1.5 justify-center
+                                                    {{ $booking->payment_method == 'qris' ? 'bg-blue-100 text-blue-600' : '' }}
+                                                    {{ $booking->payment_method == 'transfer' ? 'bg-indigo-100 text-indigo-600' : '' }}
+                                                    {{ !$booking->payment_method ? 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300' : '' }}">
                                         @if($booking->payment_method == 'qris') <i data-lucide="qr-code"
                                         class="w-3.5 h-3.5"></i> @endif
                                         @if($booking->payment_method == 'transfer') <i data-lucide="landmark"
@@ -82,11 +87,12 @@
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
-                                    <span class="px-3 py-1 rounded-full text-xs font-medium 
-                                            {{ $booking->payment_status == 'waiting' ? 'bg-yellow-100 text-yellow-600' : '' }}
-                                            {{ $booking->payment_status == 'confirmed' ? 'bg-green-100 text-green-600' : '' }}
-                                            {{ $booking->payment_status == 'rejected' ? 'bg-red-100 text-red-600' : '' }}
-                                            {{ !$booking->payment_status ? 'bg-gray-100 text-gray-500' : '' }}">
+                                    <span
+                                        class="px-3 py-1 rounded-full text-xs font-medium 
+                                                    {{ $booking->payment_status == 'waiting' ? 'bg-yellow-100 text-yellow-600' : '' }}
+                                                    {{ $booking->payment_status == 'confirmed' ? 'bg-green-100 text-green-600' : '' }}
+                                                    {{ $booking->payment_status == 'rejected' ? 'bg-red-100 text-red-600' : '' }}
+                                                    {{ !$booking->payment_status ? 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300' : '' }}">
                                         {{ $booking->payment_status ? ucfirst($booking->payment_status) : 'Unpaid' }}
                                     </span>
                                 </td>
@@ -115,7 +121,7 @@
                                                 <i data-lucide="x" class="w-3.5 h-3.5"></i> Ditolak
                                             </span>
                                         @else
-                                            <span class="text-xs text-gray-400 italic">Tidak ada aksi</span>
+                                            <span class="text-xs text-gray-400 dark:text-gray-500 italic">Tidak ada aksi</span>
                                         @endif
                                     </div>
                                 </td>
@@ -125,11 +131,12 @@
                                 <td colspan="6" class="px-6 py-10 text-center">
                                     <div class="flex flex-col items-center justify-center">
                                         <div
-                                            class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center mb-3 border border-gray-100">
-                                            <i data-lucide="inbox" class="w-6 h-6 text-gray-400"></i>
+                                            class="w-12 h-12 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center mb-3 border border-gray-100 dark:border-gray-600">
+                                            <i data-lucide="inbox" class="w-6 h-6 text-gray-400 dark:text-gray-500"></i>
                                         </div>
-                                        <p class="text-gray-500 font-medium text-sm">Belum ada pembayaran</p>
-                                        <p class="text-xs text-gray-400 mt-1">Data pembayaran pelanggan akan muncul di sini.</p>
+                                        <p class="text-gray-500 dark:text-gray-400 font-medium text-sm">Belum ada pembayaran</p>
+                                        <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Data pembayaran pelanggan akan
+                                            muncul di sini.</p>
                                     </div>
                                 </td>
                             </tr>
@@ -140,7 +147,7 @@
 
             <!-- PAGINATION (If applicable) -->
             @if(method_exists($bookings, 'links'))
-                <div class="p-4 border-t border-gray-100 bg-gray-50/50">
+                <div class="p-4 border-t border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50">
                     {{ $bookings->links() }}
                 </div>
             @endif

@@ -10,8 +10,8 @@
                     <i data-lucide="layout-grid" class="w-5 h-5"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl md:text-2xl font-semibold text-gray-800">Data Lapangan</h1>
-                    <p class="text-sm text-gray-500">Kelola lapangan yang tersedia dan harga</p>
+                    <h1 class="text-xl md:text-2xl font-semibold text-gray-800 dark:text-gray-100">Data Lapangan</h1>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Kelola lapangan yang tersedia dan harga</p>
                 </div>
             </div>
 
@@ -25,11 +25,11 @@
         </div>
 
         <!-- TABLE CARD -->
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
 
             <div class="overflow-x-auto">
                 <table class="w-full min-w-[700px] text-sm text-left">
-                    <thead class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider font-semibold">
+                    <thead class="bg-gray-50 dark:bg-gray-700/50 text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider font-semibold">
                         <tr>
                             <th class="px-6 py-4">Lapangan</th>
                             <th class="px-6 py-4">Tipe</th>
@@ -38,18 +38,18 @@
                             <th class="px-6 py-4 text-right">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100 bg-white">
+                    <tbody class="divide-y divide-gray-100 dark:divide-gray-700 bg-white dark:bg-gray-800">
                         @forelse($courts as $court)
-                            <tr class="hover:bg-gray-50 transition duration-200">
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition duration-200">
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center gap-3">
                                         <div
-                                            class="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center shrink-0 border border-gray-100 text-gray-400">
+                                            class="w-10 h-10 rounded-xl bg-gray-50 dark:bg-gray-700 flex items-center justify-center shrink-0 border border-gray-100 dark:border-gray-600 text-gray-400 dark:text-gray-500">
                                             <i data-lucide="monitor" class="w-5 h-5"></i>
                                         </div>
                                         <div>
-                                            <p class="font-semibold text-gray-800">{{ $court->name }}</p>
-                                            <p class="text-xs text-gray-400 mt-0.5">ID: {{ $court->id }}</p>
+                                            <p class="font-semibold text-gray-800 dark:text-gray-100">{{ $court->name }}</p>
+                                            <p class="text-xs text-gray-400 dark:text-gray-500 mt-0.5">ID: {{ $court->id }}</p>
                                         </div>
                                     </div>
                                 </td>
@@ -60,7 +60,7 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="font-semibold text-gray-700">Rp
+                                    <span class="font-semibold text-gray-700 dark:text-gray-200">Rp
                                         {{ number_format($court->price, 0, ',', '.') }}</span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -72,7 +72,7 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-right">
                                     <div class="flex items-center justify-end gap-2">
                                         <a href="{{ route('courts.edit', $court->id) }}"
-                                            class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 transition duration-200">
+                                            class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition duration-200">
                                             <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
                                             Edit
                                         </a>
@@ -95,11 +95,11 @@
                                 <td colspan="5" class="px-6 py-10 text-center">
                                     <div class="flex flex-col items-center justify-center">
                                         <div
-                                            class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center mb-3 border border-gray-100">
-                                            <i data-lucide="inbox" class="w-6 h-6 text-gray-400"></i>
+                                            class="w-12 h-12 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center mb-3 border border-gray-100 dark:border-gray-600">
+                                            <i data-lucide="inbox" class="w-6 h-6 text-gray-400 dark:text-gray-500"></i>
                                         </div>
-                                        <p class="text-gray-500 font-medium text-sm">Belum ada data lapangan</p>
-                                        <p class="text-xs text-gray-400 mt-1">Silakan tambah lapangan baru untuk memulai.</p>
+                                        <p class="text-gray-500 dark:text-gray-400 font-medium text-sm">Belum ada data lapangan</p>
+                                        <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Silakan tambah lapangan baru untuk memulai.</p>
                                     </div>
                                 </td>
                             </tr>
