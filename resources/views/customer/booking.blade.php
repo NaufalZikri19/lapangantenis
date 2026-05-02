@@ -6,7 +6,7 @@
 
     <div class="w-full">
 
-        <h1 class="text-xl md:text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+        <h1 class="text-xl md:text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6 flex items-center gap-2">
             <i data-lucide="calendar-plus" class="w-6 h-6 text-yellow-500"></i>
             Booking Lapangan Tenis
         </h1>
@@ -26,14 +26,15 @@
         <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
 
             <!-- LEFT -->
-            <div class="md:col-span-2 bg-white shadow-sm border border-gray-100 rounded-2xl p-5 md:p-8">
+            <div
+                class="md:col-span-2 bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700 rounded-2xl p-5 md:p-8">
 
                 <form id="bookingForm" method="POST" action="{{ route('booking.store') }}">
                     @csrf
 
                     <!-- COURT -->
                     <div class="mb-8">
-                        <label class="block text-sm font-bold text-gray-700 mb-4">
+                        <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-4">
                             1. Pilih Lapangan
                         </label>
 
@@ -41,7 +42,7 @@
 
                             @foreach ($courts as $court)
                                 <div onclick="selectCourt(this, {{ $court->id }}, {{ $court->price }}, '{{ $court->name }}')"
-                                    class="court-card group relative cursor-pointer bg-white rounded-xl border border-gray-200 shadow-sm hover:border-yellow-400 hover:shadow-md transition-all duration-200 overflow-hidden">
+                                    class="court-card group relative cursor-pointer bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-600 shadow-sm hover:border-yellow-400 hover:shadow-md transition-all duration-200 overflow-hidden">
 
                                     <!-- BADGE -->
                                     <div class="absolute top-3 right-3 hidden selected-badge z-10">
@@ -61,20 +62,20 @@
                                     </div>
 
                                     <!-- CONTENT -->
-                                    <div class="p-4 relative bg-white">
+                                    <div class="p-4 relative bg-white dark:bg-gray-800">
                                         <div class="flex justify-between items-start mb-1">
                                             <h3
-                                                class="font-semibold text-gray-800 text-base group-hover:text-yellow-600 transition-colors">
+                                                class="font-semibold text-gray-800 dark:text-gray-100 text-base group-hover:text-yellow-600 transition-colors">
                                                 {{ $court->name }}
                                             </h3>
                                             <span
-                                                class="px-2 py-0.5 bg-gray-100 text-gray-500 text-[10px] font-medium rounded uppercase tracking-wide">
+                                                class="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-[10px] font-medium rounded uppercase tracking-wide">
                                                 {{ $court->type }}
                                             </span>
                                         </div>
 
                                         <div
-                                            class="mt-3 text-sm font-semibold text-yellow-600 bg-yellow-50 inline-block px-2.5 py-1 rounded-lg">
+                                            class="mt-3 text-sm font-semibold text-yellow-600 bg-yellow-50 dark:bg-yellow-900/30 inline-block px-2.5 py-1 rounded-lg">
                                             Rp {{ number_format($court->price, 0, ',', '.') }} <span
                                                 class="text-yellow-600/70 text-xs font-normal">/ jam</span>
                                         </div>
@@ -89,26 +90,27 @@
 
                     <!-- DATE -->
                     <div class="mb-8">
-                        <label class="block text-sm font-bold text-gray-700 mb-4">
+                        <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-4">
                             2. Tentukan Tanggal Main
                         </label>
 
                         <div class="relative w-full sm:w-64">
                             <i data-lucide="calendar"
-                                class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"></i>
+                                class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500"></i>
                             <input type="date" id="booking_date" name="booking_date" min="{{ date('Y-m-d') }}"
-                                class="w-full border border-gray-200 rounded-xl pl-10 pr-4 py-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-all shadow-sm">
+                                class="w-full border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-xl pl-10 pr-4 py-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-all shadow-sm">
                         </div>
                     </div>
 
                     <!-- TIME SLOT -->
                     <div class="mb-2">
-                        <label class="block text-sm font-bold text-gray-700 mb-4">
+                        <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-4">
                             3. Pilih Jam Main
                         </label>
 
                         <div id="time_slots" class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                            <p class="text-sm text-gray-500 italic col-span-full">Silakan pilih lapangan dan tanggal
+                            <p class="text-sm text-gray-500 dark:text-gray-400 italic col-span-full">Silakan pilih lapangan
+                                dan tanggal
                                 terlebih dahulu.</p>
                         </div>
 
@@ -123,46 +125,52 @@
             <!-- RIGHT / SUMMARY -->
             <div class="h-fit sticky top-24 space-y-6">
 
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 space-y-5">
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 space-y-5">
 
                     <!-- TITLE -->
-                    <h2 class="font-bold text-gray-800 flex items-center gap-2 border-b border-gray-100 pb-4">
-                        <i data-lucide="receipt" class="w-5 h-5 text-gray-400"></i>
+                    <h2
+                        class="font-bold text-gray-800 dark:text-gray-100 flex items-center gap-2 border-b border-gray-100 dark:border-gray-700 pb-4">
+                        <i data-lucide="receipt" class="w-5 h-5 text-gray-400 dark:text-gray-500"></i>
                         Ringkasan Booking
                     </h2>
 
                     <!-- INFO -->
                     <div class="space-y-3 text-sm">
                         <div class="flex justify-between items-center">
-                            <span class="text-gray-500 flex items-center gap-1.5"><i data-lucide="map-pin"
-                                    class="w-4 h-4"></i> Lapangan</span>
-                            <span id="summary_court" class="font-semibold text-gray-800 text-right">-</span>
+                            <span class="text-gray-500 dark:text-gray-400 flex items-center gap-1.5"><i
+                                    data-lucide="map-pin" class="w-4 h-4"></i> Lapangan</span>
+                            <span id="summary_court"
+                                class="font-semibold text-gray-800 dark:text-gray-100 text-right">-</span>
                         </div>
 
                         <div class="flex justify-between items-center">
-                            <span class="text-gray-500 flex items-center gap-1.5"><i data-lucide="calendar-days"
-                                    class="w-4 h-4"></i> Tanggal</span>
-                            <span id="summary_date" class="font-semibold text-gray-800 text-right">-</span>
+                            <span class="text-gray-500 dark:text-gray-400 flex items-center gap-1.5"><i
+                                    data-lucide="calendar-days" class="w-4 h-4"></i> Tanggal</span>
+                            <span id="summary_date"
+                                class="font-semibold text-gray-800 dark:text-gray-100 text-right">-</span>
                         </div>
 
                         <div class="flex justify-between items-center">
-                            <span class="text-gray-500 flex items-center gap-1.5"><i data-lucide="clock"
+                            <span class="text-gray-500 dark:text-gray-400 flex items-center gap-1.5"><i data-lucide="clock"
                                     class="w-4 h-4"></i> Jam Main</span>
-                            <span id="summary_time" class="font-semibold text-gray-800 text-right">-</span>
+                            <span id="summary_time"
+                                class="font-semibold text-gray-800 dark:text-gray-100 text-right">-</span>
                         </div>
                     </div>
 
                     <!-- PRICE -->
-                    <div id="price_info" class="hidden bg-gray-50 border border-gray-100 rounded-xl p-4 space-y-3 mt-4">
+                    <div id="price_info"
+                        class="hidden bg-gray-50 dark:bg-gray-700 border border-gray-100 dark:border-gray-600 rounded-xl p-4 space-y-3 mt-4">
                         <div class="flex justify-between text-sm">
-                            <span class="text-gray-500">Durasi</span>
-                            <span id="duration" class="font-semibold text-gray-800">0 jam</span>
+                            <span class="text-gray-500 dark:text-gray-400">Durasi</span>
+                            <span id="duration" class="font-semibold text-gray-800 dark:text-gray-100">0 jam</span>
                         </div>
 
-                        <div class="h-px bg-gray-200 w-full my-1"></div>
+                        <div class="h-px bg-gray-200 dark:bg-gray-600 w-full my-1"></div>
 
                         <div class="flex justify-between items-center">
-                            <span class="font-bold text-gray-800">Total Harga</span>
+                            <span class="font-bold text-gray-800 dark:text-gray-100">Total Harga</span>
                             <span id="total_price" class="text-lg font-bold text-yellow-600">
                                 Rp 0
                             </span>
@@ -242,12 +250,12 @@
             btnSubmit.classList.add('bg-gray-200', 'text-gray-400');
 
             if (!courtId) {
-                timeSlots.innerHTML = '<p class="text-sm text-gray-500 italic col-span-full">Silakan pilih lapangan terlebih dahulu</p>';
+                timeSlots.innerHTML = '<p class="text-sm text-gray-500 dark:text-gray-400 italic col-span-full">Silakan pilih lapangan terlebih dahulu</p>';
                 return;
             }
 
             if (!date) {
-                timeSlots.innerHTML = '<p class="text-sm text-gray-500 italic col-span-full">Silakan pilih tanggal terlebih dahulu</p>';
+                timeSlots.innerHTML = '<p class="text-sm text-gray-500 dark:text-gray-400 italic col-span-full">Silakan pilih tanggal terlebih dahulu</p>';
                 return;
             }
 
@@ -300,15 +308,15 @@
                 btn.className = 'font-medium py-3 px-2 rounded-xl border text-sm transition-all duration-200';
 
                 if (isBooked) {
-                    btn.classList.add('bg-red-50', 'text-red-400', 'border-red-100', 'cursor-not-allowed', 'line-through');
+                    btn.classList.add('bg-red-50', 'dark:bg-red-900/30', 'text-red-400', 'dark:text-red-500', 'border-red-100', 'dark:border-red-800/50', 'cursor-not-allowed', 'line-through');
                     btn.disabled = true;
 
                 } else if (isPast) {
-                    btn.classList.add('bg-gray-100', 'text-gray-400', 'border-gray-200', 'cursor-not-allowed');
+                    btn.classList.add('bg-gray-100', 'dark:bg-gray-800', 'text-gray-400', 'dark:text-gray-500', 'border-gray-200', 'dark:border-gray-700', 'cursor-not-allowed');
                     btn.disabled = true;
 
                 } else {
-                    btn.classList.add('bg-white', 'text-gray-700', 'border-gray-200', 'hover:border-yellow-400', 'hover:text-yellow-600', 'cursor-pointer');
+                    btn.classList.add('bg-white', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300', 'border-gray-200', 'dark:border-gray-600', 'hover:border-yellow-400', 'dark:hover:border-yellow-500', 'hover:text-yellow-600', 'dark:hover:text-yellow-500', 'cursor-pointer');
                     btn.onclick = () => selectSlot(start, end, btn);
                 }
 
@@ -325,12 +333,12 @@
             if (index !== -1) {
                 selectedSlots.splice(index, 1);
                 element.classList.remove('bg-yellow-500', 'text-white', 'border-yellow-500');
-                element.classList.add('bg-white', 'text-gray-700', 'border-gray-200');
+                element.classList.add('bg-white', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300', 'border-gray-200', 'dark:border-gray-600');
             } else {
 
                 if (selectedSlots.length === 0) {
                     selectedSlots.push({ start, end });
-                    element.classList.remove('bg-white', 'text-gray-700', 'border-gray-200');
+                    element.classList.remove('bg-white', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300', 'border-gray-200', 'dark:border-gray-600');
                     element.classList.add('bg-yellow-500', 'text-white', 'border-yellow-500');
                 } else {
                     let last = selectedSlots[selectedSlots.length - 1];
@@ -338,17 +346,17 @@
                     // BERURUTAN
                     if (last.end === start) {
                         selectedSlots.push({ start, end });
-                        element.classList.remove('bg-white', 'text-gray-700', 'border-gray-200');
+                        element.classList.remove('bg-white', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300', 'border-gray-200', 'dark:border-gray-600');
                         element.classList.add('bg-yellow-500', 'text-white', 'border-yellow-500');
                     } else {
                         // RESET OTOMATIS
                         document.querySelectorAll('#time_slots button:not(:disabled)').forEach(btn => {
                             btn.classList.remove('bg-yellow-500', 'text-white', 'border-yellow-500');
-                            btn.classList.add('bg-white', 'text-gray-700', 'border-gray-200');
+                            btn.classList.add('bg-white', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300', 'border-gray-200', 'dark:border-gray-600');
                         });
 
                         selectedSlots = [{ start, end }];
-                        element.classList.remove('bg-white', 'text-gray-700', 'border-gray-200');
+                        element.classList.remove('bg-white', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300', 'border-gray-200', 'dark:border-gray-600');
                         element.classList.add('bg-yellow-500', 'text-white', 'border-yellow-500');
                     }
                 }
