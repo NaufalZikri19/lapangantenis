@@ -91,6 +91,16 @@ class User extends Authenticatable
         ])->contains(fn($value) => empty($value));
     }
 
+    public function isCustomer(): bool
+    {
+        return $this->role === 'customer';
+    }
+
+    public function isAdmin(): bool
+    {
+        return in_array($this->role, ['admin', 'super_admin']);
+    }
+
     //ambil semua biodata (buat export / debug)
     public function getFullBiodata(): array
     {

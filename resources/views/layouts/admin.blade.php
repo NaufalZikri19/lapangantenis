@@ -43,7 +43,7 @@
                 sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0',
                 collapsed ? 'lg:w-20' : 'lg:w-64'
             ]"
-            class="fixed inset-y-0 left-0 z-50 flex flex-col h-full bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-700 shadow-sm transition-all duration-300 ease-in-out w-64 lg:static lg:block shrink-0">
+            class="fixed inset-y-0 left-0 z-50 flex flex-col h-full bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-700 shadow-sm transition-all duration-300 ease-in-out w-64 lg:static lg:flex shrink-0">
 
             <!-- HEADER / LOGO -->
             <div class="flex items-center h-16 border-b border-gray-100 dark:border-gray-700 shrink-0 px-4"
@@ -145,25 +145,22 @@
             </nav>
 
             <!-- USER SECTION -->
-            <div
-                class="mt-auto p-4 shrink-0 border-t border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50">
+            <div class="mt-auto p-4 shrink-0 border-t border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-900">
                 <div x-data="{ openUser: false }" class="relative">
                     <button @click="openUser = !openUser"
-                        class="w-full flex items-center gap-3 p-2 rounded-xl hover:bg-gray-200/50 dark:hover:bg-gray-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"
+                        class="w-full flex items-center gap-3 p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-500/50"
                         :class="collapsed ? 'justify-center' : ''">
 
                         <div
-                            class="w-9 h-9 rounded-full bg-yellow-500 text-white flex items-center justify-center font-bold shrink-0 shadow-sm">
+                            class="w-10 h-10 rounded-full bg-yellow-500 text-white flex items-center justify-center font-bold shrink-0 shadow-sm text-lg">
                             {{ Auth::check() ? strtoupper(substr(Auth::user()->name, 0, 1)) : 'A' }}
                         </div>
 
                         <div x-show="!collapsed" x-transition.opacity.duration.200ms class="flex-1 min-w-0 text-left">
-                            <p class="text-sm font-semibold text-gray-800 dark:text-gray-100 truncate">
+                            <p class="text-sm font-bold text-gray-800 dark:text-gray-100 truncate">
                                 {{ Auth::user()->name ?? 'Admin' }}
                             </p>
-                            <p class="text-xs text-gray-500 dark:text-gray-400 truncate">{{ Auth::user()->email ??
-                                'admin@example.com' }}
-                            </p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 truncate">Super Admin</p>
                         </div>
 
                         <i x-show="!collapsed" x-transition.opacity.duration.200ms data-lucide="more-vertical"
