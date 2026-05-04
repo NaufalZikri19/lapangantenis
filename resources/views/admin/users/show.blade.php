@@ -6,7 +6,7 @@
 
         <!-- HEADER -->
         <div class="flex items-center justify-between mb-6">
-            <h1 class="text-xl font-semibold text-gray-800">
+            <h1 class="text-xl md:text-2xl font-semibold text-gray-800 dark:text-gray-100">
                 Detail User
             </h1>
 
@@ -31,10 +31,10 @@
 
 
         <!-- CARD -->
-        <div class="bg-white rounded-2xl shadow p-6 border">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow p-6 border-1">
 
             <!-- PROFILE HEADER -->
-            <div class="flex items-center gap-4 mb-6">
+            <div class="flex dark:text-gray-200 items-center gap-4 mb-6">
 
                 <!-- AVATAR -->
                 <div
@@ -44,10 +44,10 @@
 
                 <!-- NAME -->
                 <div>
-                    <p class="font-semibold text-lg text-gray-800">
+                    <p class="font-semibold text-lg text-gray-800 dark:text-gray-100">
                         {{ $user->name }}
                     </p>
-                    <p class="text-sm text-gray-500">
+                    <p class="text-sm text-gray-500 dark:text-gray-400">
                         {{ $user->email }}
                     </p>
                 </div>
@@ -56,7 +56,7 @@
                 <div class="ml-auto">
                     <span
                         class="px-3 py-1 rounded-full text-xs font-semibold
-                        {{ $user->biodata_completion == 100 ? 'bg-green-100 text-green-600' : 'bg-yellow-100 text-yellow-600' }}">
+                            {{ $user->biodata_completion == 100 ? 'bg-green-100 text-green-600' : 'bg-yellow-100 text-yellow-600' }}">
 
                         {{ $user->biodata_completion }}% Lengkap
                     </span>
@@ -72,8 +72,8 @@
 
                     <div class="flex items-center gap-2">
                         <i data-lucide="phone" class="w-4 h-4 text-gray-400"></i>
-                        <span class="text-gray-500">Nomor HP:</span>
-                        <span class="font-medium">{{ $user->phone ?? '-' }}</span>
+                        <span class="text-gray-500 dark:text-gray-400">Nomor HP:</span>
+                        <span class="font-medium dark:text-gray-100">{{ $user->phone ?? '-' }}</span>
                     </div>
 
                 </div>
@@ -83,10 +83,10 @@
 
                     <div class="flex items-center gap-2">
                         <i data-lucide="map-pin" class="w-4 h-4 text-gray-400"></i>
-                        <span class="text-gray-500">Alamat:</span>
+                        <span class="text-gray-500 dark:text-gray-400">Alamat:</span>
                     </div>
 
-                    <div class="pl-6 text-gray-700 leading-relaxed">
+                    <div class="pl-6 text-gray-700 dark:text-gray-100 leading-relaxed">
                         {{ $user->address_full ?? '-' }}
                     </div>
 

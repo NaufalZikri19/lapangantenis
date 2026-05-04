@@ -1,4 +1,4 @@
-<footer id="kontak" class="bg-gray-900 text-gray-300 pt-20 pb-10 border-t border-gray-800">
+<footer class="bg-gray-900 text-gray-300 pt-20 pb-10 border-t border-gray-800">
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
 
         <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-12 lg:gap-12 mb-16">

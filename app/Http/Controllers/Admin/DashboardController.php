@@ -37,6 +37,32 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
+        // Revenue Logic
+        $validBookings = Booking::where('payment_status', 'confirmed')
+            ->where('status', '!=', 'cancelled');
+
+        $totalRevenue = (clone $validBookings)->sum('total_price');
+        $todayRevenue = (clone $validBookings)
+            ->whereDate('paid_at', today())
+            ->sum('total_price');
+        $monthlyRevenue = (clone $validBookings)
+            ->whereMonth('paid_at', now()->month)
+            ->whereYear('paid_at', now()->year)
+            ->sum('total_price');
+
+        $chartData = (clone $validBookings)
+            ->where('paid_at', '>=', now()->subDays(6)->startOfDay())
+            ->selectRaw('DATE(paid_at) as date, SUM(total_price) as total')
+            ->groupByRaw('DATE(paid_at)')
+            ->orderBy('date')
+            ->pluck('total', 'date');
+
+        $revenueChartData = [];
+        for ($i = 6; $i >= 0; $i--) {
+            $dateStr = now()->subDays($i)->format('Y-m-d');
+            $revenueChartData[$dateStr] = (float) $chartData->get($dateStr, 0);
+        }
+
         return view('admin.dashboard', compact(
             'totalCourts',
             'todayBookings',
@@ -47,7 +73,11 @@ class DashboardController extends Controller
             'completed',
             'cancelled',
             'expired',
-            'recentBookings'
+            'recentBookings',
+            'totalRevenue',
+            'todayRevenue',
+            'monthlyRevenue',
+            'revenueChartData'
         ));
     }
 }

@@ -9,9 +9,20 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::latest()->paginate(10);
+        $query = User::query();
+
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('phone', 'like', "%{$search}%");
+            });
+        }
+
+        $users = $query->latest()->paginate(10)->withQueryString();
         return view('admin.users.index', compact('users'));
     }
 
@@ -56,13 +67,13 @@ class UserController extends Controller
     }
 
     public function exportBookingPdf($id)
-{
-    $user = User::with(['bookings.court'])->findOrFail($id);
+    {
+        $user = User::with(['bookings.court'])->findOrFail($id);
 
-    $bookings = $user->bookings()->latest()->get();
+        $bookings = $user->bookings()->latest()->get();
 
-    $pdf = Pdf::loadView('admin.users.pdf-detail', compact('user', 'bookings'));
+        $pdf = Pdf::loadView('admin.users.pdf-detail', compact('user', 'bookings'));
 
-    return $pdf->download('booking-user-' . $user->id . '.pdf');
-}
+        return $pdf->download('booking-user-' . $user->id . '.pdf');
+    }
 }

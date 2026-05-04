@@ -15,6 +15,9 @@
     <!-- Lucide -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
+    <!-- SweetAlert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <!-- Tailwind CSS CDN for instant styling as requested -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -46,6 +49,7 @@
     @include('layouts.header')
 
     <main class="min-h-screen">
+        @include('components.sweet-alert')
         @yield('content')
     </main>
 

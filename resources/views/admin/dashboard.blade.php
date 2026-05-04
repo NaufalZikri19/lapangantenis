@@ -5,51 +5,79 @@
     <!-- STAT CARDS -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
 
+        <!-- Total Pendapatan -->
         <div
             class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 sm:p-6 relative overflow-hidden group hover:shadow-md transition-shadow duration-200">
-            <div class="absolute top-0 left-0 w-1 h-full bg-yellow-500"></div>
+            <div class="absolute top-0 left-0 w-1 h-full bg-emerald-500"></div>
             <div class="flex justify-between items-start">
                 <div class="min-w-0">
-                    <p class="text-gray-500 dark:text-gray-400 text-sm font-medium truncate">Total Lapangan</p>
-                    <h2 class="text-2xl sm:text-3xl font-bold mt-2 text-gray-800 dark:text-gray-100 counter"
-                        data-target="{{ $totalCourts ?? 0 }}">0</h2>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm font-medium truncate">Total Pendapatan</p>
+                    <h2 class="text-2xl sm:text-3xl font-bold mt-2 text-gray-800 dark:text-gray-100">
+                        Rp {{ number_format($totalRevenue, 0, ',', '.') }}
+                    </h2>
                 </div>
                 <div
-                    class="p-2.5 bg-yellow-50 text-yellow-600 rounded-xl group-hover:scale-110 transition-transform duration-200 shrink-0">
-                    <i data-lucide="monitor" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                    class="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl group-hover:scale-110 transition-transform duration-200 shrink-0">
+                    <i data-lucide="wallet" class="w-5 h-5 sm:w-6 sm:h-6"></i>
                 </div>
             </div>
             <div class="mt-4 flex items-center text-sm">
-                <span class="text-yellow-600 font-medium flex items-center gap-1.5 bg-yellow-50 px-2 py-0.5 rounded-md">
-                    <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Lapangan Aktif
+                <span class="text-emerald-600 font-medium flex items-center gap-1.5 bg-emerald-50 px-2 py-0.5 rounded-md">
+                    <i data-lucide="trending-up" class="w-3.5 h-3.5"></i> All Time
                 </span>
             </div>
         </div>
 
+        <!-- Pendapatan Bulan Ini -->
         <div
             class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 sm:p-6 relative overflow-hidden group hover:shadow-md transition-shadow duration-200">
             <div class="absolute top-0 left-0 w-1 h-full bg-blue-500"></div>
             <div class="flex justify-between items-start">
                 <div class="min-w-0">
-                    <p class="text-gray-500 dark:text-gray-400 text-sm font-medium truncate">Booking Hari Ini</p>
-                    <h2 class="text-2xl sm:text-3xl font-bold mt-2 text-gray-800 dark:text-gray-100 counter"
-                        data-target="{{ $todayBookings ?? 0 }}">0</h2>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm font-medium truncate">Bulan Ini</p>
+                    <h2 class="text-2xl sm:text-3xl font-bold mt-2 text-gray-800 dark:text-gray-100">
+                        Rp {{ number_format($monthlyRevenue, 0, ',', '.') }}
+                    </h2>
                 </div>
                 <div
                     class="p-2.5 bg-blue-50 text-blue-600 rounded-xl group-hover:scale-110 transition-transform duration-200 shrink-0">
-                    <i data-lucide="calendar-clock" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                    <i data-lucide="calendar" class="w-5 h-5 sm:w-6 sm:h-6"></i>
                 </div>
             </div>
             <div class="mt-4 flex items-center text-sm">
                 <span class="text-blue-600 font-medium flex items-center gap-1.5 bg-blue-50 px-2 py-0.5 rounded-md">
-                    <i data-lucide="clock" class="w-3.5 h-3.5"></i> Hari ini
+                    <i data-lucide="calendar-check" class="w-3.5 h-3.5"></i> {{ now()->format('F Y') }}
                 </span>
             </div>
         </div>
 
+        <!-- Pendapatan Hari Ini -->
         <div
             class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 sm:p-6 relative overflow-hidden group hover:shadow-md transition-shadow duration-200">
-            <div class="absolute top-0 left-0 w-1 h-full bg-green-500"></div>
+            <div class="absolute top-0 left-0 w-1 h-full bg-indigo-500"></div>
+            <div class="flex justify-between items-start">
+                <div class="min-w-0">
+                    <p class="text-gray-500 dark:text-gray-400 text-sm font-medium truncate">Hari Ini</p>
+                    <h2 class="text-2xl sm:text-3xl font-bold mt-2 text-gray-800 dark:text-gray-100">
+                        Rp {{ number_format($todayRevenue, 0, ',', '.') }}
+                    </h2>
+                </div>
+                <div
+                    class="p-2.5 bg-indigo-50 text-indigo-600 rounded-xl group-hover:scale-110 transition-transform duration-200 shrink-0">
+                    <i data-lucide="banknote" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                </div>
+            </div>
+            <div class="mt-4 flex items-center text-sm">
+                <span class="text-indigo-600 font-medium flex items-center gap-1.5 bg-indigo-50 px-2 py-0.5 rounded-md">
+                    <i data-lucide="clock" class="w-3.5 h-3.5"></i> {{ now()->format('d M Y') }}
+                </span>
+            </div>
+        </div>
+
+        <!-- Booking Selesai -->
+        <div
+            class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 sm:p-6 relative overflow-hidden group hover:shadow-md transition-shadow duration-200">
+            <div class="absolute top-0 left-0 w-1 h-full bg-purple-500"></div>
             <div class="flex justify-between items-start">
                 <div class="min-w-0">
                     <p class="text-gray-500 dark:text-gray-400 text-sm font-medium truncate">Booking Selesai</p>
@@ -57,34 +85,13 @@
                         data-target="{{ $completed ?? 0 }}">0</h2>
                 </div>
                 <div
-                    class="p-2.5 bg-green-50 text-green-600 rounded-xl group-hover:scale-110 transition-transform duration-200 shrink-0">
-                    <i data-lucide="check-square" class="w-5 h-5 sm:w-6 sm:h-6"></i>
-                </div>
-            </div>
-            <div class="mt-4 flex items-center text-sm">
-                <span class="text-green-600 font-medium flex items-center gap-1.5 bg-green-50 px-2 py-0.5 rounded-md">
-                    <i data-lucide="trending-up" class="w-3.5 h-3.5"></i> Completed
-                </span>
-            </div>
-        </div>
-
-        <div
-            class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 sm:p-6 relative overflow-hidden group hover:shadow-md transition-shadow duration-200">
-            <div class="absolute top-0 left-0 w-1 h-full bg-purple-500"></div>
-            <div class="flex justify-between items-start">
-                <div class="min-w-0">
-                    <p class="text-gray-500 dark:text-gray-400 text-sm font-medium truncate">Total Pelanggan</p>
-                    <h2 class="text-2xl sm:text-3xl font-bold mt-2 text-gray-800 dark:text-gray-100 counter"
-                        data-target="{{ $totalCustomers ?? 0 }}">0</h2>
-                </div>
-                <div
                     class="p-2.5 bg-purple-50 text-purple-600 rounded-xl group-hover:scale-110 transition-transform duration-200 shrink-0">
-                    <i data-lucide="users" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                    <i data-lucide="check-circle" class="w-5 h-5 sm:w-6 sm:h-6"></i>
                 </div>
             </div>
             <div class="mt-4 flex items-center text-sm">
                 <span class="text-purple-600 font-medium flex items-center gap-1.5 bg-purple-50 px-2 py-0.5 rounded-md">
-                    <i data-lucide="user-plus" class="w-3.5 h-3.5"></i> Terdaftar
+                    <i data-lucide="user-check" class="w-3.5 h-3.5"></i> Total Selesai
                 </span>
             </div>
         </div>
@@ -95,26 +102,28 @@
     <!-- CHART SECTION -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6 sm:mb-8">
 
-        <!-- LINE CHART (Main Chart) -->
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 sm:p-6 lg:col-span-2 flex flex-col">
+        <!-- REVENUE LINE CHART -->
+        <div
+            class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 sm:p-6 lg:col-span-2 flex flex-col">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6 gap-3">
                 <div>
-                    <h2 class="text-lg font-bold text-gray-800 dark:text-gray-100">Ringkasan Pemesanan</h2>
-                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Statistik 7 hari terakhir</p>
+                    <h2 class="text-lg font-bold text-gray-800 dark:text-gray-100">Tren Pendapatan</h2>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Pendapatan 7 hari terakhir</p>
                 </div>
                 <div
-                    class="px-3 py-1.5 bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 rounded-lg text-sm flex items-center gap-2 font-medium shrink-0">
-                    <i data-lucide="calendar-range" class="w-4 h-4 text-gray-400 dark:text-gray-500"></i> 7 Hari Terakhir
+                    class="px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800 rounded-lg text-sm flex items-center gap-2 font-medium shrink-0">
+                    <i data-lucide="trending-up" class="w-4 h-4 text-emerald-500"></i> 7 Hari Terakhir
                 </div>
             </div>
 
             <div class="relative h-[220px] sm:h-[300px] w-full flex-1">
-                <canvas id="bookingChart"></canvas>
+                <canvas id="revenueChart"></canvas>
             </div>
         </div>
 
         <!-- DONUT CHART -->
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 sm:p-6 flex flex-col">
+        <div
+            class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 sm:p-6 flex flex-col">
             <div class="mb-4 sm:mb-6">
                 <h2 class="text-lg font-bold text-gray-800 dark:text-gray-100">Status Pemesanan</h2>
                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Distribusi status keseluruhan</p>
@@ -127,7 +136,8 @@
                         <span class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-gray-100">
                             {{ ($confirmed ?? 0) + ($pending ?? 0) + ($completed ?? 0) + ($cancelled ?? 0) }}
                         </span>
-                        <span class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold mt-1">Total</span>
+                        <span
+                            class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold mt-1">Total</span>
                     </div>
                 </div>
 
@@ -175,7 +185,8 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
         <!-- TODAY SCHEDULE -->
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 sm:p-6 lg:col-span-1 h-fit flex flex-col">
+        <div
+            class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 sm:p-6 lg:col-span-1 h-fit flex flex-col">
             <div class="flex justify-between items-center mb-5">
                 <h2 class="text-lg font-bold text-gray-800 dark:text-gray-100">Jadwal Hari Ini</h2>
                 <span
@@ -196,8 +207,11 @@
                                 </div>
                                 <div class="min-w-0">
                                     <p class="font-bold text-gray-800 dark:text-gray-100 text-sm truncate">{{ $item->start_time }} -
-                                        {{ $item->end_time }}</p>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5 truncate">{{ $item->court->name ?? 'Lapangan' }}</p>
+                                        {{ $item->end_time }}
+                                    </p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5 truncate">
+                                        {{ $item->court->name ?? 'Lapangan' }}
+                                    </p>
                                 </div>
                             </div>
                             <!-- CLEAN STATUS -->
@@ -222,8 +236,10 @@
         </div>
 
         <!-- RECENT BOOKINGS -->
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 lg:col-span-2 overflow-hidden flex flex-col">
-            <div class="p-5 sm:p-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center bg-white dark:bg-gray-800">
+        <div
+            class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 lg:col-span-2 overflow-hidden flex flex-col">
+            <div
+                class="p-5 sm:p-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center bg-white dark:bg-gray-800">
                 <h2 class="text-lg font-bold text-gray-800 dark:text-gray-100">Pemesanan Terbaru</h2>
                 <a href="/admin/bookings"
                     class="text-sm text-yellow-600 hover:text-yellow-700 font-bold flex items-center gap-1 transition-colors group">
@@ -234,7 +250,8 @@
 
             <div class="overflow-x-auto">
                 <table class="w-full text-sm text-left min-w-[600px]">
-                    <thead class="text-xs text-gray-500 dark:text-gray-400 uppercase bg-gray-50/80 dark:bg-gray-700 border-b border-gray-100 dark:border-gray-700">
+                    <thead
+                        class="text-xs text-gray-500 dark:text-gray-400 uppercase bg-gray-50/80 dark:bg-gray-700 border-b border-gray-100 dark:border-gray-700">
                         <tr>
                             <th class="px-5 sm:px-6 py-4 font-bold tracking-wider">Pelanggan</th>
                             <th class="px-5 sm:px-6 py-4 font-bold tracking-wider">Lapangan</th>
@@ -252,7 +269,9 @@
                                                 class="w-8 h-8 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center font-bold text-xs shrink-0 border border-yellow-200/50">
                                                 {{ strtoupper(substr($booking->user->name ?? 'U', 0, 1)) }}
                                             </div>
-                                            <div class="font-semibold text-gray-800 dark:text-gray-100">{{ $booking->user->name ?? 'User' }}</div>
+                                            <div class="font-semibold text-gray-800 dark:text-gray-100">
+                                                {{ $booking->user->name ?? 'User' }}
+                                            </div>
                                         </div>
                                     </td>
                                     <td class="px-5 sm:px-6 py-4 text-gray-600 dark:text-gray-300 whitespace-nowrap font-medium">
@@ -260,7 +279,8 @@
                                     </td>
                                     <td class="px-5 sm:px-6 py-4 text-gray-600 dark:text-gray-300 whitespace-nowrap">
                                         <div class="flex flex-col">
-                                            <span class="font-medium text-gray-800 dark:text-gray-100">{{ $booking->date ?? '-' }}</span>
+                                            <span
+                                                class="font-medium text-gray-800 dark:text-gray-100">{{ $booking->date ?? '-' }}</span>
                                             <span class="text-xs text-gray-500 dark:text-gray-400 mt-0.5 flex items-center gap-1">
                                                 <i data-lucide="clock" class="w-3 h-3"></i> {{ $booking->start_time ?? '' }} -
                                                 {{ $booking->end_time ?? '' }}
@@ -325,9 +345,9 @@
                         labels: ['Dikonfirmasi', 'Menunggu', 'Selesai', 'Dibatalkan'],
                         datasets: [{
                             data: [
-                                {{ $confirmed ?? 0 }},
-                                {{ $pending ?? 0 }},
-                                {{ $completed ?? 0 }},
+                                        {{ $confirmed ?? 0 }},
+                                        {{ $pending ?? 0 }},
+                                        {{ $completed ?? 0 }},
                                 {{ $cancelled ?? 0 }}
                             ],
                             backgroundColor: [
@@ -373,30 +393,34 @@
                 });
             }
 
-            // LINE CHART
-            const bookingCtx = document.getElementById('bookingChart');
-            if (bookingCtx) {
+            // REVENUE LINE CHART
+            const revenueCtx = document.getElementById('revenueChart');
+            if (revenueCtx) {
                 let initialColors = getChartColors();
 
-                // Add gradient
-                const ctx = bookingCtx.getContext('2d');
+                const ctx = revenueCtx.getContext('2d');
                 const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-                gradient.addColorStop(0, 'rgba(234, 179, 8, 0.2)'); // yellow-500 with opacity
-                gradient.addColorStop(1, 'rgba(234, 179, 8, 0)');
+                gradient.addColorStop(0, 'rgba(16, 185, 129, 0.2)'); // emerald-500
+                gradient.addColorStop(1, 'rgba(16, 185, 129, 0)');
 
-                window.bookingChart = new Chart(bookingCtx, {
+                const chartLabels = {!! json_encode(array_keys($revenueChartData)) !!};
+                const chartValues = {!! json_encode(array_values($revenueChartData)) !!};
+
+                window.revenueChart = new Chart(revenueCtx, {
                     type: 'line',
                     data: {
-                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                        labels: chartLabels.map(date => {
+                            const d = new Date(date);
+                            return d.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric' });
+                        }),
                         datasets: [{
-                            label: 'Pemesanan',
-                            // You can inject real data array here later:
-                            data: [3, 5, 2, 8, 6, 9, 4],
-                            borderColor: '#eab308', // yellow-500
+                            label: 'Pendapatan',
+                            data: chartValues,
+                            borderColor: '#10b981', // emerald-500
                             backgroundColor: gradient,
                             borderWidth: 2.5,
                             pointBackgroundColor: '#ffffff',
-                            pointBorderColor: '#eab308',
+                            pointBorderColor: '#10b981',
                             pointBorderWidth: 2,
                             pointRadius: 4,
                             pointHoverRadius: 6,
@@ -419,6 +443,18 @@
                                 borderWidth: 1,
                                 padding: 10,
                                 displayColors: false,
+                                callbacks: {
+                                    label: function (context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed.y !== null) {
+                                            label += new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(context.parsed.y);
+                                        }
+                                        return label;
+                                    }
+                                }
                             }
                         },
                         scales: {
@@ -430,8 +466,12 @@
                                 },
                                 ticks: {
                                     color: initialColors.ticksColor,
-                                    stepSize: 2,
-                                    padding: 10
+                                    padding: 10,
+                                    callback: function (value) {
+                                        if (value >= 1000000) return (value / 1000000) + 'M';
+                                        if (value >= 1000) return (value / 1000) + 'K';
+                                        return value;
+                                    }
                                 },
                                 border: { display: false }
                             },
@@ -468,15 +508,15 @@
                             window.statusChart.options.plugins.tooltip.borderColor = colors.tooltipBorder;
                             window.statusChart.update();
                         }
-                        if (window.bookingChart) {
-                            window.bookingChart.options.plugins.tooltip.backgroundColor = colors.tooltipBg;
-                            window.bookingChart.options.plugins.tooltip.titleColor = colors.tooltipTitle;
-                            window.bookingChart.options.plugins.tooltip.bodyColor = colors.tooltipBody;
-                            window.bookingChart.options.plugins.tooltip.borderColor = colors.tooltipBorder;
-                            window.bookingChart.options.scales.y.grid.color = colors.gridColor;
-                            window.bookingChart.options.scales.y.ticks.color = colors.ticksColor;
-                            window.bookingChart.options.scales.x.ticks.color = colors.ticksColor;
-                            window.bookingChart.update();
+                        if (window.revenueChart) {
+                            window.revenueChart.options.plugins.tooltip.backgroundColor = colors.tooltipBg;
+                            window.revenueChart.options.plugins.tooltip.titleColor = colors.tooltipTitle;
+                            window.revenueChart.options.plugins.tooltip.bodyColor = colors.tooltipBody;
+                            window.revenueChart.options.plugins.tooltip.borderColor = colors.tooltipBorder;
+                            window.revenueChart.options.scales.y.grid.color = colors.gridColor;
+                            window.revenueChart.options.scales.y.ticks.color = colors.ticksColor;
+                            window.revenueChart.options.scales.x.ticks.color = colors.ticksColor;
+                            window.revenueChart.update();
                         }
                     }
                 });

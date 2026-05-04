@@ -66,8 +66,8 @@
                 <div :class="msg.role === 'user' ? 'flex justify-end' : 'flex justify-start'">
                     <div class="flex flex-col gap-1.5 max-w-[85%]">
                         <div :class="msg.role === 'user' ? 'bg-gray-900 text-white rounded-2xl rounded-tr-sm shadow-sm' : 'bg-white border border-gray-100 text-gray-700 rounded-2xl rounded-tl-sm shadow-sm'"
-                            class="px-4 py-2.5 text-[13px] sm:text-sm leading-relaxed whitespace-pre-wrap"
-                            x-text="msg.content">
+                            class="px-4 py-2.5 text-[13px] sm:text-sm leading-relaxed prose prose-sm max-w-none"
+                            x-html="renderMessage(msg.content)">
                         </div>
                         <span :class="msg.role === 'user' ? 'text-right' : 'text-left'"
                             class="text-[10px] text-gray-400 px-1 font-medium tracking-wide" x-text="msg.time"></span>
@@ -136,7 +136,46 @@
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
+
+    /* Markdown Styles */
+    .prose strong {
+        font-weight: 600;
+        color: inherit;
+    }
+
+    .prose em {
+        font-style: italic;
+    }
+
+    .prose p {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+    }
+
+    .prose p:first-child {
+        margin-top: 0;
+    }
+
+    .prose p:last-child {
+        margin-bottom: 0;
+    }
+
+    .prose ul,
+    .prose ol {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        padding-left: 1.25em;
+    }
+
+    .prose li {
+        margin-top: 0.25em;
+        margin-bottom: 0.25em;
+    }
 </style>
+
+<!-- Markdown Parser & Sanitizer -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
 
 <script>
     document.addEventListener('alpine:init', () => {
@@ -184,6 +223,25 @@
 
             getCurrentTime() {
                 return new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+            },
+
+            renderMessage(content) {
+                if (!content) return '';
+
+                try {
+                    // 1. Convert Markdown to HTML
+                    // We use marked.parse. gfm: true is default (GitHub Flavored Markdown)
+                    const rawHtml = marked.parse(content, {
+                        breaks: true, // support \n to <br>
+                        gfm: true
+                    });
+
+                    // 2. Sanitize HTML to prevent XSS
+                    return DOMPurify.sanitize(rawHtml);
+                } catch (e) {
+                    console.error('Markdown error:', e);
+                    return content; // Fallback to raw content
+                }
             },
 
             adjustTextareaHeight(el) {

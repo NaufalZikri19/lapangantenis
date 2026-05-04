@@ -4,7 +4,7 @@
     <div class="w-full space-y-6">
 
         <!-- HEADER SECTION -->
-        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div class="flex items-center gap-3">
                 <div class="p-2.5 bg-yellow-50 text-yellow-600 rounded-xl border border-yellow-100">
                     <i data-lucide="credit-card" class="w-5 h-5"></i>
@@ -12,6 +12,33 @@
                 <div>
                     <h1 class="text-xl md:text-2xl font-semibold text-gray-800 dark:text-gray-100">Pembayaran</h1>
                     <p class="text-sm text-gray-500 dark:text-gray-400">Kelola dan verifikasi pembayaran pelanggan</p>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+                <!-- SEARCH -->
+                <form action="{{ route('admin.payments') }}" method="GET" class="relative w-full sm:w-64 group"
+                    x-data="{ search: '{{ request('search') }}' }">
+                    <input type="text" name="search" x-model="search" @input.debounce.500ms="$el.form.submit()"
+                        placeholder="Cari Pembayaran..."
+                        class="w-full pl-9 pr-10 py-2 text-sm border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 rounded-lg focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 transition-all shadow-sm"
+                        value="{{ request('search') }}">
+                    <i data-lucide="search"
+                        class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-yellow-500 transition-colors"></i>
+
+                    <template x-if="search">
+                        <button type="button" @click="search = ''; $nextTick(() => $el.form.submit())"
+                            class="absolute inset-y-0 right-0 pr-2.5 flex items-center text-gray-400 hover:text-red-500 transition-colors">
+                            <i data-lucide="x-circle" class="w-4 h-4"></i>
+                        </button>
+                    </template>
+                </form>
+
+                <div class="hidden sm:flex items-center gap-2">
+                    <span
+                        class="px-3 py-1.5 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 text-sm font-medium rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
+                        Total: <span class="text-gray-900 dark:text-gray-100 font-bold">{{ $bookings->total() }}</span>
+                    </span>
                 </div>
             </div>
         </div>
@@ -44,7 +71,8 @@
                                         </div>
                                         <div>
                                             <p class="font-semibold text-gray-800 dark:text-gray-100">
-                                                {{ $booking->user->name ?? '-' }}</p>
+                                                {{ $booking->user->name ?? '-' }}
+                                            </p>
                                         </div>
                                     </div>
                                 </td>
@@ -61,9 +89,9 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
                                     <span
                                         class="px-3 py-1 rounded-full text-xs font-medium inline-flex items-center gap-1.5 justify-center
-                                                    {{ $booking->payment_method == 'qris' ? 'bg-blue-100 text-blue-600' : '' }}
-                                                    {{ $booking->payment_method == 'transfer' ? 'bg-indigo-100 text-indigo-600' : '' }}
-                                                    {{ !$booking->payment_method ? 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300' : '' }}">
+                                                                    {{ $booking->payment_method == 'qris' ? 'bg-blue-100 text-blue-600' : '' }}
+                                                                    {{ $booking->payment_method == 'transfer' ? 'bg-indigo-100 text-indigo-600' : '' }}
+                                                                    {{ !$booking->payment_method ? 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300' : '' }}">
                                         @if($booking->payment_method == 'qris') <i data-lucide="qr-code"
                                         class="w-3.5 h-3.5"></i> @endif
                                         @if($booking->payment_method == 'transfer') <i data-lucide="landmark"
@@ -89,10 +117,10 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
                                     <span
                                         class="px-3 py-1 rounded-full text-xs font-medium 
-                                                    {{ $booking->payment_status == 'waiting' ? 'bg-yellow-100 text-yellow-600' : '' }}
-                                                    {{ $booking->payment_status == 'confirmed' ? 'bg-green-100 text-green-600' : '' }}
-                                                    {{ $booking->payment_status == 'rejected' ? 'bg-red-100 text-red-600' : '' }}
-                                                    {{ !$booking->payment_status ? 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300' : '' }}">
+                                                                    {{ $booking->payment_status == 'waiting' ? 'bg-yellow-100 text-yellow-600' : '' }}
+                                                                    {{ $booking->payment_status == 'confirmed' ? 'bg-green-100 text-green-600' : '' }}
+                                                                    {{ $booking->payment_status == 'rejected' ? 'bg-red-100 text-red-600' : '' }}
+                                                                    {{ !$booking->payment_status ? 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300' : '' }}">
                                         {{ $booking->payment_status ? ucfirst($booking->payment_status) : 'Unpaid' }}
                                     </span>
                                 </td>
@@ -127,19 +155,31 @@
                                 </td>
                             </tr>
                         @empty
-                            <tr>
-                                <td colspan="6" class="px-6 py-10 text-center">
-                                    <div class="flex flex-col items-center justify-center">
-                                        <div
-                                            class="w-12 h-12 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center mb-3 border border-gray-100 dark:border-gray-600">
-                                            <i data-lucide="inbox" class="w-6 h-6 text-gray-400 dark:text-gray-500"></i>
-                                        </div>
-                                        <p class="text-gray-500 dark:text-gray-400 font-medium text-sm">Belum ada pembayaran</p>
-                                        <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Data pembayaran pelanggan akan
-                                            muncul di sini.</p>
-                                    </div>
-                                </td>
-                            </tr>
+                                        <tr>
+                                            <td colspan="6" class="px-6 py-12 text-center">
+                                                <div class="flex flex-col items-center justify-center">
+                                                    <div
+                                                        class="w-16 h-16 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4 border border-gray-100 dark:border-gray-600 shadow-sm">
+                                                        <i data-lucide="{{ request('search') ? 'search-x' : 'inbox' }}"
+                                                            class="w-8 h-8 text-gray-400 dark:text-gray-500"></i>
+                                                    </div>
+                                                    <h3 class="text-gray-800 dark:text-gray-100 font-bold text-lg">
+                                                        {{ request('search') ? 'Data tidak ditemukan' : 'Belum ada pembayaran' }}
+                                                    </h3>
+                                                    <p class="text-gray-500 dark:text-gray-400 mt-1 max-w-xs mx-auto text-sm">
+                                                        {{ request('search')
+                            ? 'Tidak ada pembayaran yang cocok dengan kata kunci "' . request('search') . '".'
+                            : 'Data pembayaran pelanggan akan muncul secara otomatis di sini.' }}
+                                                    </p>
+                                                    @if(request('search'))
+                                                        <a href="{{ route('admin.payments') }}"
+                                                            class="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-yellow-900 font-bold text-sm rounded-xl transition-all shadow-sm">
+                                                            <i data-lucide="refresh-cw" class="w-4 h-4"></i> Reset Pencarian
+                                                        </a>
+                                                    @endif
+                                                </div>
+                                            </td>
+                                        </tr>
                         @endforelse
                     </tbody>
                 </table>

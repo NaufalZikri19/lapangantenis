@@ -10,5 +10,6 @@
     @include('sections.how-it-works')
     @include('sections.dashboard-preview')
     @include('sections.cta')
+    @include('sections.contact')
 
 @endsection

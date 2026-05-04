@@ -230,6 +230,9 @@
                 </button>
             </header>
 
+            <!-- SweetAlert Component -->
+            @include('components.sweet-alert')
+
             <!-- CONTENT AREA -->
             <main class="flex-1 overflow-y-auto overflow-x-hidden w-full p-3 sm:p-4 md:p-6 lg:p-8">
                 @yield('content')
@@ -250,20 +253,11 @@
         });
 
         function confirmLogout() {
-            Swal.fire({
+            Alert.fire({
                 title: 'Konfirmasi Logout',
                 text: "Apakah Anda yakin ingin keluar dari sistem?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#eab308',
-                cancelButtonColor: '#9ca3af',
+                icon: 'question',
                 confirmButtonText: 'Ya, Keluar',
-                cancelButtonText: 'Batal',
-                reverseButtons: true,
-                customClass: {
-                    confirmButton: 'focus:ring-2 focus:ring-yellow-500/50 rounded-lg',
-                    cancelButton: 'focus:ring-2 focus:ring-gray-400/50 rounded-lg'
-                }
             }).then((result) => {
                 if (result.isConfirmed) {
                     document.getElementById('logout-form').submit();

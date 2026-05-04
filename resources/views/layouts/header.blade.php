@@ -1,5 +1,20 @@
-<header x-data="{ scrolled: false, mobileMenuOpen: false }" @scroll.window="scrolled = (window.pageYOffset > 20)"
-    :class="scrolled ? 'bg-white/90 backdrop-blur-md shadow-sm border-b border-gray-100 py-3' : 'bg-transparent py-5'"
+<header x-data="{ 
+    scrolled: false, 
+    mobileMenuOpen: false,
+    activeSection: '',
+    updateActive() {
+        const sections = ['about', 'pricing', 'cara-booking', 'contact'];
+        sections.forEach(id => {
+            const el = document.getElementById(id);
+            if (el && window.scrollY >= el.offsetTop - 150) {
+                this.activeSection = id;
+            }
+        });
+        if (window.scrollY < 100) this.activeSection = '';
+    }
+}" x-init="scrolled = window.scrollY > 10; updateActive()"
+    @scroll.window="scrolled = window.scrollY > 10; updateActive()"
+    :class="scrolled ? 'bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-100 py-3' : 'bg-transparent py-5'"
     class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
 
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
@@ -17,15 +32,17 @@
             <!-- DESKTOP MENU -->
             <nav class="hidden md:flex items-center gap-8">
                 <a href="#about"
-                    class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200">Tentang
-                    Kami</a>
+                    :class="activeSection === 'about' ? 'text-primary font-bold' : 'text-gray-600 font-medium'"
+                    class="text-sm hover:text-gray-900 transition-colors duration-200">Tentang Kami</a>
                 <a href="#pricing"
-                    class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200">Harga</a>
+                    :class="activeSection === 'pricing' ? 'text-primary font-bold' : 'text-gray-600 font-medium'"
+                    class="text-sm hover:text-gray-900 transition-colors duration-200">Harga</a>
                 <a href="#cara-booking"
-                    class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200">Cara
-                    Booking</a>
-                <a href="#kontak"
-                    class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200">Kontak</a>
+                    :class="activeSection === 'cara-booking' ? 'text-primary font-bold' : 'text-gray-600 font-medium'"
+                    class="text-sm hover:text-gray-900 transition-colors duration-200">Cara Booking</a>
+                <a href="#contact"
+                    :class="activeSection === 'contact' ? 'text-primary font-bold' : 'text-gray-600 font-medium'"
+                    class="text-sm hover:text-gray-900 transition-colors duration-200">Kontak</a>
             </nav>
 
             <!-- AUTH BUTTONS -->
@@ -49,7 +66,7 @@
 
             <!-- MOBILE MENU BUTTON -->
             <button @click="mobileMenuOpen = !mobileMenuOpen"
-                class="md:hidden p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
+                class="md:hidden p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors relative z-50">
                 <i x-show="!mobileMenuOpen" data-lucide="menu" class="w-6 h-6"></i>
                 <i x-show="mobileMenuOpen" x-cloak data-lucide="x" class="w-6 h-6"></i>
             </button>
@@ -61,17 +78,21 @@
         x-transition:enter-start="opacity-0 -translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
         x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0"
         x-transition:leave-end="opacity-0 -translate-y-4"
-        class="absolute top-full left-0 w-full bg-white border-b border-gray-100 shadow-lg md:hidden">
+        class="absolute top-0 left-0 w-full bg-white border-b border-gray-100 shadow-lg md:hidden pt-20 pb-8 z-40">
 
-        <div class="px-6 py-4 space-y-4">
+        <div class="px-6 space-y-4">
             <a href="#about" @click="mobileMenuOpen = false"
-                class="block text-base font-medium text-gray-700 hover:text-primary transition-colors">Tentang Kami</a>
+                :class="activeSection === 'about' ? 'text-primary font-bold' : 'text-gray-700 font-medium'"
+                class="block text-base transition-colors">Tentang Kami</a>
             <a href="#pricing" @click="mobileMenuOpen = false"
-                class="block text-base font-medium text-gray-700 hover:text-primary transition-colors">Harga</a>
+                :class="activeSection === 'pricing' ? 'text-primary font-bold' : 'text-gray-700 font-medium'"
+                class="block text-base transition-colors">Harga</a>
             <a href="#cara-booking" @click="mobileMenuOpen = false"
-                class="block text-base font-medium text-gray-700 hover:text-primary transition-colors">Cara Booking</a>
-            <a href="#kontak" @click="mobileMenuOpen = false"
-                class="block text-base font-medium text-gray-700 hover:text-primary transition-colors">Kontak</a>
+                :class="activeSection === 'cara-booking' ? 'text-primary font-bold' : 'text-gray-700 font-medium'"
+                class="block text-base transition-colors">Cara Booking</a>
+            <a href="#contact" @click="mobileMenuOpen = false"
+                :class="activeSection === 'contact' ? 'text-primary font-bold' : 'text-gray-700 font-medium'"
+                class="block text-base transition-colors">Kontak</a>
 
             <hr class="border-gray-100">
 
