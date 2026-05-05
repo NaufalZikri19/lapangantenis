@@ -7,7 +7,7 @@
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div class="flex items-center gap-3">
                 <div class="p-2.5 bg-yellow-50 text-yellow-600 rounded-xl border border-yellow-100">
-                    <i data-lucide="users" class="w-5 h-5"></i>
+                    <i data-lucide="users" class="w-7 h-7 text-gray-900"></i>
                 </div>
                 <div>
                     <h1 class="text-xl md:text-2xl font-semibold text-gray-800 dark:text-gray-100">Data User</h1>
@@ -115,7 +115,8 @@
                                             <i data-lucide="eye" class="w-3.5 h-3.5"></i> Detail
                                         </a>
 
-                                        <form id="delete-user-{{ $user->id }}" action="{{ route('admin.users.delete', $user->id) }}" method="POST"
+                                        <form id="delete-user-{{ $user->id }}"
+                                            action="{{ route('admin.users.delete', $user->id) }}" method="POST"
                                             class="inline-block">
                                             @csrf
                                             @method('DELETE')

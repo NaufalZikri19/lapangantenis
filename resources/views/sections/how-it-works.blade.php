@@ -24,7 +24,7 @@
                         class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 w-full hover:shadow-md transition-shadow">
                         <span class="text-primary font-bold text-sm mb-2 block">Langkah 1</span>
                         <h3 class="text-lg font-bold text-gray-900 mb-2">Pilih Lapangan</h3>
-                        <p class="text-sm text-gray-500">Pilih jenis lapangan (Indoor/Outdoor) sesuai preferensi Anda.
+                        <p class="text-sm text-gray-500">Pilih lapangan semi-indoor yang tersedia sesuai jadwal Anda.
                         </p>
                     </div>
                 </div>

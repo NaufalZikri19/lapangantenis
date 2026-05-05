@@ -41,6 +41,10 @@ Route::get('/', function () {
         : view('home');
 });
 
+Route::get('/terms', function () {
+    return view('terms');
+})->name('terms');
+
 Route::get('/api/regencies/{province}', function ($provinceId) {
     return Regency::where('province_id', $provinceId)
         ->orderBy('name')

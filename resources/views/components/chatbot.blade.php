@@ -44,7 +44,7 @@
         </div>
 
         <!-- Messages Area -->
-        <div class="flex-1 overflow-y-auto p-4 space-y-6 bg-gray-50/30" id="chat-messages"
+        <div class="flex-1 overflow-y-auto p-4 space-y-6 bg-gray-50/30 scrollbar-hide" id="chat-messages"
             style="scroll-behavior: smooth;">
             <!-- Empty State / Welcome Message -->
             <template x-if="messages.length === 0 && !hasPendingNotification">
@@ -188,15 +188,46 @@
             hasPendingNotification: false,
 
             init() {
-                // Smart Notification on Init
-                if (this.pendingCount > 0) {
+                this.loadMessages();
+
+                // Smart Notification on Init (only if history is empty)
+                if (this.messages.length === 0 && this.pendingCount > 0) {
                     this.hasPendingNotification = true;
                     this.messages.push({
                         role: 'bot',
                         content: 'Halo! Anda masih memiliki ' + this.pendingCount + ' booking yang belum dibayar. Mau saya bantu arahkan cara pembayarannya?',
                         time: this.getCurrentTime()
                     });
+                    this.saveMessages();
                 }
+            },
+
+            loadMessages() {
+                const savedData = localStorage.getItem('chatbot_history');
+                if (savedData) {
+                    try {
+                        const { messages, timestamp } = JSON.parse(savedData);
+                        const now = new Date().getTime();
+                        const tenMinutes = 10 * 60 * 1000;
+
+                        if (now - timestamp < tenMinutes) {
+                            this.messages = messages;
+                        } else {
+                            localStorage.removeItem('chatbot_history');
+                        }
+                    } catch (e) {
+                        console.error('Error loading chatbot history', e);
+                        localStorage.removeItem('chatbot_history');
+                    }
+                }
+            },
+
+            saveMessages() {
+                const data = {
+                    messages: this.messages,
+                    timestamp: new Date().getTime()
+                };
+                localStorage.setItem('chatbot_history', JSON.stringify(data));
             },
 
             closeIfNotMobile() {
@@ -279,6 +310,7 @@
                     content: messageText,
                     time: this.getCurrentTime()
                 });
+                this.saveMessages();
 
                 this.newMessage = '';
 
@@ -311,12 +343,14 @@
                             content: data.reply,
                             time: this.getCurrentTime()
                         });
+                        this.saveMessages();
                     } else {
                         this.messages.push({
                             role: 'bot',
                             content: data.error || 'Maaf, sistem sedang sibuk. Coba lagi sebentar.',
                             time: this.getCurrentTime()
                         });
+                        this.saveMessages();
                     }
                 } catch (error) {
                     console.error('Chatbot error:', error);

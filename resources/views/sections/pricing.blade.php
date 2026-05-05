@@ -23,28 +23,27 @@
                     <h3 class="text-2xl font-bold text-gray-900">Lapangan A</h3>
                     <div
                         class="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center group-hover:bg-primary/10 transition-colors">
-                        <i data-lucide="sun" class="w-6 h-6 text-gray-400 group-hover:text-primary"></i>
+                        <i data-lucide="cloud-rain" class="w-6 h-6 text-gray-400 group-hover:text-primary"></i>
                     </div>
                 </div>
 
                 <div class="mb-6 flex-grow">
                     <div class="flex items-baseline gap-1">
-                        <span class="text-4xl font-extrabold text-gray-900">Rp110rb</span>
+                        <span class="text-4xl font-extrabold text-gray-900">Rp50rb</span>
                         <span class="text-gray-500 font-medium">/ jam</span>
                     </div>
-                    <p class="text-sm text-gray-500 mt-2">Lapangan outdoor standar kompetisi, cocok untuk sesi latihan
-                        pagi atau sore hari.</p>
+                    <p class="text-sm text-gray-500 mt-2">Lapangan semi-indoor standar, terlindungi dari panas matahari dan gerimis.</p>
                 </div>
 
                 <div class="border-t border-gray-100 pt-6 mb-8">
                     <ul class="space-y-4">
                         <li class="flex items-center gap-3">
                             <i data-lucide="check-circle-2" class="w-5 h-5 text-primary shrink-0"></i>
-                            <span class="text-gray-600">Material Flexi Pave</span>
+                            <span class="text-gray-600">Material Rubber Cushion</span>
                         </li>
                         <li class="flex items-center gap-3">
                             <i data-lucide="check-circle-2" class="w-5 h-5 text-primary shrink-0"></i>
-                            <span class="text-gray-600">Terbuka (Outdoor)</span>
+                            <span class="text-gray-600">Atap Kanopi (Semi-Indoor)</span>
                         </li>
                         <li class="flex items-center gap-3">
                             <i data-lucide="check-circle-2" class="w-5 h-5 text-primary shrink-0"></i>
@@ -76,7 +75,7 @@
 
                 <div class="mb-6 flex-grow">
                     <div class="flex items-baseline gap-1">
-                        <span class="text-4xl font-extrabold text-white">Rp120rb</span>
+                        <span class="text-4xl font-extrabold text-white">Rp50rb</span>
                         <span class="text-gray-400 font-medium">/ jam</span>
                     </div>
                     <p class="text-sm text-gray-400 mt-2">Lapangan semi-indoor premium, bebas cuaca hujan maupun terik

@@ -37,6 +37,8 @@
                     </li>
                     <li><a href="#cara-booking" class="text-gray-400 hover:text-primary transition-colors">Panduan
                             Booking</a></li>
+                    <li><a href="{{ route('terms') }}" class="text-gray-400 hover:text-primary transition-colors">Syarat
+                            & Ketentuan</a></li>
                 </ul>
             </div>
 

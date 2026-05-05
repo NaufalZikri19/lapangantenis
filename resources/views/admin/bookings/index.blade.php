@@ -7,7 +7,7 @@
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div class="flex items-center gap-3">
                 <div class="p-2.5 bg-yellow-50 text-yellow-600 rounded-xl border border-yellow-100">
-                    <i data-lucide="table" class="w-5 h-5"></i>
+                    <i data-lucide="table" class="w-7 h-7 text-gray-900"></i>
                 </div>
                 <div>
                     <h1 class="text-xl md:text-2xl font-semibold text-gray-800 dark:text-gray-100">Data Pemesanan</h1>

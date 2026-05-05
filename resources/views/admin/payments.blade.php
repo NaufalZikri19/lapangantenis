@@ -7,7 +7,7 @@
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div class="flex items-center gap-3">
                 <div class="p-2.5 bg-yellow-50 text-yellow-600 rounded-xl border border-yellow-100">
-                    <i data-lucide="credit-card" class="w-5 h-5"></i>
+                    <i data-lucide="wallet" class="w-7 h-7 text-gray-900"></i>
                 </div>
                 <div>
                     <h1 class="text-xl md:text-2xl font-semibold text-gray-800 dark:text-gray-100">Pembayaran</h1>
@@ -55,6 +55,7 @@
                             <th class="px-6 py-4">Pelanggan</th>
                             <th class="px-6 py-4">Info Booking</th>
                             <th class="px-6 py-4 text-center">Metode Pembayaran</th>
+                            <th class="px-6 py-4 text-center">Total Bayar</th>
                             <th class="px-6 py-4 text-center">Bukti</th>
                             <th class="px-6 py-4 text-center">Status</th>
                             <th class="px-6 py-4 text-right">Aksi</th>
@@ -89,14 +90,20 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
                                     <span
                                         class="px-3 py-1 rounded-full text-xs font-medium inline-flex items-center gap-1.5 justify-center
-                                                                    {{ $booking->payment_method == 'qris' ? 'bg-blue-100 text-blue-600' : '' }}
-                                                                    {{ $booking->payment_method == 'transfer' ? 'bg-indigo-100 text-indigo-600' : '' }}
-                                                                    {{ !$booking->payment_method ? 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300' : '' }}">
+                                                                            {{ $booking->payment_method == 'qris' ? 'bg-blue-100 text-blue-600' : '' }}
+                                                                            {{ $booking->payment_method == 'transfer' ? 'bg-indigo-100 text-indigo-600' : '' }}
+                                                                            {{ !$booking->payment_method ? 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300' : '' }}">
                                         @if($booking->payment_method == 'qris') <i data-lucide="qr-code"
                                         class="w-3.5 h-3.5"></i> @endif
                                         @if($booking->payment_method == 'transfer') <i data-lucide="landmark"
                                         class="w-3.5 h-3.5"></i> @endif
                                         {{ $booking->payment_method ? strtoupper($booking->payment_method) : '-' }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-center">
+                                    <span class="font-bold text-gray-900 dark:text-gray-100">
+                                        Rp
+                                        {{ number_format($booking->total_price ?: ($booking->court->price * (\Carbon\Carbon::parse($booking->start_time)->diffInHours(\Carbon\Carbon::parse($booking->end_time)) ?: 1)), 0, ',', '.') }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
@@ -117,10 +124,10 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
                                     <span
                                         class="px-3 py-1 rounded-full text-xs font-medium 
-                                                                    {{ $booking->payment_status == 'waiting' ? 'bg-yellow-100 text-yellow-600' : '' }}
-                                                                    {{ $booking->payment_status == 'confirmed' ? 'bg-green-100 text-green-600' : '' }}
-                                                                    {{ $booking->payment_status == 'rejected' ? 'bg-red-100 text-red-600' : '' }}
-                                                                    {{ !$booking->payment_status ? 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300' : '' }}">
+                                                                            {{ $booking->payment_status == 'waiting' ? 'bg-yellow-100 text-yellow-600' : '' }}
+                                                                            {{ $booking->payment_status == 'confirmed' ? 'bg-green-100 text-green-600' : '' }}
+                                                                            {{ $booking->payment_status == 'rejected' ? 'bg-red-100 text-red-600' : '' }}
+                                                                            {{ !$booking->payment_status ? 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300' : '' }}">
                                         {{ $booking->payment_status ? ucfirst($booking->payment_status) : 'Unpaid' }}
                                     </span>
                                 </td>

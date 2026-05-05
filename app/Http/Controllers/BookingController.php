@@ -113,7 +113,10 @@ class BookingController extends Controller
 
         $request->validate([
             'payment_method' => 'required|in:qris,transfer',
-            'payment_proof' => 'required|image|max:2048'
+            'payment_proof' => 'required|image|max:2048',
+            'agree_terms' => 'required'
+        ], [
+            'agree_terms.required' => 'Anda harus menyetujui Syarat & Ketentuan.'
         ]);
 
         $file = $request->file('payment_proof')->store('payments', 'public');
@@ -226,6 +229,11 @@ class BookingController extends Controller
                 }
             }
 
+            $court = Court::findOrFail($request->court_id);
+            $basePrice = count($slots) * $court->price;
+            $uniqueCode = rand(100, 999);
+            $totalPrice = $basePrice + $uniqueCode;
+
             $booking = Booking::create([
                 'user_id' => Auth::id(),
                 'court_id' => $request->court_id,
@@ -233,6 +241,7 @@ class BookingController extends Controller
                 'start_time' => $slots[0]['start'],
                 'end_time' => $slots[count($slots) - 1]['end'],
                 'status' => 'pending',
+                'total_price' => $totalPrice,
                 'expired_at' => now()->addMinutes(10)
             ]);
 

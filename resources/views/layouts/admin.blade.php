@@ -123,7 +123,7 @@
                         : 'hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-800 dark:hover:text-gray-100',
                         collapsed ? 'justify-center' : ''
                     ]" title="Pembayaran">
-                    <i data-lucide="credit-card" class="w-5 h-5 shrink-0 transition-colors"
+                    <i data-lucide="wallet" class="w-5 h-5 shrink-0 transition-colors"
                         :class="'{{ request()->is('admin/payments*') }}' === '1' ? 'text-yellow-600 dark:text-gray-100' : 'text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300'"></i>
                     <span x-show="!collapsed" x-transition.opacity.duration.200ms
                         class="text-sm whitespace-nowrap">Pembayaran</span>
