@@ -2,10 +2,12 @@
     $pendingBookingCount = auth()->check() ? auth()->user()->bookings()->where('status', 'pending')->count() : 0;
 @endphp
 
-<div x-data="chatbot({{ $pendingBookingCount }})" class="fixed bottom-6 right-6 z-50">
+<div x-data="chatbot({{ $pendingBookingCount }})" 
+     @open-chatbot.window="isOpen = true; setTimeout(() => { scrollToBottom(); $refs.chatInput.focus(); }, 100)"
+     class="fixed bottom-6 right-6 z-50">
     <!-- Chat Widget Button -->
     <button @click="toggleChat()"
-        class="w-14 h-14 bg-gray-900 hover:bg-black text-white rounded-full shadow-xl shadow-gray-900/20 flex items-center justify-center transition-all hover:scale-105 duration-200 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2">
+        class="w-14 h-14 bg-yellow-500 hover:bg-yellow-400 text-slate-900 rounded-full shadow-xl shadow-yellow-500/20 flex items-center justify-center transition-all hover:scale-105 duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 dark:focus:ring-offset-slate-950">
         <i data-lucide="message-circle" class="w-6 h-6" x-show="!isOpen"></i>
         <i data-lucide="x" class="w-6 h-6" x-show="isOpen" x-cloak></i>
     </button>
@@ -17,11 +19,11 @@
         x-transition:leave="transition ease-in duration-150"
         x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
         x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" @click.away="closeIfNotMobile()"
-        class="fixed inset-0 sm:absolute sm:inset-auto sm:bottom-16 sm:right-0 sm:mb-4 w-full sm:w-96 bg-white sm:rounded-2xl shadow-2xl shadow-gray-900/10 sm:border border-gray-200/60 flex flex-col overflow-hidden origin-bottom-right z-[60] sm:z-auto h-full sm:h-[600px] sm:max-h-[calc(100vh-120px)]"
+        class="fixed inset-0 sm:absolute sm:inset-auto sm:bottom-16 sm:right-0 sm:mb-4 w-full sm:w-96 bg-white dark:bg-slate-900 sm:rounded-2xl shadow-2xl shadow-gray-900/10 sm:border border-gray-200/60 dark:border-slate-800 flex flex-col overflow-hidden origin-bottom-right z-[60] sm:z-auto h-full sm:h-[600px] sm:max-h-[calc(100vh-120px)]"
         x-cloak>
 
         <!-- Header -->
-        <div class="bg-white p-4 border-b border-gray-100 shrink-0 flex items-center justify-between relative z-10">
+        <div class="bg-white dark:bg-slate-800 p-4 border-b border-gray-100 dark:border-slate-700 shrink-0 flex items-center justify-between relative z-10">
             <div class="flex items-center gap-3">
                 <div class="relative">
                     <div
@@ -29,33 +31,33 @@
                         <i data-lucide="bot" class="w-5 h-5"></i>
                     </div>
                     <span
-                        class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-green-500 border-2 border-white"></span>
+                        class="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-green-500 border-2 border-white dark:border-slate-800"></span>
                 </div>
                 <div>
-                    <h3 class="font-bold text-gray-900 text-sm tracking-tight">AI Assistant</h3>
-                    <p class="text-[11px] text-gray-500 font-medium">Selalu siap membantu</p>
+                    <h3 class="font-bold text-gray-900 dark:text-white text-sm tracking-tight">AI Assistant</h3>
+                    <p class="text-[11px] text-gray-500 dark:text-slate-400 font-medium">Selalu siap membantu</p>
                 </div>
             </div>
             <!-- Close button -->
             <button @click="isOpen = false"
-                class="p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 rounded-full transition-colors focus:outline-none">
+                class="p-2 text-gray-400 dark:text-slate-500 hover:bg-gray-100 dark:hover:bg-slate-700 hover:text-gray-600 dark:hover:text-slate-300 rounded-full transition-colors focus:outline-none">
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
         </div>
 
         <!-- Messages Area -->
-        <div class="flex-1 overflow-y-auto p-4 space-y-6 bg-gray-50/30 scrollbar-hide" id="chat-messages"
+        <div class="flex-1 overflow-y-auto p-4 space-y-6 bg-gray-50/30 dark:bg-slate-900/50 scrollbar-hide" id="chat-messages"
             style="scroll-behavior: smooth;">
             <!-- Empty State / Welcome Message -->
             <template x-if="messages.length === 0 && !hasPendingNotification">
                 <div class="flex flex-col items-center justify-center h-full space-y-4 opacity-80 pt-10 pb-10">
                     <div
-                        class="w-16 h-16 bg-white rounded-2xl shadow-sm border border-gray-100 flex items-center justify-center text-yellow-500">
+                        class="w-16 h-16 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 flex items-center justify-center text-yellow-500">
                         <i data-lucide="sparkles" class="w-8 h-8"></i>
                     </div>
                     <div class="text-center space-y-1 px-4">
-                        <p class="text-gray-800 text-sm font-semibold">Gumbreg AI</p>
-                        <p class="text-gray-500 text-xs font-medium">Tanyakan seputar jadwal atau pembayaran lapangan
+                        <p class="text-gray-800 dark:text-white text-sm font-semibold">Gumbreg AI</p>
+                        <p class="text-gray-500 dark:text-slate-400 text-xs font-medium">Tanyakan seputar jadwal atau pembayaran lapangan
                             tenis.</p>
                     </div>
                 </div>
@@ -65,12 +67,12 @@
             <template x-for="(msg, index) in messages" :key="index">
                 <div :class="msg.role === 'user' ? 'flex justify-end' : 'flex justify-start'">
                     <div class="flex flex-col gap-1.5 max-w-[85%]">
-                        <div :class="msg.role === 'user' ? 'bg-gray-900 text-white rounded-2xl rounded-tr-sm shadow-sm' : 'bg-white border border-gray-100 text-gray-700 rounded-2xl rounded-tl-sm shadow-sm'"
-                            class="px-4 py-2.5 text-[13px] sm:text-sm leading-relaxed prose prose-sm max-w-none"
+                        <div :class="msg.role === 'user' ? 'bg-slate-900 dark:bg-yellow-500 text-white dark:text-slate-900 rounded-2xl rounded-tr-sm shadow-sm' : 'bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-gray-700 dark:text-slate-200 rounded-2xl rounded-tl-sm shadow-sm'"
+                            class="px-4 py-2.5 text-[13px] sm:text-sm leading-relaxed prose dark:prose-invert prose-sm max-w-none"
                             x-html="renderMessage(msg.content)">
                         </div>
                         <span :class="msg.role === 'user' ? 'text-right' : 'text-left'"
-                            class="text-[10px] text-gray-400 px-1 font-medium tracking-wide" x-text="msg.time"></span>
+                            class="text-[10px] text-gray-400 dark:text-slate-500 px-1 font-medium tracking-wide" x-text="msg.time"></span>
                     </div>
                 </div>
             </template>
@@ -79,47 +81,47 @@
             <div x-show="isLoading" class="flex justify-start items-end gap-2">
                 <div class="flex flex-col gap-1.5 max-w-[85%]">
                     <div
-                        class="bg-white border border-gray-100 text-gray-500 rounded-2xl rounded-tl-sm shadow-sm px-4 py-3.5 flex gap-1.5 items-center w-fit">
-                        <div class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce"></div>
-                        <div class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s">
+                        class="bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-gray-500 dark:text-slate-400 rounded-2xl rounded-tl-sm shadow-sm px-4 py-3.5 flex gap-1.5 items-center w-fit">
+                        <div class="w-1.5 h-1.5 bg-gray-400 dark:bg-slate-600 rounded-full animate-bounce"></div>
+                        <div class="w-1.5 h-1.5 bg-gray-400 dark:bg-slate-600 rounded-full animate-bounce" style="animation-delay: 0.2s">
                         </div>
-                        <div class="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.4s">
+                        <div class="w-1.5 h-1.5 bg-gray-400 dark:bg-slate-600 rounded-full animate-bounce" style="animation-delay: 0.4s">
                         </div>
                     </div>
-                    <span class="text-[10px] text-gray-400 px-1 font-medium tracking-wide">Bot sedang mengetik...</span>
+                    <span class="text-[10px] text-gray-400 dark:text-slate-500 px-1 font-medium tracking-wide">Bot sedang mengetik...</span>
                 </div>
             </div>
         </div>
 
         <!-- Quick Actions -->
         <div
-            class="px-4 py-3 bg-white flex gap-2 overflow-x-auto whitespace-nowrap scrollbar-hide border-t border-gray-100 shrink-0">
+            class="px-4 py-3 bg-white dark:bg-slate-800 flex gap-2 overflow-x-auto whitespace-nowrap scrollbar-hide border-t border-gray-100 dark:border-slate-700 shrink-0">
             <button @click="sendQuickAction('Booking Sekarang')"
-                class="px-3.5 py-1.5 text-[11px] sm:text-xs font-semibold bg-white border border-gray-200 rounded-full hover:border-gray-900 hover:text-gray-900 text-gray-600 transition-all shadow-sm shrink-0 focus:outline-none focus:ring-2 focus:ring-gray-100">Booking
+                class="px-3.5 py-1.5 text-[11px] sm:text-xs font-semibold bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-full hover:border-gray-900 dark:hover:border-yellow-500 hover:text-gray-900 dark:hover:text-yellow-500 text-gray-600 dark:text-slate-400 transition-all shadow-sm shrink-0 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:focus:ring-slate-700">Booking
                 Sekarang</button>
             <button @click="sendQuickAction('Lihat Jadwal')"
-                class="px-3.5 py-1.5 text-[11px] sm:text-xs font-semibold bg-white border border-gray-200 rounded-full hover:border-gray-900 hover:text-gray-900 text-gray-600 transition-all shadow-sm shrink-0 focus:outline-none focus:ring-2 focus:ring-gray-100">Lihat
+                class="px-3.5 py-1.5 text-[11px] sm:text-xs font-semibold bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-full hover:border-gray-900 dark:hover:border-yellow-500 hover:text-gray-900 dark:hover:text-yellow-500 text-gray-600 dark:text-slate-400 transition-all shadow-sm shrink-0 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:focus:ring-slate-700">Lihat
                 Jadwal</button>
             <button @click="sendQuickAction('Status Booking')"
-                class="px-3.5 py-1.5 text-[11px] sm:text-xs font-semibold bg-white border border-gray-200 rounded-full hover:border-gray-900 hover:text-gray-900 text-gray-600 transition-all shadow-sm shrink-0 focus:outline-none focus:ring-2 focus:ring-gray-100">Status
+                class="px-3.5 py-1.5 text-[11px] sm:text-xs font-semibold bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-full hover:border-gray-900 dark:hover:border-yellow-500 hover:text-gray-900 dark:hover:text-yellow-500 text-gray-600 dark:text-slate-400 transition-all shadow-sm shrink-0 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:focus:ring-slate-700">Status
                 Booking</button>
             <button @click="sendQuickAction('Cara Pembayaran')"
-                class="px-3.5 py-1.5 text-[11px] sm:text-xs font-semibold bg-white border border-gray-200 rounded-full hover:border-gray-900 hover:text-gray-900 text-gray-600 transition-all shadow-sm shrink-0 focus:outline-none focus:ring-2 focus:ring-gray-100">Cara
+                class="px-3.5 py-1.5 text-[11px] sm:text-xs font-semibold bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-700 rounded-full hover:border-gray-900 dark:hover:border-yellow-500 hover:text-gray-900 dark:hover:text-yellow-500 text-gray-600 dark:text-slate-400 transition-all shadow-sm shrink-0 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:focus:ring-slate-700">Cara
                 Pembayaran</button>
         </div>
 
         <!-- Input Area -->
-        <div class="p-3 sm:p-4 bg-white shrink-0">
+        <div class="p-3 sm:p-4 bg-white dark:bg-slate-800 shrink-0">
             <form @submit.prevent="sendMessage"
-                class="flex items-end gap-2 relative bg-gray-50 p-1.5 rounded-2xl border border-gray-200 focus-within:border-gray-300 focus-within:ring-4 focus-within:ring-gray-100 transition-all">
+                class="flex items-end gap-2 relative bg-gray-50 dark:bg-slate-900 p-1.5 rounded-2xl border border-gray-200 dark:border-slate-700 focus-within:border-gray-300 dark:focus-within:border-yellow-500 focus-within:ring-4 focus-within:ring-gray-100 dark:focus-within:ring-yellow-500/10 transition-all">
                 <textarea x-model="newMessage" x-ref="chatInput"
-                    class="w-full bg-transparent border-none px-3 py-2.5 text-[13px] sm:text-sm focus:ring-0 resize-none overflow-hidden max-h-32 placeholder-gray-400"
+                    class="w-full bg-transparent border-none px-3 py-2.5 text-[13px] sm:text-sm focus:ring-0 resize-none overflow-hidden max-h-32 placeholder-gray-400 dark:placeholder-slate-500 dark:text-white"
                     placeholder="Ketik pesan..." rows="1"
                     @keydown.enter.prevent="if(!isLoading && newMessage.trim().length > 0) sendMessage()"
                     @input="adjustTextareaHeight($event.target)"></textarea>
 
                 <button type="submit" :disabled="isLoading || newMessage.trim().length === 0"
-                    class="p-2.5 bg-gray-900 text-white rounded-xl hover:bg-black transition-all disabled:opacity-40 disabled:cursor-not-allowed shrink-0 flex items-center justify-center shadow-sm">
+                    class="p-2.5 bg-gray-900 dark:bg-yellow-500 text-white dark:text-slate-900 rounded-xl hover:bg-black dark:hover:bg-yellow-400 transition-all disabled:opacity-40 disabled:cursor-not-allowed shrink-0 flex items-center justify-center shadow-sm">
                     <i data-lucide="send" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                 </button>
             </form>
