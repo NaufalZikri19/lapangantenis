@@ -14,7 +14,7 @@
 
 Gumbreg Tennis Court Booking System merupakan sistem informasi berbasis web yang dikembangkan untuk membantu digitalisasi proses penyewaan lapangan tenis.
 
-Sistem ini mengintegrasikan teknologi AI berbasis Large Language Model (LLM) menggunakan Gemini 2.5 Pro untuk menghadirkan chatbot interaktif yang mampu:
+Sistem ini mengintegrasikan teknologi AI berbasis Large Language Model (LLM) menggunakan Gemini Flash untuk menghadirkan chatbot interaktif yang mampu:
 
 * memahami bahasa natural pengguna
 * melakukan reasoning
@@ -37,7 +37,7 @@ Project ini dikembangkan menggunakan Laravel dengan pendekatan modern AI integra
 
 ## 🤖 AI Chatbot Integration
 
-* Gemini 2.5 Pro integration
+* Gemini Flash integration
 * Zero-shot prompting
 * Natural language interaction
 * Context-aware conversation
@@ -152,7 +152,7 @@ AI tidak dapat mengakses database secara langsung. Seluruh operasi dilakukan mel
 
 ## AI & Automation
 
-* Gemini 2.5 Pro
+* Gemini Flash
 * Function Calling
 * Automatic Reasoning & Tool-Use
 * n8n Workflow Automation
