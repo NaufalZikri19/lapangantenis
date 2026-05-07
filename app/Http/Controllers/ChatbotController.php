@@ -13,11 +13,10 @@ class ChatbotController extends Controller
     protected PromptService $promptService;
     protected GeminiService $geminiService;
 
-    public function __construct()
+    public function __construct(PromptService $promptService, GeminiService $geminiService)
     {
-        // Secara ideal, ini di-inject via Laravel Dependency Injection (DI)
-        $this->promptService = new PromptService();
-        $this->geminiService = new GeminiService(new ToolDispatcher());
+        $this->promptService = $promptService;
+        $this->geminiService = $geminiService;
     }
 
     /**
@@ -32,7 +31,7 @@ class ChatbotController extends Controller
         ]);
 
         $messageText = $request->message;
-        $user = Auth::user();
+        $user = Auth::user();   
 
         // 2. Intent Detection Cepat (Optional Optimization untuk Bypass AI)
         $messageLower = strtolower($messageText);

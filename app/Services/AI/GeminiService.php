@@ -14,8 +14,8 @@ class GeminiService
     public function __construct(ToolDispatcher $dispatcher)
     {
         $this->apiKey = env('GOOGLE_AI_API_KEY', '');
-        // Menggunakan Gemini 2.5 Flash sesuai request user
-        $this->apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={$this->apiKey}";
+        // Menggunakan Gemini Flash
+        $this->apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key={$this->apiKey}";
         $this->dispatcher = $dispatcher;
     }
 

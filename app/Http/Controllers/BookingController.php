@@ -7,9 +7,17 @@ use App\Models\Court;
 use App\Models\Booking;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\BookingRequest;
+use App\Services\BookingService;
 
 class BookingController extends Controller
 {
+    protected BookingService $bookingService;
+
+    public function __construct(BookingService $bookingService)
+    {
+        $this->bookingService = $bookingService;
+    }
     // FORM BOOKING
     public function create()
     {
@@ -23,7 +31,7 @@ class BookingController extends Controller
     }
 
     // STORE BOOKING
-    public function store(Request $request)
+    public function store(BookingRequest $request)
     {
         if (!Auth::check()) {
             return redirect()->route('login');
@@ -34,29 +42,21 @@ class BookingController extends Controller
                 ->with('warning', 'Lengkapi data diri terlebih dahulu');
         }
 
-        $this->validateRequest($request);
-
         $slots = json_decode($request->slots, true);
 
-        if (empty($slots)) {
-            return back()->with('error', 'Pilih slot terlebih dahulu');
+        try {
+            $booking = $this->bookingService->processBooking(
+                Auth::id(),
+                $request->court_id,
+                $request->booking_date,
+                $slots
+            );
+
+            return redirect()->route('booking.payment', $booking->id)
+                ->with('success', 'Booking berhasil! Silakan lakukan pembayaran');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
         }
-
-        if (!$this->validateSlots($slots)) {
-            return back()->with('error', 'Format slot tidak valid');
-        }
-
-        usort($slots, fn($a, $b) => strcmp($a['start'], $b['start']));
-
-        if (!$this->validateSequentialSlots($slots)) {
-            return back()->with('error', 'Slot harus berurutan');
-        }
-
-        if (!$this->validateOperationalHours($slots)) {
-            return back()->with('error', 'Di luar jam operasional atau bukan jam bulat');
-        }
-
-        return $this->processBooking($request, $slots);
     }
 
     // PAYMENT PAGE
@@ -148,114 +148,7 @@ class BookingController extends Controller
         return response()->json($bookings);
     }
 
-    // PRIVATE METHODS 
 
-    private function validateRequest($request)
-    {
-        $request->validate([
-            'court_id' => 'required|exists:courts,id',
-            'booking_date' => 'required|date|after_or_equal:today',
-            'slots' => 'required'
-        ]);
-    }
-
-    private function validateSlots($slots)
-    {
-        if (!$slots || !is_array($slots))
-            return false;
-
-        foreach ($slots as $slot) {
-            if (!isset($slot['start']) || !isset($slot['end'])) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private function validateSequentialSlots($slots)
-    {
-        for ($i = 0; $i < count($slots) - 1; $i++) {
-            if ($slots[$i]['end'] !== $slots[$i + 1]['start']) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private function validateOperationalHours($slots)
-    {
-        $open = 8;
-        $close = 22;
-
-        foreach ($slots as $slot) {
-            $start = strtotime($slot['start']);
-            $end = strtotime($slot['end']);
-
-            if ((int) date('H', $start) < $open || (int) date('H', $end) > $close) {
-                return false;
-            }
-
-            if (date('i', $start) != '00' || date('i', $end) != '00') {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private function hasConflict($request, $slot)
-    {
-        return Booking::where('court_id', $request->court_id)
-            ->where('date', $request->booking_date)
-            ->whereIn('status', ['pending', 'confirmed'])
-            ->where(function ($query) use ($slot) {
-                $query->where('start_time', '<', $slot['end'])
-                    ->where('end_time', '>', $slot['start']);
-            })
-            ->lockForUpdate()
-            ->exists();
-    }
-
-    private function processBooking($request, $slots)
-    {
-        DB::beginTransaction();
-
-        try {
-            foreach ($slots as $slot) {
-                if ($this->hasConflict($request, $slot)) {
-                    DB::rollBack();
-                    return back()->with('error', 'Slot sudah dibooking orang lain!');
-                }
-            }
-
-            $court = Court::findOrFail($request->court_id);
-            $basePrice = count($slots) * $court->price;
-            $uniqueCode = rand(100, 999);
-            $totalPrice = $basePrice + $uniqueCode;
-
-            $booking = Booking::create([
-                'user_id' => Auth::id(),
-                'court_id' => $request->court_id,
-                'date' => $request->booking_date,
-                'start_time' => $slots[0]['start'],
-                'end_time' => $slots[count($slots) - 1]['end'],
-                'status' => 'pending',
-                'total_price' => $totalPrice,
-                'expired_at' => now()->addMinutes(10)
-            ]);
-
-            DB::commit();
-
-            return redirect()->route('booking.payment', $booking->id)
-                ->with('success', 'Booking berhasil! Silakan lakukan pembayaran');
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            \Log::error($e->getMessage());
-            return back()->with('error', 'Terjadi kesalahan, coba lagi');
-        }
-    }
 
     private function authorizeUser($booking)
     {

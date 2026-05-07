@@ -52,61 +52,38 @@ class CreateBooking implements AIToolInterface
             return ['status' => 'FAILED', 'reason' => 'Parameter tidak lengkap. Pastikan ada court_id, date, start_time, dan end_time.'];
         }
 
-        $court = Court::find($args['court_id']);
-        if (!$court) {
-            return ['status' => 'FAILED', 'reason' => 'Court ID tidak valid.'];
+        // Convert start_time and end_time to hourly slots
+        $slots = [];
+        $current = Carbon::parse($args['start_time']);
+        $end = Carbon::parse($args['end_time']);
+
+        while ($current < $end) {
+            $next = $current->copy()->addHour();
+            $slots[] = [
+                'start' => $current->format('H:i'),
+                'end' => $next->format('H:i')
+            ];
+            $current = $next;
         }
 
-        // 2. Conflict Validation
-        $conflict = Booking::where('court_id', $args['court_id'])
-            ->where('date', $args['date'])
-            ->where(function ($query) use ($args) {
-                // Check if new booking time overlaps with existing booking
-                // new_start < exist_end AND new_end > exist_start
-                $query->where('start_time', '<', $args['end_time'])
-                    ->where('end_time', '>', $args['start_time']);
-            })
-            ->whereIn('status', ['pending', 'confirmed'])
-            ->exists();
+        try {
+            $bookingService = new \App\Services\BookingService();
+            $booking = $bookingService->processBooking(
+                $user->id,
+                $args['court_id'],
+                $args['date'],
+                $slots
+            );
 
-        if ($conflict) {
-            return ['status' => 'FAILED', 'reason' => 'Jadwal bertabrakan dengan pesanan lain. Mohon sarankan jam lain.'];
+            return [
+                'status' => 'SUCCESS',
+                'message' => 'Booking berhasil dibuat dengan status pending.',
+                'booking_id' => $booking->id,
+                'total_tagihan' => 'Rp ' . number_format($booking->total_price, 0, ',', '.'),
+                'instruksi_lanjutan' => 'Beri tahu user bahwa pesanan berhasil dan arahkan mereka untuk melakukan pembayaran (bisa cek riwayat tagihan).'
+            ];
+        } catch (\Exception $e) {
+            return ['status' => 'FAILED', 'reason' => $e->getMessage()];
         }
-
-        // 3. Price Calculation
-        $start = strtotime($args['date'] . ' ' . $args['start_time']);
-        $end = strtotime($args['date'] . ' ' . $args['end_time']);
-        $durationHours = ($end - $start) / 3600;
-
-        if ($durationHours <= 0) {
-            return ['status' => 'FAILED', 'reason' => 'Waktu selesai harus lebih besar dari waktu mulai.'];
-        }
-
-        $pricePerHour = $court->price ?? 50000; // fallback
-        $basePrice = $durationHours * $pricePerHour;
-        $uniqueCode = rand(100, 999);
-        $totalPrice = $basePrice + $uniqueCode;
-
-        // 4. Create Booking
-        $booking = Booking::create([
-            'user_id' => $user->id,
-            'court_id' => $court->id,
-            'date' => $args['date'],
-            'start_time' => $args['start_time'],
-            'end_time' => $args['end_time'],
-            'status' => 'pending',
-            'total_price' => $totalPrice,
-            'expired_at' => Carbon::now()->addMinutes(10), // 10 minutes payment window
-            'payment_method' => null,
-            'payment_status' => 'unpaid',
-        ]);
-
-        return [
-            'status' => 'SUCCESS',
-            'message' => 'Booking berhasil dibuat dengan status pending.',
-            'booking_id' => $booking->id,
-            'total_tagihan' => 'Rp ' . number_format($totalPrice, 0, ',', '.'),
-            'instruksi_lanjutan' => 'Beri tahu user bahwa pesanan berhasil dan arahkan mereka untuk melakukan pembayaran (bisa cek riwayat tagihan).'
-        ];
     }
 }
