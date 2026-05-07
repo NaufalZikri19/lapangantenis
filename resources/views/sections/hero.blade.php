@@ -26,14 +26,12 @@
                 </div>
 
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 leading-tight mb-6">
-                    Booking Lapangan Tenis Jadi <span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-yellow-600">Lebih
-                        Mudah</span>
+                    Booking Lapangan Tenis <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-yellow-600">Semi-Indoor</span> Jadi Lebih Mudah
                 </h1>
 
                 <p class="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed">
-                    Tidak perlu lagi telepon atau antri. Cek ketersediaan jadwal secara real-time dan amankan lapangan
-                    favoritmu dalam hitungan detik.
+                    Main tenis kapan saja tanpa takut hujan atau panas terik. Cek ketersediaan jadwal secara real-time dan amankan lapangan favoritmu di Gumbreg Tennis Court dalam hitungan detik.
                 </p>
 
                 <div class="flex flex-col sm:flex-row gap-4">

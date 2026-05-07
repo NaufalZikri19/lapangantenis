@@ -32,7 +32,8 @@
                         <span class="text-4xl font-extrabold text-gray-900">Rp50rb</span>
                         <span class="text-gray-500 font-medium">/ jam</span>
                     </div>
-                    <p class="text-sm text-gray-500 mt-2">Lapangan semi-indoor standar, terlindungi dari panas matahari dan gerimis.</p>
+                    <p class="text-sm text-gray-500 mt-2">Lapangan semi-indoor dengan lantai material rubber cushion
+                        berkualitas untuk mengurangi risiko cedera.</p>
                 </div>
 
                 <div class="border-t border-gray-100 pt-6 mb-8">
@@ -43,11 +44,15 @@
                         </li>
                         <li class="flex items-center gap-3">
                             <i data-lucide="check-circle-2" class="w-5 h-5 text-primary shrink-0"></i>
-                            <span class="text-gray-600">Atap Kanopi (Semi-Indoor)</span>
+                            <span class="text-gray-600">Atap Kanopi Anti Tampyas</span>
                         </li>
                         <li class="flex items-center gap-3">
                             <i data-lucide="check-circle-2" class="w-5 h-5 text-primary shrink-0"></i>
-                            <span class="text-gray-600">Pencahayaan LED Terang</span>
+                            <span class="text-gray-600">Lampu LED 400W (6 Titik)</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-primary shrink-0"></i>
+                            <span class="text-gray-600">Tersedia Kursi Tunggu</span>
                         </li>
                     </ul>
                 </div>
@@ -78,23 +83,27 @@
                         <span class="text-4xl font-extrabold text-white">Rp50rb</span>
                         <span class="text-gray-400 font-medium">/ jam</span>
                     </div>
-                    <p class="text-sm text-gray-400 mt-2">Lapangan semi-indoor premium, bebas cuaca hujan maupun terik
-                        matahari ekstrem.</p>
+                    <p class="text-sm text-gray-400 mt-2">Lapangan semi-indoor premium dengan sirkulasi udara lebih baik
+                        dan area penonton yang lebih luas.</p>
                 </div>
 
                 <div class="border-t border-gray-800 pt-6 mb-8">
                     <ul class="space-y-4">
                         <li class="flex items-center gap-3">
                             <i data-lucide="check-circle-2" class="w-5 h-5 text-primary shrink-0"></i>
-                            <span class="text-gray-300">Material Rubber Cushion</span>
+                            <span class="text-gray-300">Material Rubber Cushion Premium</span>
                         </li>
                         <li class="flex items-center gap-3">
                             <i data-lucide="check-circle-2" class="w-5 h-5 text-primary shrink-0"></i>
-                            <span class="text-gray-300">Atap Kanopi Penuh (Semi-Indoor)</span>
+                            <span class="text-gray-300">Atap Kanopi Penuh & Tinggi</span>
                         </li>
                         <li class="flex items-center gap-3">
                             <i data-lucide="check-circle-2" class="w-5 h-5 text-primary shrink-0"></i>
-                            <span class="text-gray-300">Sirkulasi Udara Maksimal</span>
+                            <span class="text-gray-300">Lampu LED 600W (8 Titik)</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-primary shrink-0"></i>
+                            <span class="text-gray-300">Area Tribun Penonton</span>
                         </li>
                     </ul>
                 </div>

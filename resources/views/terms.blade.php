@@ -129,10 +129,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="mt-12 text-center text-gray-400 text-sm">
-                &copy; {{ date('Y') }} Gumbreg Tennis Court. All rights reserved.
-            </div>
         </div>
     </div>
 @endsection

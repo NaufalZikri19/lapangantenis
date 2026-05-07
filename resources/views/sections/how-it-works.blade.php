@@ -24,7 +24,8 @@
                         class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 w-full hover:shadow-md transition-shadow">
                         <span class="text-primary font-bold text-sm mb-2 block">Langkah 1</span>
                         <h3 class="text-lg font-bold text-gray-900 mb-2">Pilih Lapangan</h3>
-                        <p class="text-sm text-gray-500">Pilih lapangan semi-indoor yang tersedia sesuai jadwal Anda.
+                        <p class="text-sm text-gray-500">Pilih antara Lapangan A (Standar) atau Lapangan B (Premium)
+                            sesuai kebutuhan bermain Anda.
                         </p>
                     </div>
                 </div>
@@ -39,7 +40,8 @@
                         class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 w-full hover:shadow-md transition-shadow">
                         <span class="text-primary font-bold text-sm mb-2 block">Langkah 2</span>
                         <h3 class="text-lg font-bold text-gray-900 mb-2">Tentukan Jadwal</h3>
-                        <p class="text-sm text-gray-500">Pilih tanggal dan jam yang tersedia di sistem real-time kami.
+                        <p class="text-sm text-gray-500">Pilih tanggal dan jam yang tersedia. Sistem kami akan
+                            menampilkan slot kosong secara real-time.
                         </p>
                     </div>
                 </div>
@@ -54,7 +56,9 @@
                         class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 w-full hover:shadow-md transition-shadow">
                         <span class="text-primary font-bold text-sm mb-2 block">Langkah 3</span>
                         <h3 class="text-lg font-bold text-gray-900 mb-2">Pembayaran</h3>
-                        <p class="text-sm text-gray-500">Selesaikan pembayaran dengan berbagai metode yang tersedia.</p>
+                        <p class="text-sm text-gray-500">Lakukan pembayaran melalui Transfer Bank atau QRIS. Unggah
+                            bukti bayar untuk diverifikasi otomatis.
+                        </p>
                     </div>
                 </div>
 
@@ -68,7 +72,9 @@
                         class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 w-full hover:shadow-md transition-shadow">
                         <span class="text-primary font-bold text-sm mb-2 block">Langkah 4</span>
                         <h3 class="text-lg font-bold text-gray-900 mb-2">Konfirmasi</h3>
-                        <p class="text-sm text-gray-500">Booking dikonfirmasi instan. Anda siap untuk bermain!</p>
+                        <p class="text-sm text-gray-500">Terima notifikasi konfirmasi booking. Datanglah 10 menit
+                            sebelum jadwal untuk persiapan.
+                        </p>
                     </div>
                 </div>
 

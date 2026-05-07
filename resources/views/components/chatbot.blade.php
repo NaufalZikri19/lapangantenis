@@ -1,10 +1,11 @@
 @php
     $pendingBookingCount = auth()->check() ? auth()->user()->bookings()->where('status', 'pending')->count() : 0;
+    $userId = auth()->check() ? auth()->id() : 'guest';
 @endphp
 
-<div x-data="chatbot({{ $pendingBookingCount }})" 
-     @open-chatbot.window="isOpen = true; setTimeout(() => { scrollToBottom(); $refs.chatInput.focus(); }, 100)"
-     class="fixed bottom-6 right-6 z-50">
+<div x-data="chatbot({{ $pendingBookingCount }}, '{{ $userId }}')"
+    @open-chatbot.window="isOpen = true; setTimeout(() => { scrollToBottom(); $refs.chatInput.focus(); }, 100)"
+    class="fixed bottom-6 right-6 z-50">
     <!-- Chat Widget Button -->
     <button @click="toggleChat()"
         class="w-14 h-14 bg-yellow-500 hover:bg-yellow-400 text-slate-900 rounded-full shadow-xl shadow-yellow-500/20 flex items-center justify-center transition-all hover:scale-105 duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 dark:focus:ring-offset-slate-950">
@@ -23,7 +24,8 @@
         x-cloak>
 
         <!-- Header -->
-        <div class="bg-white dark:bg-slate-800 p-4 border-b border-gray-100 dark:border-slate-700 shrink-0 flex items-center justify-between relative z-10">
+        <div
+            class="bg-white dark:bg-slate-800 p-4 border-b border-gray-100 dark:border-slate-700 shrink-0 flex items-center justify-between relative z-10">
             <div class="flex items-center gap-3">
                 <div class="relative">
                     <div
@@ -46,8 +48,8 @@
         </div>
 
         <!-- Messages Area -->
-        <div class="flex-1 overflow-y-auto p-4 space-y-6 bg-gray-50/30 dark:bg-slate-900/50 scrollbar-hide" id="chat-messages"
-            style="scroll-behavior: smooth;">
+        <div class="flex-1 overflow-y-auto p-4 space-y-6 bg-gray-50/30 dark:bg-slate-900/50 scrollbar-hide"
+            id="chat-messages" style="scroll-behavior: smooth;">
             <!-- Empty State / Welcome Message -->
             <template x-if="messages.length === 0 && !hasPendingNotification">
                 <div class="flex flex-col items-center justify-center h-full space-y-4 opacity-80 pt-10 pb-10">
@@ -57,7 +59,8 @@
                     </div>
                     <div class="text-center space-y-1 px-4">
                         <p class="text-gray-800 dark:text-white text-sm font-semibold">Gumbreg AI</p>
-                        <p class="text-gray-500 dark:text-slate-400 text-xs font-medium">Tanyakan seputar jadwal atau pembayaran lapangan
+                        <p class="text-gray-500 dark:text-slate-400 text-xs font-medium">Tanyakan seputar jadwal atau
+                            pembayaran lapangan
                             tenis.</p>
                     </div>
                 </div>
@@ -72,7 +75,8 @@
                             x-html="renderMessage(msg.content)">
                         </div>
                         <span :class="msg.role === 'user' ? 'text-right' : 'text-left'"
-                            class="text-[10px] text-gray-400 dark:text-slate-500 px-1 font-medium tracking-wide" x-text="msg.time"></span>
+                            class="text-[10px] text-gray-400 dark:text-slate-500 px-1 font-medium tracking-wide"
+                            x-text="msg.time"></span>
                     </div>
                 </div>
             </template>
@@ -83,12 +87,15 @@
                     <div
                         class="bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 text-gray-500 dark:text-slate-400 rounded-2xl rounded-tl-sm shadow-sm px-4 py-3.5 flex gap-1.5 items-center w-fit">
                         <div class="w-1.5 h-1.5 bg-gray-400 dark:bg-slate-600 rounded-full animate-bounce"></div>
-                        <div class="w-1.5 h-1.5 bg-gray-400 dark:bg-slate-600 rounded-full animate-bounce" style="animation-delay: 0.2s">
+                        <div class="w-1.5 h-1.5 bg-gray-400 dark:bg-slate-600 rounded-full animate-bounce"
+                            style="animation-delay: 0.2s">
                         </div>
-                        <div class="w-1.5 h-1.5 bg-gray-400 dark:bg-slate-600 rounded-full animate-bounce" style="animation-delay: 0.4s">
+                        <div class="w-1.5 h-1.5 bg-gray-400 dark:bg-slate-600 rounded-full animate-bounce"
+                            style="animation-delay: 0.4s">
                         </div>
                     </div>
-                    <span class="text-[10px] text-gray-400 dark:text-slate-500 px-1 font-medium tracking-wide">Bot sedang mengetik...</span>
+                    <span class="text-[10px] text-gray-400 dark:text-slate-500 px-1 font-medium tracking-wide">Bot
+                        sedang mengetik...</span>
                 </div>
             </div>
         </div>
@@ -181,13 +188,14 @@
 
 <script>
     document.addEventListener('alpine:init', () => {
-        Alpine.data('chatbot', (pendingCount) => ({
+        Alpine.data('chatbot', (pendingCount, userId) => ({
             isOpen: false,
             isLoading: false,
             newMessage: '',
             messages: [],
             pendingCount: pendingCount,
             hasPendingNotification: false,
+            storageKey: 'chatbot_history_' + userId,
 
             init() {
                 this.loadMessages();
@@ -205,7 +213,7 @@
             },
 
             loadMessages() {
-                const savedData = localStorage.getItem('chatbot_history');
+                const savedData = localStorage.getItem(this.storageKey);
                 if (savedData) {
                     try {
                         const { messages, timestamp } = JSON.parse(savedData);
@@ -215,11 +223,11 @@
                         if (now - timestamp < tenMinutes) {
                             this.messages = messages;
                         } else {
-                            localStorage.removeItem('chatbot_history');
+                            localStorage.removeItem(this.storageKey);
                         }
                     } catch (e) {
                         console.error('Error loading chatbot history', e);
-                        localStorage.removeItem('chatbot_history');
+                        localStorage.removeItem(this.storageKey);
                     }
                 }
             },
@@ -229,7 +237,7 @@
                     messages: this.messages,
                     timestamp: new Date().getTime()
                 };
-                localStorage.setItem('chatbot_history', JSON.stringify(data));
+                localStorage.setItem(this.storageKey, JSON.stringify(data));
             },
 
             closeIfNotMobile() {

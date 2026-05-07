@@ -1,4 +1,3 @@
-<!-- ================= CHATBOT INTEGRATION ================= -->
 <section id="chatbot" class="py-20 relative overflow-hidden mt-10 bg-gray-50">
     <!-- Abstract Shapes -->
     <div
@@ -48,11 +47,11 @@
                     </li>
                 </ul>
 
-                <button
+                <a href="{{ route('login') }}"
                     class="inline-flex justify-center items-center gap-2 px-8 py-4 rounded-xl text-lg font-bold text-gray-900 bg-primary hover:bg-primaryHover shadow-lg hover:shadow-xl transition-all duration-200 hover:-translate-y-1">
                     <i data-lucide="message-square-plus" class="w-5 h-5"></i>
                     Coba Chat Sekarang
-                </button>
+                </a>
             </div>
 
             <!-- Chatbot Mockup -->

@@ -23,23 +23,53 @@
                     class="absolute inset-0 bg-yellow-200 rounded-3xl transform translate-x-4 translate-y-4 transition-transform group-hover:translate-x-2 group-hover:translate-y-2 z-0">
                 </div>
                 <img src="{{ asset('image/about.jpg') }}"
-                    class="relative z-10 rounded-3xl shadow-xl w-full object-cover h-[420px] transition-transform duration-500 group-hover:-translate-y-1"
+                    class="relative z-10 rounded-3xl shadow-xl w-full object-cover h-[540px] transition-transform duration-500 group-hover:-translate-y-1"
                     alt="Gumbreg Tennis Court" />
             </div>
 
             <!-- Content -->
             <div>
                 <p class="text-gray-600 leading-relaxed mb-6 text-lg">
-                    Gumbreg Tennis Court merupakan fasilitas penyewaan lapangan tenis
-                    yang menyediakan sistem booking online untuk memudahkan pelanggan
-                    dalam melakukan reservasi secara cepat dan efisien.
+                    Gumbreg Tennis Court adalah fasilitas olahraga tenis terkemuka di Purwokerto yang menawarkan
+                    pengalaman bermain premium. Dengan struktur semi-indoor, Anda dapat berolahraga dengan nyaman tanpa
+                    terganggu kondisi cuaca.
                 </p>
 
-                <p class="text-gray-600 leading-relaxed mb-10 text-lg">
-                    Website ini dilengkapi dengan fitur manajemen jadwal real-time
-                    yang membantu pengguna dalam mengecek ketersediaan dan melakukan reservasi tanpa khawatir bentrok
-                    jadwal.
+                <p class="text-gray-600 leading-relaxed mb-8 text-lg">
+                    Kami menghadirkan sistem reservasi online yang transparan dan efisien, memungkinkan Anda
+                    merencanakan pertandingan hanya dengan beberapa klik.
                 </p>
+
+                <!-- Amenities List -->
+                <div class="mb-10">
+                    <h4 class="text-gray-900 font-bold mb-4">Fasilitas & Keunggulan:</h4>
+                    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-6 text-gray-600">
+                        <li class="flex items-center gap-2 text-sm">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-primary"></i>
+                            2 Lapangan Semi-Indoor Berkualitas
+                        </li>
+                        <li class="flex items-center gap-2 text-sm">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-primary"></i>
+                            Area Parkir Luas & Aman
+                        </li>
+                        <li class="flex items-center gap-2 text-sm">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-primary"></i>
+                            Kantin & Area Istirahat
+                        </li>
+                        <li class="flex items-center gap-2 text-sm">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-primary"></i>
+                            Kamar Mandi & Ruang Ganti
+                        </li>
+                        <li class="flex items-center gap-2 text-sm">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-primary"></i>
+                            Pencahayaan LED Standar Turnamen
+                        </li>
+                        <li class="flex items-center gap-2 text-sm">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-primary"></i>
+                            Sewa Raket & Bola Tersedia
+                        </li>
+                    </ul>
+                </div>
 
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-8">
                     <div class="bg-neutralBg p-6 rounded-2xl border border-gray-100 text-center">
