@@ -1,66 +1,287 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🎾 Gumbreg Tennis Court Booking System
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="./screenshots/homepage.png" width="100%" alt="Homepage Preview">
 </p>
 
-## About Laravel
+<p align="center">
+  Sistem informasi penyewaan lapangan tenis berbasis Laravel yang terintegrasi dengan AI Chatbot menggunakan Gemini 2.5 Pro untuk mendukung reservasi otomatis, pengecekan jadwal, dan interaksi berbasis bahasa natural.
+</p>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+# 📌 About Project
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Gumbreg Tennis Court Booking System merupakan sistem informasi berbasis web yang dikembangkan untuk membantu digitalisasi proses penyewaan lapangan tenis.
 
-## Learning Laravel
+Sistem ini mengintegrasikan teknologi AI berbasis Large Language Model (LLM) menggunakan Gemini Flash untuk menghadirkan chatbot interaktif yang mampu:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+* memahami bahasa natural pengguna
+* melakukan reasoning
+* menggunakan backend tools melalui function calling
+* membantu proses reservasi secara otomatis
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Project ini dikembangkan menggunakan Laravel dengan pendekatan modern AI integration dan clean architecture.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+# 🚀 Main Features
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🎾 Court Booking System
 
-### Premium Partners
+* Online tennis court booking
+* Court schedule management
+* Booking history
+* Transaction management
+* Pending & confirmed booking status
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## 🤖 AI Chatbot Integration
 
-## Contributing
+* Gemini Flash integration
+* Zero-shot prompting
+* Natural language interaction
+* Context-aware conversation
+* AI-assisted customer service
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 🧠 Automatic Reasoning & Tool-Use
 
-## Code of Conduct
+Chatbot mampu melakukan:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+* pengecekan jadwal lapangan
+* melihat detail tagihan
+* membatalkan booking pending
+* membantu proses reservasi
 
-## Security Vulnerabilities
+Sistem menerapkan konsep:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+* Function Calling
+* Tool-Use
+* Automatic Reasoning
+* AI Orchestration Workflow
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# 📸 System Preview
+
+## 🏠 Homepage
+
+<p align="center">
+  <img src="./screenshots/homepage.png" width="100%" alt="Homepage">
+</p>
+
+---
+
+## 📊 Dashboard
+
+<p align="center">
+  <img src="./screenshots/dashboard.png" width="100%" alt="Dashboard">
+</p>
+
+---
+
+## 🎾 Booking System
+
+<p align="center">
+  <img src="./screenshots/booking.png" width="100%" alt="Booking">
+</p>
+
+---
+
+## 🤖 AI Chatbot
+
+<p align="center">
+  <img src="./screenshots/chatbot.png" width="100%" alt="AI Chatbot">
+</p>
+
+---
+
+# 🏗️ AI Architecture
+
+Sistem chatbot menggunakan pendekatan:
+
+```text
+User → Gemini AI → Tool Dispatcher → Laravel Function → AI Response → User
+```
+
+## AI Responsibilities
+
+* intent understanding
+* reasoning
+* tool selection
+* conversational response generation
+
+## Laravel Responsibilities
+
+* validation
+* business logic
+* database operations
+* security & authorization
+
+Pendekatan ini memungkinkan AI bertindak sebagai orchestration layer tanpa memberikan akses database secara langsung kepada model AI.
+
+---
+
+# 🔐 AI Tool-Use Security
+
+Untuk menjaga keamanan sistem, implementasi AI menggunakan beberapa mekanisme proteksi:
+
+* Tool whitelist system
+* Validation layer
+* Controlled function execution
+* Max reasoning turns
+* Protected database access
+* Hallucination prevention
+
+AI tidak dapat mengakses database secara langsung. Seluruh operasi dilakukan melalui tool backend Laravel yang telah divalidasi dan diisolasi.
+
+---
+
+# 🧩 Tech Stack
+
+## Backend
+
+* Laravel
+* PHP
+* MySQL
+
+## Frontend
+
+* Blade
+* Tailwind CSS
+* Alpine.js
+
+## AI & Automation
+
+* Gemini Flash
+* Function Calling
+* Automatic Reasoning & Tool-Use
+* n8n Workflow Automation
+
+## Development Tools
+
+* Laragon
+* Git & GitHub
+* Visual Studio Code
+* Figma
+
+---
+
+# ⚙️ Installation
+
+## 1. Clone Repository
+
+```bash
+git clone https://github.com/USERNAME/REPOSITORY.git
+```
+
+## 2. Go To Project Folder
+
+```bash
+cd project-name
+```
+
+## 3. Install Dependencies
+
+```bash
+composer install
+npm install
+```
+
+## 4. Copy Environment File
+
+```bash
+cp .env.example .env
+```
+
+## 5. Generate Application Key
+
+```bash
+php artisan key:generate
+```
+
+## 6. Configure Database
+
+Edit `.env`
+
+```env
+DB_DATABASE=your_database
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+## 7. Run Migration
+
+```bash
+php artisan migrate
+```
+
+## 8. Start Development Server
+
+```bash
+php artisan serve
+npm run dev
+```
+
+---
+
+# 🧠 AI Workflow Example
+
+## User Request
+
+```text
+"Apakah besok jam 7 malam masih ada lapangan kosong?"
+```
+
+## AI Reasoning
+
+AI menentukan bahwa request membutuhkan tool:
+
+* `cek_ketersediaan_lapangan`
+
+## Tool Execution
+
+Laravel melakukan:
+
+* validasi request
+* pengecekan database
+* pengembalian hasil ke AI
+
+## Final AI Response
+
+```text
+"Ya, lapangan masih tersedia untuk besok jam 19:00."
+```
+
+---
+
+# 📚 Research Context
+
+Project ini dikembangkan sebagai penelitian tugas akhir dengan fokus pada implementasi:
+
+* Laravel-based information system
+* AI chatbot integration
+* Automatic Reasoning & Tool-Use
+* Function Calling Architecture
+* Conversational AI pada sistem reservasi
+
+---
+
+# 🎯 Development Goals
+
+* Meningkatkan efisiensi reservasi lapangan
+* Mengotomatisasi layanan pelanggan
+* Mengurangi proses manual
+* Mengintegrasikan AI modern ke sistem informasi berbasis web
+* Meningkatkan pengalaman pengguna melalui conversational interaction
+
+---
+
+# 👨‍💻 Developer
+
+Developed using Laravel & Gemini AI Integration.
+
+---
+
+# 📄 License
+
+Project ini dikembangkan untuk kebutuhan penelitian dan pembelajaran.
