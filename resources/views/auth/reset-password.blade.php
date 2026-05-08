@@ -1,5 +1,11 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('password.store') }}">
+
+    <div class="mb-10">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Atur Ulang Kata Sandi</h1>
+        <p class="text-gray-500 text-sm">Silakan masukkan email Anda dan tentukan kata sandi baru untuk akun Anda.</p>
+    </div>
+
+    <form method="POST" action="{{ route('password.store') }}" class="space-y-6">
         @csrf
 
         <!-- Password Reset Token -->
@@ -7,33 +13,72 @@
 
         <!-- Email Address -->
         <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Email</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i data-lucide="mail" class="w-5 h-5 text-gray-400"></i>
+                </div>
+                <input type="email" name="email" value="{{ old('email', $request->email) }}" required autofocus
+                    placeholder="nama@email.com"
+                    class="w-full pl-11 pr-4 py-3.5 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
+            </div>
+            @error('email')
+                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+            @enderror
         </div>
 
         <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Password Baru</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i data-lucide="lock" class="w-5 h-5 text-gray-400"></i>
+                </div>
+                <input type="password" name="password" required placeholder="••••••••"
+                    class="w-full pl-11 pr-4 py-3.5 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
+            </div>
+            @error('password')
+                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+            @enderror
         </div>
 
         <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Konfirmasi Password</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i data-lucide="shield-check" class="w-5 h-5 text-gray-400"></i>
+                </div>
+                <input type="password" name="password_confirmation" required placeholder="••••••••"
+                    class="w-full pl-11 pr-4 py-3.5 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
+            </div>
+            @error('password_confirmation')
+                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+            @enderror
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Reset Password') }}
-            </x-primary-button>
-        </div>
+        <button type="submit"
+            class="w-full bg-primary text-gray-900 py-3.5 rounded-xl font-bold hover:bg-primaryHover transition-all shadow-sm flex justify-center items-center gap-2">
+            Reset Password
+            <i data-lucide="refresh-cw" class="w-5 h-5"></i>
+        </button>
     </form>
+
+    @if ($errors->any())
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal!',
+                    html: '{!! implode("<br>", $errors->all()) !!}',
+                    confirmButtonColor: '#EAB308',
+                    customClass: {
+                        popup: 'rounded-2xl',
+                        confirmButton: 'rounded-xl px-6 py-2'
+                    }
+                });
+            });
+        </script>
+    @endif
+
 </x-guest-layout>

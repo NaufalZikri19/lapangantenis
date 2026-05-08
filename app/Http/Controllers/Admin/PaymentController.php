@@ -53,7 +53,7 @@ class PaymentController extends Controller
 
         $booking->update([
             'payment_status' => 'rejected',
-            'status' => 'cancelled'
+            'status' => 'rejected'
         ]);
 
         return back()->with('success', 'Payment rejected');

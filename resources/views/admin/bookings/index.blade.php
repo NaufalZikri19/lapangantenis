@@ -20,7 +20,8 @@
                 <form method="GET" class="relative w-full sm:w-64">
                     <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari Pemesanan..."
                         class="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 rounded-lg focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 transition-colors">
-                    <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500"></i>
+                    <i data-lucide="search"
+                        class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500"></i>
                 </form>
             </div>
         </div>
@@ -29,20 +30,21 @@
         <div
             class="flex flex-wrap items-center justify-between gap-3 bg-white dark:bg-gray-800 p-2 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
             <!-- SEGMENTED FILTER -->
-            <div class="flex bg-gray-50 dark:bg-gray-900 p-1 rounded-lg text-sm border border-gray-100 dark:border-gray-700">
+            <div
+                class="flex bg-gray-50 dark:bg-gray-900 p-1 rounded-lg text-sm border border-gray-100 dark:border-gray-700">
                 <a href="{{ route('admin.bookings') }}"
                     class="px-4 py-1.5 rounded-md transition duration-200 font-medium
-                    {{ !request('filter') ? 'bg-white dark:bg-gray-700 shadow-sm text-gray-800 dark:text-gray-100' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100/50 dark:hover:bg-gray-700/50' }}">
+                        {{ !request('filter') ? 'bg-white dark:bg-gray-700 shadow-sm text-gray-800 dark:text-gray-100' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100/50 dark:hover:bg-gray-700/50' }}">
                     Semua
                 </a>
                 <a href="{{ route('admin.bookings', ['filter' => 'month']) }}"
                     class="px-4 py-1.5 rounded-md transition duration-200 font-medium
-                    {{ request('filter') == 'month' ? 'bg-white dark:bg-gray-700 shadow-sm text-gray-800 dark:text-gray-100' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100/50 dark:hover:bg-gray-700/50' }}">
+                        {{ request('filter') == 'month' ? 'bg-white dark:bg-gray-700 shadow-sm text-gray-800 dark:text-gray-100' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100/50 dark:hover:bg-gray-700/50' }}">
                     Bulan Ini
                 </a>
                 <a href="{{ route('admin.bookings', ['filter' => 'year']) }}"
                     class="px-4 py-1.5 rounded-md transition duration-200 font-medium
-                    {{ request('filter') == 'year' ? 'bg-white dark:bg-gray-700 shadow-sm text-gray-800 dark:text-gray-100' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100/50 dark:hover:bg-gray-700/50' }}">
+                        {{ request('filter') == 'year' ? 'bg-white dark:bg-gray-700 shadow-sm text-gray-800 dark:text-gray-100' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100/50 dark:hover:bg-gray-700/50' }}">
                     Tahun Ini
                 </a>
             </div>
@@ -54,11 +56,13 @@
         </div>
 
         <!-- TABLE CARD -->
-        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
+        <div
+            class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
 
             <div class="overflow-x-auto">
                 <table class="w-full min-w-[900px] text-sm text-left">
-                    <thead class="bg-gray-50 dark:bg-gray-700/50 text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider font-semibold">
+                    <thead
+                        class="bg-gray-50 dark:bg-gray-700/50 text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider font-semibold">
                         <tr>
                             <th class="px-6 py-4">Pelanggan</th>
                             <th class="px-6 py-4">Lapangan</th>
@@ -78,7 +82,8 @@
                                             {{ strtoupper(substr($booking->user->name, 0, 1)) }}
                                         </div>
                                         <div>
-                                            <p class="font-semibold text-gray-800 dark:text-gray-100">{{ $booking->user->name }}</p>
+                                            <p class="font-semibold text-gray-800 dark:text-gray-100">{{ $booking->user->name }}
+                                            </p>
                                             <p class="text-xs text-gray-400 dark:text-gray-500 mt-0.5">ID:
                                                 #{{ str_pad($booking->id, 4, '0', STR_PAD_LEFT) }}</p>
                                         </div>
@@ -89,7 +94,8 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <p class="font-medium text-gray-800 dark:text-gray-100">
-                                        {{ \Carbon\Carbon::parse($booking->date)->format('d M Y') }}</p>
+                                        {{ \Carbon\Carbon::parse($booking->date)->format('d M Y') }}
+                                    </p>
                                     <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5 flex items-center gap-1">
                                         <i data-lucide="clock" class="w-3 h-3"></i> {{ $booking->start_time }} -
                                         {{ $booking->end_time }}
@@ -97,25 +103,29 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
                                     <span class="px-3 py-1 rounded-full text-xs font-medium 
-                                            {{ $booking->status == 'pending' ? 'bg-yellow-100 text-yellow-600' : '' }}
-                                            {{ $booking->status == 'confirmed' ? 'bg-green-100 text-green-600' : '' }}
-                                            {{ $booking->status == 'completed' ? 'bg-blue-100 text-blue-600' : '' }}
-                                            {{ $booking->status == 'cancelled' ? 'bg-red-100 text-red-600' : '' }}">
-                                        {{ ucfirst($booking->status) }}
+                                                    {{ $booking->status == 'pending_payment' ? 'bg-yellow-100 text-yellow-600' : '' }}
+                                                    {{ $booking->status == 'pending_verification' ? 'bg-blue-100 text-blue-600' : '' }}
+                                                    {{ $booking->status == 'confirmed' ? 'bg-green-100 text-green-600' : '' }}
+                                                    {{ $booking->status == 'completed' ? 'bg-blue-100 text-blue-600' : '' }}
+                                                    {{ $booking->status == 'cancelled' ? 'bg-red-100 text-red-600' : '' }}
+                                                    {{ $booking->status == 'expired' ? 'bg-gray-200 text-gray-500' : '' }}
+                                                    {{ $booking->status == 'rejected' ? 'bg-red-100 text-red-800' : '' }}">
+                                        {{ $booking->status_label ?? ucfirst($booking->status) }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
-                                    <span class="px-3 py-1 rounded-full text-xs font-medium 
-                                            {{ $booking->payment_status == 'waiting' ? 'bg-yellow-100 text-yellow-600' : '' }}
-                                            {{ $booking->payment_status == 'confirmed' ? 'bg-green-100 text-green-600' : '' }}
-                                            {{ $booking->payment_status == 'rejected' ? 'bg-red-100 text-red-600' : '' }}
-                                            {{ !$booking->payment_status ? 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300' : '' }}">
+                                    <span
+                                        class="px-3 py-1 rounded-full text-xs font-medium 
+                                                    {{ $booking->payment_status == 'waiting' ? 'bg-yellow-100 text-yellow-600' : '' }}
+                                                    {{ $booking->payment_status == 'confirmed' ? 'bg-green-100 text-green-600' : '' }}
+                                                    {{ $booking->payment_status == 'rejected' ? 'bg-red-100 text-red-600' : '' }}
+                                                    {{ !$booking->payment_status ? 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300' : '' }}">
                                         {{ $booking->payment_status ? ucfirst($booking->payment_status) : 'Unpaid' }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right">
                                     <div class="flex items-center justify-end gap-2">
-                                        @if ($booking->status == 'pending')
+                                        @if ($booking->status == 'pending_payment' || $booking->status == 'pending_verification')
                                             <button onclick="cancelBooking('{{ route('booking.cancel', $booking->id) }}')"
                                                 class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition duration-200">
                                                 <i data-lucide="x-circle" class="w-3.5 h-3.5"></i> Batal
@@ -145,7 +155,8 @@
                                             <i data-lucide="inbox" class="w-6 h-6 text-gray-400 dark:text-gray-500"></i>
                                         </div>
                                         <p class="text-gray-500 dark:text-gray-400 font-medium text-sm">Belum ada pemesanan</p>
-                                        <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Data pemesanan akan muncul di sini.</p>
+                                        <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Data pemesanan akan muncul di
+                                            sini.</p>
                                     </div>
                                 </td>
                             </tr>

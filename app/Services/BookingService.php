@@ -53,9 +53,9 @@ class BookingService
                 'date' => $booking_date,
                 'start_time' => $slots[0]['start'],
                 'end_time' => $slots[count($slots) - 1]['end'],
-                'status' => 'pending',
+                'status' => 'pending_payment',
                 'total_price' => $totalPrice,
-                'expired_at' => now()->addMinutes(10)
+                'expired_at' => now()->addMinutes(15)
             ]);
 
             DB::commit();
@@ -113,7 +113,7 @@ class BookingService
     {
         return Booking::where('court_id', $court_id)
             ->where('date', $booking_date)
-            ->whereIn('status', ['pending', 'confirmed'])
+            ->whereIn('status', ['pending_payment', 'pending_verification', 'confirmed'])
             ->where(function ($query) use ($slot) {
                 $query->where('start_time', '<', $slot['end'])
                     ->where('end_time', '>', $slot['start']);

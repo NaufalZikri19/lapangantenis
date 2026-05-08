@@ -1,5 +1,5 @@
 @php
-    $pendingBookingCount = auth()->check() ? auth()->user()->bookings()->where('status', 'pending')->count() : 0;
+    $pendingBookingCount = auth()->check() ? auth()->user()->bookings()->where('status', 'pending_payment')->count() : 0;
     $userId = auth()->check() ? auth()->id() : 'guest';
 @endphp
 

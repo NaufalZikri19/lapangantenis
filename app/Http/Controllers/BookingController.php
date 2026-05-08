@@ -75,12 +75,12 @@ class BookingController extends Controller
                 ->with('error', 'Booking sudah expired');
         }
 
-        if ($booking->payment_status === 'confirmed') {
+        if ($booking->status === 'confirmed') {
             return redirect()->route('customer.dashboard')
                 ->with('success', 'Booking sudah dikonfirmasi');
         }
 
-        if ($booking->status !== 'pending') {
+        if ($booking->status !== 'pending_payment') {
             return redirect()->route('customer.dashboard');
         }
 
@@ -103,11 +103,11 @@ class BookingController extends Controller
             return back()->with('error', 'Booking sudah expired');
         }
 
-        if ($booking->payment_status === 'confirmed') {
+        if ($booking->status === 'confirmed') {
             return back()->with('error', 'Pembayaran sudah dikonfirmasi');
         }
 
-        if ($booking->payment_status === 'waiting') {
+        if ($booking->status === 'pending_verification') {
             return back()->with('error', 'Pembayaran sedang diverifikasi');
         }
 
@@ -124,7 +124,8 @@ class BookingController extends Controller
         $booking->update([
             'payment_method' => $request->payment_method,
             'payment_proof' => $file,
-            'payment_status' => 'waiting',
+            'status' => 'pending_verification',
+            'payment_status' => 'waiting', // Kept for backwards compatibility just in case, though status is now the source of truth
             'paid_at' => now()
         ]);
 
@@ -142,7 +143,7 @@ class BookingController extends Controller
 
         $bookings = Booking::where('court_id', $request->court_id)
             ->where('date', $request->date)
-            ->whereIn('status', ['confirmed', 'pending'])
+            ->whereIn('status', ['confirmed', 'pending_payment', 'pending_verification'])
             ->get(['start_time', 'end_time']);
 
         return response()->json($bookings);
@@ -157,7 +158,7 @@ class BookingController extends Controller
 
     private function isExpired($booking)
     {
-        return $booking->status === 'pending'
+        return $booking->status === 'pending_payment'
             && $booking->expired_at
             && now()->gt($booking->expired_at);
     }

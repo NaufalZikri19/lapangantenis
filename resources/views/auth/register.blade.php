@@ -1,69 +1,99 @@
 <x-guest-layout>
 
-    <h1 class="text-3xl font-bold text-gray-900 mb-2">
-        Create Account
-    </h1>
-
-    <p class="text-gray-500 mb-8 text-sm">
-        Join Gumbreg Court and start booking today
-    </p>
+    <div class="mb-10">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Daftar Akun Baru</h1>
+        <p class="text-gray-500 text-sm">Bergabunglah dengan Gumbreg QuickBook dan mulai langkah Anda menuju lapangan
+            hari ini.</p>
+    </div>
 
     <form method="POST" action="{{ route('register') }}" class="space-y-6">
         @csrf
 
         <!-- Name -->
         <div>
-            <label class="block text-sm text-gray-700 mb-2">
-                Full Name
-            </label>
-            <input type="text" name="name" value="{{ old('name') }}" required
-                class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition">
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Nama Lengkap</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i data-lucide="user" class="w-5 h-5 text-gray-400"></i>
+                </div>
+                <input type="text" name="name" value="{{ old('name') }}" required autofocus
+                    placeholder="Nama Lengkap Anda"
+                    class="w-full pl-11 pr-4 py-3.5 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
+            </div>
+            @error('name')
+                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+            @enderror
         </div>
 
         <!-- Email -->
         <div>
-            <label class="block text-sm text-gray-700 mb-2">
-                Email
-            </label>
-            <input type="email" name="email" value="{{ old('email') }}" required
-                class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition">
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Email</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i data-lucide="mail" class="w-5 h-5 text-gray-400"></i>
+                </div>
+                <input type="email" name="email" value="{{ old('email') }}" required placeholder="nama@email.com"
+                    class="w-full pl-11 pr-4 py-3.5 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
+            </div>
+            @error('email')
+                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+            @enderror
         </div>
 
         <!-- Password -->
         <div>
-            <label class="block text-sm text-gray-700 mb-2">
-                Password
-            </label>
-            <input type="password" name="password" required
-                class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition">
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Password</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i data-lucide="lock" class="w-5 h-5 text-gray-400"></i>
+                </div>
+                <input type="password" name="password" required placeholder="••••••••"
+                    class="w-full pl-11 pr-4 py-3.5 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
+            </div>
+            @error('password')
+                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+            @enderror
         </div>
 
         <!-- Confirm Password -->
         <div>
-            <label class="block text-sm text-gray-700 mb-2">
-                Confirm Password
-            </label>
-            <input type="password" name="password_confirmation" required
-                class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:outline-none transition">
+            <label class="block text-sm font-semibold text-gray-700 mb-2">Konfirmasi Password</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i data-lucide="shield-check" class="w-5 h-5 text-gray-400"></i>
+                </div>
+                <input type="password" name="password_confirmation" required placeholder="••••••••"
+                    class="w-full pl-11 pr-4 py-3.5 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
+            </div>
         </div>
 
-        <!-- Submit -->
         <button type="submit"
-            class="w-full bg-yellow-500 text-white py-3 rounded-xl font-semibold hover:bg-yellow-400 transition">
-            Register
+            class="w-full bg-primary text-gray-900 py-3.5 rounded-xl font-bold hover:bg-primaryHover transition-all shadow-sm flex justify-center items-center gap-2">
+            Daftar Sekarang
+            <i data-lucide="user-plus" class="w-5 h-5"></i>
         </button>
 
-        <!-- Login Link -->
-        <p class="text-sm text-center text-gray-500 mt-6">
-            Already have an account?
-            <a href="{{ route('login') }}" class="text-yellow-500 font-medium hover:underline">
-                Login
-            </a>
+        <p class="text-center text-gray-500 text-sm mt-6">
+            Sudah memiliki akun?
+            <a href="{{ route('login') }}" class="text-primary font-bold hover:underline">Masuk</a>
         </p>
-
     </form>
+
+    @if ($errors->any())
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Pendaftaran Gagal',
+                    html: '{!! implode("<br>", $errors->all()) !!}',
+                    confirmButtonColor: '#EAB308',
+                    customClass: {
+                        popup: 'rounded-2xl',
+                        confirmButton: 'rounded-xl px-6 py-2'
+                    }
+                });
+            });
+        </script>
+    @endif
 
 </x-guest-layout>

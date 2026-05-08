@@ -8,12 +8,12 @@ use App\Models\Booking;
 class AutoCompleteBooking extends Command
 {
     protected $signature = 'booking:auto-complete';
-    protected $description = 'Auto update booking menjadi completed';
+    protected $description = 'Auto update booking status (expired and completed)';
 
     public function handle()
     {
-        Booking::autoComplete();
+        Booking::syncStatus();
 
-        $this->info('Booking updated to completed');
+        $this->info('Booking status synced successfully');
     }
 }

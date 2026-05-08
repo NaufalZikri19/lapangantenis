@@ -60,8 +60,7 @@
         </p>
     </form>
 
-    @if ($errors->has('email'))
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @if ($errors->any())
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 Swal.fire({

@@ -41,7 +41,7 @@ class Booking extends Model
         $now = now();
 
         // EXPIRED
-        self::where('status', 'pending')
+        self::where('status', 'pending_payment')
             ->whereNotNull('expired_at')
             ->where('expired_at', '<', $now)
             ->update(['status' => 'expired']);
@@ -55,11 +55,13 @@ class Booking extends Model
     public function getStatusLabelAttribute()
     {
         return match ($this->status) {
-            'pending' => 'Menunggu',
+            'pending_payment' => 'Menunggu Pembayaran',
+            'pending_verification' => 'Menunggu Verifikasi',
             'confirmed' => 'Dikonfirmasi',
             'completed' => 'Selesai',
             'cancelled' => 'Dibatalkan',
             'expired' => 'Kadaluarsa',
+            'rejected' => 'Ditolak',
             default => ucfirst($this->status)
         };
     }
@@ -67,11 +69,13 @@ class Booking extends Model
     public function getStatusClassAttribute()
     {
         return match ($this->status) {
-            'pending' => 'bg-yellow-100 text-yellow-600',
+            'pending_payment' => 'bg-yellow-100 text-yellow-600',
+            'pending_verification' => 'bg-blue-100 text-blue-600',
             'confirmed' => 'bg-green-100 text-green-600',
-            'completed' => 'bg-blue-100 text-blue-600',
+            'completed' => 'bg-emerald-100 text-emerald-600',
             'cancelled' => 'bg-red-100 text-red-600',
             'expired' => 'bg-gray-200 text-gray-500',
+            'rejected' => 'bg-red-100 text-red-800',
             default => 'bg-gray-100 text-gray-400'
         };
     }

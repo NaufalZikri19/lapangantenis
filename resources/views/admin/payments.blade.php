@@ -90,9 +90,9 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
                                     <span
                                         class="px-3 py-1 rounded-full text-xs font-medium inline-flex items-center gap-1.5 justify-center
-                                                                            {{ $booking->payment_method == 'qris' ? 'bg-blue-100 text-blue-600' : '' }}
-                                                                            {{ $booking->payment_method == 'transfer' ? 'bg-indigo-100 text-indigo-600' : '' }}
-                                                                            {{ !$booking->payment_method ? 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300' : '' }}">
+                                                                                    {{ $booking->payment_method == 'qris' ? 'bg-blue-100 text-blue-600' : '' }}
+                                                                                    {{ $booking->payment_method == 'transfer' ? 'bg-indigo-100 text-indigo-600' : '' }}
+                                                                                    {{ !$booking->payment_method ? 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300' : '' }}">
                                         @if($booking->payment_method == 'qris') <i data-lucide="qr-code"
                                         class="w-3.5 h-3.5"></i> @endif
                                         @if($booking->payment_method == 'transfer') <i data-lucide="landmark"
@@ -122,18 +122,18 @@
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
-                                    <span
-                                        class="px-3 py-1 rounded-full text-xs font-medium 
-                                                                            {{ $booking->payment_status == 'waiting' ? 'bg-yellow-100 text-yellow-600' : '' }}
-                                                                            {{ $booking->payment_status == 'confirmed' ? 'bg-green-100 text-green-600' : '' }}
-                                                                            {{ $booking->payment_status == 'rejected' ? 'bg-red-100 text-red-600' : '' }}
-                                                                            {{ !$booking->payment_status ? 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300' : '' }}">
-                                        {{ $booking->payment_status ? ucfirst($booking->payment_status) : 'Unpaid' }}
+                                    <span class="px-3 py-1 rounded-full text-xs font-medium 
+                                                    {{ $booking->status == 'pending_payment' ? 'bg-yellow-100 text-yellow-600' : '' }}
+                                                    {{ $booking->status == 'pending_verification' ? 'bg-blue-100 text-blue-600' : '' }}
+                                                    {{ $booking->status == 'confirmed' ? 'bg-green-100 text-green-600' : '' }}
+                                                    {{ $booking->status == 'rejected' ? 'bg-red-100 text-red-600' : '' }}
+                                                    {{ $booking->status == 'expired' ? 'bg-gray-200 text-gray-500' : '' }}">
+                                        {{ $booking->status_label ?? ucfirst($booking->status) }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right">
                                     <div class="flex items-center justify-end gap-2">
-                                        @if ($booking->payment_status == 'waiting')
+                                        @if ($booking->status == 'pending_verification')
                                             <a href="{{ route('admin.payments.approve', $booking->id) }}"
                                                 onclick="return confirm('Approve pembayaran ini?')"
                                                 class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-full bg-green-100 text-green-600 hover:bg-green-200 transition duration-200">
@@ -145,12 +145,12 @@
                                                 class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition duration-200">
                                                 <i data-lucide="x-circle" class="w-3.5 h-3.5"></i> Tolak
                                             </a>
-                                        @elseif($booking->payment_status == 'confirmed')
+                                        @elseif($booking->status == 'confirmed')
                                             <span
                                                 class="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium text-green-600 bg-green-50 rounded-full border border-green-100">
                                                 <i data-lucide="check" class="w-3.5 h-3.5"></i> Lunas
                                             </span>
-                                        @elseif($booking->payment_status == 'rejected')
+                                        @elseif($booking->status == 'rejected')
                                             <span
                                                 class="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium text-red-600 bg-red-50 rounded-full border border-red-100">
                                                 <i data-lucide="x" class="w-3.5 h-3.5"></i> Ditolak
