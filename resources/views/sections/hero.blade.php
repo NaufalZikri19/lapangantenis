@@ -25,23 +25,28 @@
                     Tersedia 2 Lapangan
                 </div>
 
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 leading-tight mb-6">
-                    Booking Lapangan Tenis <span
-                        class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-yellow-600">Semi-Indoor</span> Jadi Lebih Mudah
+                <h1
+                    class="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter text-gray-900 leading-[1.1] mb-8">
+                    Booking Lapangan <span class="relative inline-block">
+                        <span
+                            class="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-yellow-600 italic">Tenis</span>
+                        <span class="absolute bottom-2 left-0 w-full h-3 bg-yellow-400/20 -z-0"></span>
+                    </span> Jadi <span class="text-gray-900">Lebih Mudah</span>
                 </h1>
 
-                <p class="text-lg md:text-xl text-gray-600 mb-8 leading-relaxed">
-                    Main tenis kapan saja tanpa takut hujan atau panas terik. Cek ketersediaan jadwal secara real-time dan amankan lapangan favoritmu di Gumbreg Tennis Court dalam hitungan detik.
+                <p class="text-lg md:text-xl text-gray-600 mb-10 leading-relaxed max-w-xl">
+                    Main tenis kapan saja tanpa takut hujan atau panas terik. Cek ketersediaan jadwal secara real-time
+                    dan amankan lapangan favoritmu dalam hitungan detik.
                 </p>
 
                 <div class="flex flex-col sm:flex-row gap-4">
                     <a href="{{ route('register') ?? '#' }}"
-                        class="inline-flex justify-center items-center gap-2 px-6 py-3.5 rounded-xl text-base font-semibold text-gray-900 bg-primary hover:bg-primaryHover shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-0.5">
-                        <i data-lucide="calendar-check" class="w-5 h-5"></i>
+                        class="inline-flex justify-center items-center gap-2 px-8 py-4 rounded-2xl text-base font-bold text-gray-900 bg-primary hover:bg-primaryHover shadow-xl shadow-yellow-500/20 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] active:scale-95 group">
+                        <i data-lucide="calendar-check" class="w-5 h-5 group-hover:rotate-12 transition-transform"></i>
                         Booking Sekarang
                     </a>
                     <a href="{{ route('login') ?? '#' }}"
-                        class="inline-flex justify-center items-center gap-2 px-6 py-3.5 rounded-xl text-base font-semibold text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 shadow-sm hover:shadow transition-all duration-200">
+                        class="inline-flex justify-center items-center gap-2 px-8 py-4 rounded-2xl text-base font-bold text-gray-700 bg-white border-2 border-gray-100 hover:border-gray-200 hover:bg-gray-50 transition-all duration-300 hover:-translate-y-1 active:scale-95">
                         Masuk ke Akun
                     </a>
                 </div>

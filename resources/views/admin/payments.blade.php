@@ -134,17 +134,31 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-right">
                                     <div class="flex items-center justify-end gap-2">
                                         @if ($booking->status == 'pending_verification')
-                                            <a href="{{ route('admin.payments.approve', $booking->id) }}"
-                                                onclick="return confirm('Approve pembayaran ini?')"
-                                                class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-full bg-green-100 text-green-600 hover:bg-green-200 transition duration-200">
-                                                <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Setujui
-                                            </a>
+                                            @if (is_null($booking->handled_by))
+                                                <a href="{{ route('admin.payments.claim', $booking->id) }}"
+                                                    class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 transition duration-200">
+                                                    <i data-lucide="lock" class="w-3.5 h-3.5"></i> Proses Verifikasi
+                                                </a>
+                                            @elseif ($booking->handled_by !== auth()->id())
+                                                <span class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-500" title="Diproses oleh {{ $booking->handler->name ?? 'Admin' }}">
+                                                    <i data-lucide="lock" class="w-3.5 h-3.5"></i> Diproses {{ explode(' ', $booking->handler->name ?? 'Admin')[0] }}
+                                                </span>
+                                            @else
+                                                <a href="{{ route('admin.payments.approve', $booking->id) }}"
+                                                    onclick="return confirm('Approve pembayaran ini?')"
+                                                    class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-full bg-green-100 text-green-600 hover:bg-green-200 transition duration-200">
+                                                    <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Setujui
+                                                </a>
 
-                                            <a href="{{ route('admin.payments.reject', $booking->id) }}"
-                                                onclick="return confirm('Tolak pembayaran ini?')"
-                                                class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition duration-200">
-                                                <i data-lucide="x-circle" class="w-3.5 h-3.5"></i> Tolak
-                                            </a>
+                                                <button type="button" onclick="rejectPayment({{ $booking->id }})"
+                                                    class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition duration-200">
+                                                    <i data-lucide="x-circle" class="w-3.5 h-3.5"></i> Tolak
+                                                </button>
+                                                <form id="reject-form-{{ $booking->id }}" action="{{ route('admin.payments.reject', $booking->id) }}" method="POST" class="hidden">
+                                                    @csrf
+                                                    <input type="hidden" name="rejection_reason" id="rejection-reason-{{ $booking->id }}">
+                                                </form>
+                                            @endif
                                         @elseif($booking->status == 'confirmed')
                                             <span
                                                 class="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium text-green-600 bg-green-50 rounded-full border border-green-100">
@@ -200,4 +214,29 @@
             @endif
         </div>
     </div>
+
+    @push('scripts')
+    <script>
+        function rejectPayment(id) {
+            Alert.fire({
+                title: 'Tolak Pembayaran',
+                text: 'Masukkan alasan penolakan (misal: Bukti buram, Dana belum masuk)',
+                input: 'text',
+                icon: 'warning',
+                confirmButtonColor: '#EF4444', // Red for reject
+                confirmButtonText: 'Ya, Tolak',
+                inputValidator: (value) => {
+                    if (!value || value.trim() === '') {
+                        return 'Alasan penolakan wajib diisi!';
+                    }
+                }
+            }).then((result) => {
+                if (result.isConfirmed && result.value) {
+                    document.getElementById('rejection-reason-' + id).value = result.value;
+                    document.getElementById('reject-form-' + id).submit();
+                }
+            });
+        }
+    </script>
+    @endpush
 @endsection

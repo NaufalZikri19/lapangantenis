@@ -101,8 +101,11 @@ Route::middleware(['auth', 'nocache'])->group(function () {
             Route::get('/payments/{id}/approve', [PaymentController::class, 'approve'])
                 ->name('admin.payments.approve');
 
-            Route::get('/payments/{id}/reject', [PaymentController::class, 'reject'])
+            Route::post('/payments/{id}/reject', [PaymentController::class, 'reject'])
                 ->name('admin.payments.reject');
+
+            Route::get('/payments/{id}/claim', [PaymentController::class, 'claim'])
+                ->name('admin.payments.claim');
 
             // USER MANAGEMENT
             Route::get('/users', [UserController::class, 'index'])

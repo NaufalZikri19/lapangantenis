@@ -195,7 +195,7 @@
     <script>
         let selectedSlots = [];
         let bookedTimes = [];
-        let openTime = 8;
+        let openTime = 6;
         let closeTime = 22;
         let selectedCourtPrice = 0;
 

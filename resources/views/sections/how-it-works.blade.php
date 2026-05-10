@@ -1,80 +1,77 @@
-<section id="cara-booking" class="py-20 bg-neutralBg">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+<section id="cara-booking" class="py-24 bg-neutralBg relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
 
-        <div class="text-center max-w-2xl mx-auto mb-16">
-            <h2 class="text-base text-primary font-semibold tracking-wide uppercase">Cara Kerja</h2>
-            <p class="mt-2 text-3xl leading-8 font-bold tracking-tight text-gray-900 sm:text-4xl">
-                4 Langkah Mudah Bermain
-            </p>
+        <div class="text-center max-w-2xl mx-auto mb-20">
+            <div
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-4">
+                Prosedur Reservasi
+            </div>
+            <h2 class="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl leading-tight">
+                4 Langkah <span class="text-primary">Mudah</span> Bermain
+            </h2>
         </div>
 
         <div class="relative">
             <!-- Connecting Line for Desktop -->
-            <div class="hidden lg:block absolute top-8 left-[10%] w-[80%] h-0.5 bg-gray-200 z-0"></div>
+            <div
+                class="hidden lg:block absolute top-8 left-[10%] w-[80%] h-1 bg-gradient-to-r from-yellow-200 via-yellow-400 to-yellow-200 z-0 rounded-full opacity-50">
+            </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-4 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 relative z-10">
 
                 <!-- Step 1 -->
-                <div class="relative flex flex-col items-center text-center">
+                <div class="relative flex flex-col items-center text-center group">
                     <div
-                        class="w-16 h-16 bg-white border-4 border-primary rounded-full flex items-center justify-center mb-6 shadow-md z-10">
-                        <i data-lucide="map-pin" class="w-6 h-6 text-gray-900"></i>
+                        class="w-16 h-16 bg-white border-4 border-primary rounded-full flex items-center justify-center mb-8 shadow-xl shadow-yellow-500/20 group-hover:scale-110 transition-transform duration-500 z-10">
+                        <span class="text-gray-900 font-black text-xl">1</span>
                     </div>
                     <div
-                        class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 w-full hover:shadow-md transition-shadow">
-                        <span class="text-primary font-bold text-sm mb-2 block">Langkah 1</span>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2">Pilih Lapangan</h3>
-                        <p class="text-sm text-gray-500">Pilih antara Lapangan A (Standar) atau Lapangan B (Premium)
-                            sesuai kebutuhan bermain Anda.
-                        </p>
+                        class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 w-full hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-2">
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Pilih Lapangan</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Pilih antara Lapangan A (Standar) atau Lapangan
+                            B (Premium) sesuai preferensi Anda.</p>
                     </div>
                 </div>
 
                 <!-- Step 2 -->
-                <div class="relative flex flex-col items-center text-center">
+                <div class="relative flex flex-col items-center text-center group">
                     <div
-                        class="w-16 h-16 bg-white border-4 border-primary rounded-full flex items-center justify-center mb-6 shadow-md z-10">
-                        <i data-lucide="calendar-plus" class="w-6 h-6 text-gray-900"></i>
+                        class="w-16 h-16 bg-white border-4 border-primary rounded-full flex items-center justify-center mb-8 shadow-xl shadow-yellow-500/20 group-hover:scale-110 transition-transform duration-500 z-10">
+                        <span class="text-gray-900 font-black text-xl">2</span>
                     </div>
                     <div
-                        class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 w-full hover:shadow-md transition-shadow">
-                        <span class="text-primary font-bold text-sm mb-2 block">Langkah 2</span>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2">Tentukan Jadwal</h3>
-                        <p class="text-sm text-gray-500">Pilih tanggal dan jam yang tersedia. Sistem kami akan
-                            menampilkan slot kosong secara real-time.
-                        </p>
+                        class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 w-full hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-2">
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Tentukan Jadwal</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Pilih tanggal dan jam yang tersedia. Sistem
+                            kami akan menampilkan slot kosong secara real-time.</p>
                     </div>
                 </div>
 
                 <!-- Step 3 -->
-                <div class="relative flex flex-col items-center text-center">
+                <div class="relative flex flex-col items-center text-center group">
                     <div
-                        class="w-16 h-16 bg-white border-4 border-primary rounded-full flex items-center justify-center mb-6 shadow-md z-10">
-                        <i data-lucide="wallet" class="w-6 h-6 text-gray-900"></i>
+                        class="w-16 h-16 bg-white border-4 border-primary rounded-full flex items-center justify-center mb-8 shadow-xl shadow-yellow-500/20 group-hover:scale-110 transition-transform duration-500 z-10">
+                        <span class="text-gray-900 font-black text-xl">3</span>
                     </div>
                     <div
-                        class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 w-full hover:shadow-md transition-shadow">
-                        <span class="text-primary font-bold text-sm mb-2 block">Langkah 3</span>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2">Pembayaran</h3>
-                        <p class="text-sm text-gray-500">Lakukan pembayaran melalui Transfer Bank atau QRIS. Unggah
-                            bukti bayar untuk diverifikasi otomatis.
-                        </p>
+                        class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 w-full hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-2">
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Pembayaran</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Lakukan pembayaran via Transfer atau QRIS.
+                            Unggah bukti bayar untuk verifikasi cepat.</p>
                     </div>
                 </div>
 
                 <!-- Step 4 -->
-                <div class="relative flex flex-col items-center text-center">
+                <div class="relative flex flex-col items-center text-center group">
                     <div
-                        class="w-16 h-16 bg-white border-4 border-primary rounded-full flex items-center justify-center mb-6 shadow-md z-10">
-                        <i data-lucide="check-circle-2" class="w-6 h-6 text-gray-900"></i>
+                        class="w-16 h-16 bg-white border-4 border-primary rounded-full flex items-center justify-center mb-8 shadow-xl shadow-yellow-500/20 group-hover:scale-110 transition-transform duration-500 z-10">
+                        <span class="text-gray-900 font-black text-xl">4</span>
                     </div>
                     <div
-                        class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 w-full hover:shadow-md transition-shadow">
-                        <span class="text-primary font-bold text-sm mb-2 block">Langkah 4</span>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2">Konfirmasi</h3>
-                        <p class="text-sm text-gray-500">Terima notifikasi konfirmasi booking. Datanglah 10 menit
-                            sebelum jadwal untuk persiapan.
-                        </p>
+                        class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 w-full hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-2">
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">Siap Main!</h3>
+                        <p class="text-sm text-gray-500 leading-relaxed">Terima notifikasi konfirmasi. Datanglah 10
+                            menit lebih awal untuk persiapan bermain.</p>
                     </div>
                 </div>
 

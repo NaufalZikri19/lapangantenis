@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Court;
 use App\Models\Booking;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
@@ -90,7 +91,7 @@ class BookingService
 
     public function validateOperationalHours(array $slots): bool
     {
-        $open = 8;
+        $open = 6;
         $close = 22;
 
         foreach ($slots as $slot) {
@@ -120,5 +121,70 @@ class BookingService
             })
             ->lockForUpdate()
             ->exists();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function claimVerification(Booking $booking, User $admin): void
+    {
+        if ($booking->status !== 'pending_verification') {
+            throw new Exception('Booking ini tidak dalam status menunggu verifikasi.');
+        }
+
+        if ($booking->handled_by !== null && $booking->handled_by !== $admin->id) {
+            throw new Exception('Booking ini sedang ditangani oleh admin lain.');
+        }
+
+        $booking->update([
+            'handled_by' => $admin->id
+        ]);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function approvePayment(Booking $booking, User $admin): void
+    {
+        if ($booking->status !== 'pending_verification') {
+            throw new Exception('Booking tidak valid untuk di-approve.');
+        }
+
+        if ($booking->handled_by !== $admin->id) {
+            throw new Exception('Anda tidak memiliki akses untuk menyetujui booking ini.');
+        }
+
+        $booking->update([
+            'status' => 'confirmed',
+            'verified_by' => $admin->id,
+            'verified_at' => now(),
+            'payment_status' => 'paid',
+            'paid_at' => now()
+        ]);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function rejectPayment(Booking $booking, User $admin, string $reason): void
+    {
+        if ($booking->status !== 'pending_verification') {
+            throw new Exception('Booking tidak valid untuk di-reject.');
+        }
+
+        if ($booking->handled_by !== $admin->id) {
+            throw new Exception('Anda tidak memiliki akses untuk menolak booking ini.');
+        }
+
+        if (empty(trim($reason))) {
+            throw new Exception('Alasan penolakan harus diisi.');
+        }
+
+        $booking->update([
+            'status' => 'rejected',
+            'verified_by' => $admin->id,
+            'verified_at' => now(),
+            'rejection_reason' => $reason
+        ]);
     }
 }

@@ -13,44 +13,39 @@
             <!-- Chatbot Text Info -->
             <div class="order-2 lg:order-1">
                 <div
-                    class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-100 border border-blue-200 text-blue-800 text-xs font-semibold uppercase tracking-wider mb-6 shadow-sm">
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-xs font-bold uppercase tracking-widest mb-6 shadow-sm">
                     <i data-lucide="bot" class="w-4 h-4"></i>
-                    Dukungan Pintar
+                    Dukungan Pintar AI
                 </div>
-                <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900 mb-6">
-                    Asisten Chatbot Cerdas <span class="text-primary">24/7</span>
+                <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 mb-8 leading-tight">
+                    Asisten Virtual <span class="text-blue-600 italic">Siap Sedia</span> <br>Membantu Anda 24/7
                 </h2>
-                <p class="text-lg text-gray-600 mb-8 leading-relaxed">
-                    Butuh bantuan seputar booking lapangan? Asisten virtual kami siap membantu Anda kapan saja. Mulai
-                    dari cek ketersediaan lapangan, panduan pembayaran, hingga menjawab pertanyaan umum tanpa perlu
-                    menunggu lama.
+                <p class="text-lg text-gray-500 mb-10 leading-relaxed max-w-xl">
+                    Bingung soal jadwal atau cara bayar? Asisten virtual kami siap menjawab pertanyaan Anda kapan saja
+                    tanpa perlu menunggu respon admin.
                 </p>
 
-                <ul class="space-y-4 mb-8">
-                    <li class="flex items-center gap-3 text-gray-700">
-                        <div class="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
-                            <i data-lucide="check" class="w-4 h-4 text-blue-600"></i>
+                <div class="grid sm:grid-cols-2 gap-6 mb-10">
+                    <div class="flex items-center gap-3 text-gray-700 group">
+                        <div
+                            class="w-10 h-10 rounded-xl bg-white shadow-sm border border-gray-100 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                            <i data-lucide="clock" class="w-5 h-5 text-blue-600"></i>
                         </div>
-                        Tersedia setiap saat (24 Jam)
-                    </li>
-                    <li class="flex items-center gap-3 text-gray-700">
-                        <div class="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
-                            <i data-lucide="check" class="w-4 h-4 text-blue-600"></i>
+                        <span class="font-bold text-sm">Respon Instan 24 Jam</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-gray-700 group">
+                        <div
+                            class="w-10 h-10 rounded-xl bg-white shadow-sm border border-gray-100 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                            <i data-lucide="shield-check" class="w-5 h-5 text-blue-600"></i>
                         </div>
-                        Respon cepat & akurat
-                    </li>
-                    <li class="flex items-center gap-3 text-gray-700">
-                        <div class="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
-                            <i data-lucide="check" class="w-4 h-4 text-blue-600"></i>
-                        </div>
-                        Terintegrasi langsung di website
-                    </li>
-                </ul>
+                        <span class="font-bold text-sm">Aman & Terpercaya</span>
+                    </div>
+                </div>
 
                 <a href="{{ route('login') }}"
-                    class="inline-flex justify-center items-center gap-2 px-8 py-4 rounded-xl text-lg font-bold text-gray-900 bg-primary hover:bg-primaryHover shadow-lg hover:shadow-xl transition-all duration-200 hover:-translate-y-1">
-                    <i data-lucide="message-square-plus" class="w-5 h-5"></i>
+                    class="inline-flex justify-center items-center gap-3 px-8 py-4 rounded-2xl text-lg font-black text-gray-900 bg-primary hover:bg-primaryHover shadow-xl shadow-yellow-500/20 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] active:scale-95 group">
                     Coba Chat Sekarang
+                    <i data-lucide="sparkles" class="w-5 h-5 group-hover:rotate-12 transition-transform"></i>
                 </a>
             </div>
 

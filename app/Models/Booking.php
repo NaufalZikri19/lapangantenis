@@ -18,11 +18,16 @@ class Booking extends Model
         'payment_proof',
         'payment_status',
         'paid_at',
-        'total_price'
+        'total_price',
+        'handled_by',
+        'verified_by',
+        'verified_at',
+        'rejection_reason'
     ];
 
     protected $casts = [
         'expired_at' => 'datetime',
+        'verified_at' => 'datetime',
     ];
 
     protected $appends = ['status_label', 'status_class'];
@@ -34,6 +39,16 @@ class Booking extends Model
     public function court()
     {
         return $this->belongsTo(Court::class);
+    }
+
+    public function handler()
+    {
+        return $this->belongsTo(User::class, 'handled_by');
+    }
+
+    public function verifier()
+    {
+        return $this->belongsTo(User::class, 'verified_by');
     }
 
     public static function syncStatus()
