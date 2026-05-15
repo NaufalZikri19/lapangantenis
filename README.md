@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  Sistem informasi penyewaan lapangan tenis berbasis Laravel yang terintegrasi dengan AI Chatbot menggunakan Gemini 2.5 Pro untuk mendukung reservasi otomatis, pengecekan jadwal, dan interaksi berbasis bahasa natural.
+  Sistem informasi penyewaan lapangan tenis berbasis Laravel yang terintegrasi dengan AI Chatbot menggunakan Gemini untuk mendukung reservasi otomatis, pengecekan jadwal, dan interaksi berbasis bahasa natural.
 </p>
 
 ---
