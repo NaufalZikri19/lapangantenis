@@ -52,12 +52,12 @@
 
                 <p class="text-gray-600 leading-relaxed mb-6 text-lg">
                     Kami memahami bahwa kenyamanan adalah prioritas. Itulah sebabnya Gumbreg Tennis Court didesain
-                    dengan konsep **semi-indoor**, memberikan perlindungan maksimal dari sinar UV dan hujan tanpa
+                    dengan konsep semi-indoor, memberikan perlindungan maksimal dari sinar UV dan hujan tanpa
                     mengorbankan sirkulasi udara alami.
                 </p>
 
                 <p class="text-gray-600 leading-relaxed mb-8 text-lg">
-                    Dengan integrasi teknologi **Real-Time Booking**, kami mengeliminasi kerumitan reservasi manual,
+                    Dengan integrasi teknologi Real-Time Booking, kami mengeliminasi kerumitan reservasi manual,
                     memastikan jadwal Anda tertata dengan sempurna hanya dalam beberapa detik.
                 </p>
 

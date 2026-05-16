@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\DashboardController as DashboardController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\NotificationController;
 
 /*
 | Models
@@ -181,6 +182,13 @@ Route::middleware(['auth', 'nocache'])->group(function () {
         ->name('profile.biodata.update');
 
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    /*
+    | NOTIFICATIONS
+    */
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('/notifications/unread-count', [NotificationController::class, 'unreadCount'])->name('notifications.unreadCount');
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
 });
 
 

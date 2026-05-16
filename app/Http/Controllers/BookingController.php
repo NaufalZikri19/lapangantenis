@@ -52,6 +52,8 @@ class BookingController extends Controller
                 $slots
             );
 
+            Auth::user()->notify(new \App\Notifications\BookingCreatedNotification($booking));
+
             return redirect()->route('booking.payment', $booking->id)
                 ->with('success', 'Booking berhasil! Silakan lakukan pembayaran');
         } catch (\Exception $e) {
@@ -128,6 +130,9 @@ class BookingController extends Controller
             'payment_status' => 'waiting', // Kept for backwards compatibility just in case, though status is now the source of truth
             'paid_at' => now()
         ]);
+
+        $admins = \App\Models\User::where('role', 'admin')->get();
+        \Illuminate\Support\Facades\Notification::send($admins, new \App\Notifications\PaymentUploadedNotification($booking));
 
         return redirect()->route('customer.dashboard')
             ->with('success', 'Bukti pembayaran berhasil dikirim');

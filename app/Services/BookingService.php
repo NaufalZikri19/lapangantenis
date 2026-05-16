@@ -161,6 +161,8 @@ class BookingService
             'payment_status' => 'paid',
             'paid_at' => now()
         ]);
+
+        $booking->user->notify(new \App\Notifications\PaymentVerifiedNotification($booking));
     }
 
     /**
@@ -186,5 +188,7 @@ class BookingService
             'verified_at' => now(),
             'rejection_reason' => $reason
         ]);
+
+        $booking->user->notify(new \App\Notifications\PaymentRejectedNotification($booking));
     }
 }

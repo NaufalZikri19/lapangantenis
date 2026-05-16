@@ -219,12 +219,17 @@
                     </div>
                 </div>
 
-                <!-- Theme Toggle Button -->
-                <button @click="dark = !dark"
-                    class="p-2 rounded-lg text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 transition-colors duration-200 ml-4 shrink-0 focus:outline-none">
-                    <i data-lucide="sun" x-show="!dark" class="w-5 h-5"></i>
-                    <i data-lucide="moon" x-show="dark" x-cloak class="w-5 h-5"></i>
-                </button>
+                <div class="flex items-center gap-2 ml-auto">
+                    <!-- Notification Dropdown -->
+                    <x-notification-dropdown />
+
+                    <!-- Theme Toggle Button -->
+                    <button @click="dark = !dark"
+                        class="p-2 rounded-lg text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 transition-colors duration-200 shrink-0 focus:outline-none">
+                        <i data-lucide="sun" x-show="!dark" class="w-5 h-5"></i>
+                        <i data-lucide="moon" x-show="dark" x-cloak class="w-5 h-5"></i>
+                    </button>
+                </div>
             </header>
 
             <!-- SweetAlert Component -->

@@ -112,7 +112,7 @@
                     @endphp
                     <a href="{{ isset($menu['anchor']) ? route($menu['route']) . '#' . $menu['anchor'] : route($menu['route']) }}"
                         class="flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all duration-200 group relative overflow-hidden
-                               {{ $isActive ? 'bg-yellow-500/10 text-yellow-500 font-semibold' : 'hover:bg-slate-800/50 hover:text-white' }}">
+                                   {{ $isActive ? 'bg-yellow-500/10 text-yellow-500 font-semibold' : 'hover:bg-slate-800/50 hover:text-white' }}">
 
                         <!-- Active Indicator -->
                         <div x-show="!isCollapsed"
@@ -203,50 +203,7 @@
 
                 <div class="flex items-center gap-2 sm:gap-4">
                     <!-- Notifications -->
-                    <div class="relative" x-data="{ notifications: [
-                        { id: 1, title: 'Booking Berhasil', body: 'Booking Lapangan 1 jam 10:00 sudah dikonfirmasi.', time: '2 menit lalu', type: 'success' },
-                        { id: 2, title: 'Pembayaran Diterima', body: 'Pembayaran #0042 telah diverifikasi.', time: '1 jam lalu', type: 'info' }
-                    ] }">
-                        <button @click="notificationsOpen = !notificationsOpen"
-                            class="p-2.5 rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all relative group">
-                            <i data-lucide="bell" class="w-5 h-5 group-hover:rotate-12 transition-transform"></i>
-                            <span
-                                class="absolute top-2.5 right-2.5 w-2 h-2 bg-red-500 border-2 border-white dark:border-slate-900 rounded-full"></span>
-                        </button>
-
-                        <div x-show="notificationsOpen" @click.outside="notificationsOpen = false"
-                            x-transition:enter="transition ease-out duration-200"
-                            x-transition:enter-start="opacity-0 translate-y-4"
-                            x-transition:enter-end="opacity-100 translate-y-0" x-cloak
-                            class="absolute right-0 mt-3 w-80 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-3xl shadow-2xl overflow-hidden z-50">
-                            <div
-                                class="p-4 border-b border-slate-50 dark:border-slate-700 flex justify-between items-center bg-slate-50/50 dark:bg-slate-900/50">
-                                <h3 class="font-bold text-slate-800 dark:text-white">Notifikasi</h3>
-                                <span
-                                    class="text-[10px] bg-yellow-500 text-slate-900 px-2 py-0.5 rounded-full font-bold uppercase">2
-                                    Baru</span>
-                            </div>
-                            <div class="max-h-96 overflow-y-auto">
-                                <template x-for="item in notifications" :key="item.id">
-                                    <div
-                                        class="p-4 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors cursor-pointer border-b border-slate-50 dark:border-slate-700 last:border-0">
-                                        <div class="flex gap-3">
-                                            <div class="w-2 h-2 mt-1.5 rounded-full shrink-0"
-                                                :class="item.type === 'success' ? 'bg-green-500' : 'bg-blue-500'"></div>
-                                            <div class="flex-1">
-                                                <p class="text-sm font-semibold text-slate-800 dark:text-white"
-                                                    x-text="item.title"></p>
-                                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5"
-                                                    x-text="item.body"></p>
-                                                <p class="text-[10px] text-slate-400 dark:text-slate-500 mt-2 font-medium"
-                                                    x-text="item.time"></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </template>
-                            </div>
-                        </div>
-                    </div>
+                    <x-notification-dropdown />
 
                     <!-- Theme Toggle -->
                     <button @click="dark = !dark"

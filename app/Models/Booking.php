@@ -56,10 +56,18 @@ class Booking extends Model
         $now = now();
 
         // EXPIRED
-        self::where('status', 'pending_payment')
+        $expiredBookings = self::where('status', 'pending_payment')
             ->whereNotNull('expired_at')
             ->where('expired_at', '<', $now)
-            ->update(['status' => 'expired']);
+            ->get();
+
+        /** @var \App\Models\Booking $booking */
+        foreach ($expiredBookings as $booking) {
+            $booking->update(['status' => 'expired']);
+            if ($booking->user) {
+                $booking->user->notify(new \App\Notifications\BookingExpiredNotification($booking));
+            }
+        }
 
         // COMPLETED
         self::where('status', 'confirmed')
