@@ -6,8 +6,8 @@
         <!-- HEADER SECTION -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div class="flex items-center gap-3">
-                <div class="p-2.5 bg-yellow-50 text-yellow-600 rounded-xl border border-yellow-100">
-                    <i data-lucide="wallet" class="w-7 h-7 text-gray-900"></i>
+                <div class="p-2.5 bg-yellow-50 dark:bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 rounded-xl border border-yellow-100 dark:border-yellow-500/20">
+                    <i data-lucide="wallet" class="w-7 h-7 text-yellow-600 dark:text-yellow-400"></i>
                 </div>
                 <div>
                     <h1 class="text-xl md:text-2xl font-semibold text-gray-800 dark:text-gray-100">Pembayaran</h1>
@@ -89,9 +89,9 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
                                     <span
-                                        class="px-3 py-1 rounded-full text-xs font-medium inline-flex items-center gap-1.5 justify-center
-                                                                                    {{ $booking->payment_method == 'qris' ? 'bg-blue-100 text-blue-600' : '' }}
-                                                                                    {{ $booking->payment_method == 'transfer' ? 'bg-indigo-100 text-indigo-600' : '' }}
+                                        class="px-3 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1.5 justify-center border border-transparent
+                                                                                    {{ $booking->payment_method == 'qris' ? 'bg-blue-100 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-500/20' : '' }}
+                                                                                    {{ $booking->payment_method == 'transfer' ? 'bg-indigo-100 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-200 dark:border-indigo-500/20' : '' }}
                                                                                     {{ !$booking->payment_method ? 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300' : '' }}">
                                         @if($booking->payment_method == 'qris') <i data-lucide="qr-code"
                                         class="w-3.5 h-3.5"></i> @endif
@@ -122,12 +122,7 @@
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
-                                    <span class="px-3 py-1 rounded-full text-xs font-medium 
-                                                    {{ $booking->status == 'pending_payment' ? 'bg-yellow-100 text-yellow-600' : '' }}
-                                                    {{ $booking->status == 'pending_verification' ? 'bg-blue-100 text-blue-600' : '' }}
-                                                    {{ $booking->status == 'confirmed' ? 'bg-green-100 text-green-600' : '' }}
-                                                    {{ $booking->status == 'rejected' ? 'bg-red-100 text-red-600' : '' }}
-                                                    {{ $booking->status == 'expired' ? 'bg-gray-200 text-gray-500' : '' }}">
+                                    <span class="px-3 py-1 rounded-full text-xs font-semibold {{ $booking->status_class }}">
                                         {{ $booking->status_label ?? ucfirst($booking->status) }}
                                     </span>
                                 </td>
@@ -136,22 +131,22 @@
                                         @if ($booking->status == 'pending_verification')
                                             @if (is_null($booking->handled_by))
                                                 <a href="{{ route('admin.payments.claim', $booking->id) }}"
-                                                    class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-full bg-blue-100 text-blue-600 hover:bg-blue-200 transition duration-200">
+                                                    class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-full bg-blue-100 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-transparent dark:border-blue-500/20 hover:bg-blue-200 dark:hover:bg-blue-500/20 transition duration-200">
                                                     <i data-lucide="lock" class="w-3.5 h-3.5"></i> Proses Verifikasi
                                                 </a>
                                             @elseif ($booking->handled_by !== auth()->id())
-                                                <span class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-500" title="Diproses oleh {{ $booking->handler->name ?? 'Admin' }}">
+                                                <span class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 border border-transparent dark:border-gray-700" title="Diproses oleh {{ $booking->handler->name ?? 'Admin' }}">
                                                     <i data-lucide="lock" class="w-3.5 h-3.5"></i> Diproses {{ explode(' ', $booking->handler->name ?? 'Admin')[0] }}
                                                 </span>
                                             @else
                                                 <a href="{{ route('admin.payments.approve', $booking->id) }}"
                                                     onclick="return confirm('Approve pembayaran ini?')"
-                                                    class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-full bg-green-100 text-green-600 hover:bg-green-200 transition duration-200">
+                                                    class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-full bg-green-100 dark:bg-green-500/10 text-green-600 dark:text-green-400 border border-transparent dark:border-green-500/20 hover:bg-green-200 dark:hover:bg-green-500/20 transition duration-200">
                                                     <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Setujui
                                                 </a>
-
+ 
                                                 <button type="button" onclick="rejectPayment({{ $booking->id }})"
-                                                    class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-full bg-red-100 text-red-600 hover:bg-red-200 transition duration-200">
+                                                    class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-full bg-red-100 dark:bg-red-500/10 text-red-600 dark:text-red-400 border border-transparent dark:border-red-500/20 hover:bg-red-200 dark:hover:bg-red-500/20 transition duration-200">
                                                     <i data-lucide="x-circle" class="w-3.5 h-3.5"></i> Tolak
                                                 </button>
                                                 <form id="reject-form-{{ $booking->id }}" action="{{ route('admin.payments.reject', $booking->id) }}" method="POST" class="hidden">
@@ -161,12 +156,12 @@
                                             @endif
                                         @elseif($booking->status == 'confirmed')
                                             <span
-                                                class="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium text-green-600 bg-green-50 rounded-full border border-green-100">
+                                                class="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-500/10 rounded-full border border-green-100 dark:border-green-500/20">
                                                 <i data-lucide="check" class="w-3.5 h-3.5"></i> Lunas
                                             </span>
                                         @elseif($booking->status == 'rejected')
                                             <span
-                                                class="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium text-red-600 bg-red-50 rounded-full border border-red-100">
+                                                class="inline-flex items-center gap-1 px-3 py-1 text-xs font-medium text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-500/10 rounded-full border border-red-100 dark:border-red-500/20">
                                                 <i data-lucide="x" class="w-3.5 h-3.5"></i> Ditolak
                                             </span>
                                         @else

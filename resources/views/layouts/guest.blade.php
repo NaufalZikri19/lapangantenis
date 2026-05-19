@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" x-data="{ dark: localStorage.getItem('dark') === 'true' }"
+    x-init="$watch('dark', val => localStorage.setItem('dark', val))" :class="{ 'dark': dark }">
 
 <head>
     <meta charset="UTF-8">
@@ -9,10 +10,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Alpine JS -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: { sans: ['Inter', 'sans-serif'] },
@@ -28,7 +33,7 @@
     </style>
 </head>
 
-<body class="antialiased text-gray-900 bg-white">
+<body class="antialiased text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-900 transition-colors duration-200">
     <div class="flex min-h-screen">
 
         <!-- LEFT SIDE -->
@@ -66,12 +71,12 @@
         </div>
 
         <!-- RIGHT SIDE -->
-        <div class="flex items-center justify-center w-full md:w-1/2 p-6 lg:p-16 bg-white overflow-hidden relative">
+        <div class="flex items-center justify-center w-full md:w-1/2 p-6 lg:p-16 bg-white dark:bg-gray-900 overflow-hidden relative">
             <div class="w-full max-w-md relative z-10">
                 <div class="md:hidden flex items-center justify-center gap-2 mb-10">
                     <img src="{{ asset('image/logo.png') }}" alt="Logo Gumbreg QuickBook"
                         class="w-10 h-10 rounded-xl shadow-sm group-hover:scale-105 transition-transform duration-200 object-cover bg-white">
-                    <span class="text-2xl font-bold tracking-tight text-gray-900">
+                    <span class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                         Gumbreg<span class="text-primary">QuickBook</span>
                     </span>
                 </div>

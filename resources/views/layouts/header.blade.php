@@ -14,7 +14,7 @@
     }
 }" x-init="scrolled = window.scrollY > 10; updateActive()"
     @scroll.window="scrolled = window.scrollY > 10; updateActive()"
-    :class="scrolled ? 'bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-100 py-3' : 'bg-transparent py-5'"
+    :class="scrolled ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-sm border-b border-gray-100 dark:border-gray-800 py-3' : 'bg-transparent py-5'"
     class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
 
     <div class="max-w-7xl mx-auto px-6 lg:px-8">
@@ -24,7 +24,7 @@
             <a href="/" class="flex items-center gap-2 group">
                 <img src="{{ asset('image/logo.png') }}" alt="Logo Gumbreg QuickBook"
                     class="w-10 h-10 rounded-xl shadow-sm group-hover:scale-105 transition-transform duration-200 object-cover bg-white">
-                <span class="text-xl font-bold tracking-tight text-gray-900">
+                <span class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
                     Gumbreg<span class="text-primary">QuickBook</span>
                 </span>
             </a>
@@ -32,24 +32,30 @@
             <!-- DESKTOP MENU -->
             <nav class="hidden md:flex items-center gap-8">
                 <a href="#about"
-                    :class="activeSection === 'about' ? 'text-primary font-bold' : 'text-gray-600 font-medium'"
-                    class="text-sm hover:text-gray-900 transition-colors duration-200">Tentang Kami</a>
+                    :class="activeSection === 'about' ? 'text-primary font-bold' : 'text-gray-600 dark:text-gray-400 font-medium'"
+                    class="text-sm hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Tentang Kami</a>
                 <a href="#pricing"
-                    :class="activeSection === 'pricing' ? 'text-primary font-bold' : 'text-gray-600 font-medium'"
-                    class="text-sm hover:text-gray-900 transition-colors duration-200">Harga</a>
+                    :class="activeSection === 'pricing' ? 'text-primary font-bold' : 'text-gray-600 dark:text-gray-400 font-medium'"
+                    class="text-sm hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Harga</a>
                 <a href="#cara-booking"
-                    :class="activeSection === 'cara-booking' ? 'text-primary font-bold' : 'text-gray-600 font-medium'"
-                    class="text-sm hover:text-gray-900 transition-colors duration-200">Cara Booking</a>
+                    :class="activeSection === 'cara-booking' ? 'text-primary font-bold' : 'text-gray-600 dark:text-gray-400 font-medium'"
+                    class="text-sm hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Cara Booking</a>
                 <a href="#contact"
-                    :class="activeSection === 'contact' ? 'text-primary font-bold' : 'text-gray-600 font-medium'"
-                    class="text-sm hover:text-gray-900 transition-colors duration-200">Kontak</a>
+                    :class="activeSection === 'contact' ? 'text-primary font-bold' : 'text-gray-600 dark:text-gray-400 font-medium'"
+                    class="text-sm hover:text-gray-900 dark:hover:text-white transition-colors duration-200">Kontak</a>
             </nav>
 
             <!-- AUTH BUTTONS -->
             <div class="hidden md:flex items-center gap-4">
+                <!-- Theme Toggle Button -->
+                <button @click="dark = !dark"
+                    class="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 shrink-0 focus:outline-none">
+                    <i data-lucide="sun" x-show="!dark" class="w-5 h-5"></i>
+                    <i data-lucide="moon" x-show="dark" x-cloak class="w-5 h-5"></i>
+                </button>
                 @guest
                     <a href="{{ route('login') }}"
-                        class="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors duration-200">
+                        class="text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">
                         Login
                     </a>
                     <a href="{{ route('register') }}"
@@ -64,12 +70,21 @@
                 @endguest
             </div>
 
-            <!-- MOBILE MENU BUTTON -->
-            <button @click="mobileMenuOpen = !mobileMenuOpen"
-                class="md:hidden p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors relative z-50">
-                <i x-show="!mobileMenuOpen" data-lucide="menu" class="w-6 h-6"></i>
-                <i x-show="mobileMenuOpen" x-cloak data-lucide="x" class="w-6 h-6"></i>
-            </button>
+            <!-- MOBILE ACTIONS -->
+            <div class="flex items-center gap-2 md:hidden">
+                <!-- Theme Toggle Button Mobile -->
+                <button @click="dark = !dark"
+                    class="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 shrink-0 focus:outline-none">
+                    <i data-lucide="sun" x-show="!dark" class="w-5 h-5"></i>
+                    <i data-lucide="moon" x-show="dark" x-cloak class="w-5 h-5"></i>
+                </button>
+                <!-- MOBILE MENU BUTTON -->
+                <button @click="mobileMenuOpen = !mobileMenuOpen"
+                    class="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors relative z-50">
+                    <i x-show="!mobileMenuOpen" data-lucide="menu" class="w-6 h-6"></i>
+                    <i x-show="mobileMenuOpen" x-cloak data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -78,28 +93,28 @@
         x-transition:enter-start="opacity-0 -translate-y-4" x-transition:enter-end="opacity-100 translate-y-0"
         x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0"
         x-transition:leave-end="opacity-0 -translate-y-4"
-        class="absolute top-0 left-0 w-full bg-white border-b border-gray-100 shadow-lg md:hidden pt-20 pb-8 z-40">
+        class="absolute top-0 left-0 w-full bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 shadow-lg md:hidden pt-20 pb-8 z-40">
 
         <div class="px-6 space-y-4">
             <a href="#about" @click="mobileMenuOpen = false"
-                :class="activeSection === 'about' ? 'text-primary font-bold' : 'text-gray-700 font-medium'"
-                class="block text-base transition-colors">Tentang Kami</a>
+                :class="activeSection === 'about' ? 'text-primary font-bold' : 'text-gray-700 dark:text-gray-300 font-medium'"
+                class="block text-base transition-colors hover:text-gray-900 dark:hover:text-white">Tentang Kami</a>
             <a href="#pricing" @click="mobileMenuOpen = false"
-                :class="activeSection === 'pricing' ? 'text-primary font-bold' : 'text-gray-700 font-medium'"
-                class="block text-base transition-colors">Harga</a>
+                :class="activeSection === 'pricing' ? 'text-primary font-bold' : 'text-gray-700 dark:text-gray-300 font-medium'"
+                class="block text-base transition-colors hover:text-gray-900 dark:hover:text-white">Harga</a>
             <a href="#cara-booking" @click="mobileMenuOpen = false"
-                :class="activeSection === 'cara-booking' ? 'text-primary font-bold' : 'text-gray-700 font-medium'"
-                class="block text-base transition-colors">Cara Booking</a>
+                :class="activeSection === 'cara-booking' ? 'text-primary font-bold' : 'text-gray-700 dark:text-gray-300 font-medium'"
+                class="block text-base transition-colors hover:text-gray-900 dark:hover:text-white">Cara Booking</a>
             <a href="#contact" @click="mobileMenuOpen = false"
-                :class="activeSection === 'contact' ? 'text-primary font-bold' : 'text-gray-700 font-medium'"
-                class="block text-base transition-colors">Kontak</a>
+                :class="activeSection === 'contact' ? 'text-primary font-bold' : 'text-gray-700 dark:text-gray-300 font-medium'"
+                class="block text-base transition-colors hover:text-gray-900 dark:hover:text-white">Kontak</a>
 
-            <hr class="border-gray-100">
+            <hr class="border-gray-100 dark:border-gray-800">
 
             <div class="flex flex-col gap-3 pt-2">
                 @guest
                     <a href="{{ route('login') }}"
-                        class="w-full text-center py-2.5 text-base font-medium text-gray-700 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+                        class="w-full text-center py-2.5 text-base font-medium text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                         Login
                     </a>
                     <a href="{{ route('register') }}"

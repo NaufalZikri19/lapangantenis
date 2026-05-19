@@ -1,4 +1,4 @@
-<section id="contact" class="py-24 bg-white relative overflow-hidden">
+<section id="contact" class="py-24 bg-white dark:bg-gray-900 relative overflow-hidden">
     {{-- Decorative Background Elements --}}
     <div class="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2"></div>
     <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl translate-y-1/2"></div>
@@ -10,10 +10,10 @@
                 <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
                 Hubungi Kami
             </div>
-            <h2 class="text-4xl font-extrabold text-gray-900 mt-2 sm:text-5xl tracking-tight">
+            <h2 class="text-4xl font-extrabold text-gray-900 dark:text-white mt-2 sm:text-5xl tracking-tight">
                 Butuh Bantuan <span class="text-primary italic">Lebih Lanjut?</span>
             </h2>
-            <p class="text-gray-500 mt-6 max-w-2xl mx-auto text-lg leading-relaxed">
+            <p class="text-gray-500 dark:text-gray-400 mt-6 max-w-2xl mx-auto text-lg leading-relaxed">
                 Kami siap membantu Anda kapan saja. Hubungi kami melalui kanal di bawah ini untuk respon yang lebih
                 cepat.
             </p>
@@ -22,16 +22,16 @@
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {{-- Alamat --}}
             <div
-                class="group bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-2 flex flex-col items-center text-center">
+                class="group bg-white dark:bg-gray-800 p-8 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-2 flex flex-col items-center text-center">
                 <div
-                    class="w-16 h-16 bg-neutralBg rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500 relative">
+                    class="w-16 h-16 bg-neutralBg dark:bg-gray-700 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500 relative">
                     <div
                         class="absolute inset-0 bg-primary/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity">
                     </div>
                     <i data-lucide="map-pin" class="w-8 h-8 text-primary relative z-10"></i>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-4">Alamat</h3>
-                <p class="text-gray-500 text-sm leading-relaxed mb-6">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Alamat</h3>
+                <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-6">
                     Gg. Peger Desa, Mersi, Kec. Purwokerto Tim., Kabupaten Banyumas, Jawa Tengah 53112
                 </p>
                 <a href="https://www.google.com/maps/place/Gumbreg+Tennis+Court/@-7.4342827,109.2722535,18.06z/data=!4m6!3m5!1s0x2e655f0066460dcf:0x955e35b5462f365a!8m2!3d-7.43315!4d109.2709691!16s%2Fg%2F11yfvv10_m?entry=ttu&g_ep=EgoyMDI2MDUwNi4wIKXMDSoASAFQAw%3D%3D"
@@ -43,26 +43,26 @@
 
             {{-- Jam Operasional --}}
             <div
-                class="group bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-2 flex flex-col items-center text-center">
+                class="group bg-white dark:bg-gray-800 p-8 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-2 flex flex-col items-center text-center">
                 <div
-                    class="w-16 h-16 bg-neutralBg rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500 relative">
+                    class="w-16 h-16 bg-neutralBg dark:bg-gray-700 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500 relative">
                     <div
                         class="absolute inset-0 bg-primary/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity">
                     </div>
                     <i data-lucide="clock" class="w-8 h-8 text-primary relative z-10"></i>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-4">Jam Operasional</h3>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Jam Operasional</h3>
                 <div class="space-y-1 mt-auto">
-                    <p class="text-gray-900 font-semibold">Senin - Minggu</p>
+                    <p class="text-gray-900 dark:text-gray-200 font-semibold">Senin - Minggu</p>
                     <p class="text-primary font-black text-lg">06.00 - 22.00 WIB</p>
                 </div>
             </div>
 
             {{-- Instagram --}}
             <div
-                class="group bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-2 flex flex-col items-center text-center">
+                class="group bg-white dark:bg-gray-800 p-8 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-2 flex flex-col items-center text-center">
                 <div
-                    class="w-16 h-16 bg-neutralBg rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500 relative overflow-hidden">
+                    class="w-16 h-16 bg-neutralBg dark:bg-gray-700 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500 relative overflow-hidden">
                     <svg class="w-10 h-10 relative z-10" viewBox="0 0 24 24" fill="none"
                         xmlns="http://www.w3.org/2000/svg">
                         <defs>
@@ -79,10 +79,10 @@
                             fill="url(#instagram-gradient)" />
                     </svg>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-2">Instagram</h3>
-                <p class="text-gray-500 text-sm mb-8 italic">@gtc_pwt</p>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Instagram</h3>
+                <p class="text-gray-500 dark:text-gray-400 text-sm mb-8 italic">@gtc_pwt</p>
                 <a href="https://www.instagram.com/gtc_pwt" target="_blank"
-                    class="w-full inline-flex items-center justify-center gap-2 bg-gray-900 text-white px-6 py-4 rounded-2xl font-bold hover:bg-black transition-all hover:shadow-lg active:scale-95 group/btn">
+                    class="w-full inline-flex items-center justify-center gap-2 bg-gray-900 dark:bg-gray-700 text-white px-6 py-4 rounded-2xl font-bold hover:bg-black dark:hover:bg-gray-600 transition-all hover:shadow-lg active:scale-95 group/btn">
                     Follow Kami
                     <i data-lucide="arrow-right" class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform"></i>
                 </a>
@@ -90,16 +90,16 @@
 
             {{-- WhatsApp Admin 1 --}}
             <div
-                class="group bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-2 flex flex-col items-center text-center">
+                class="group bg-white dark:bg-gray-800 p-8 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-2 flex flex-col items-center text-center">
                 <div
-                    class="w-16 h-16 bg-neutralBg rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500 relative">
+                    class="w-16 h-16 bg-neutralBg dark:bg-gray-700 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500 relative">
                     <div
                         class="absolute inset-0 bg-primary/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity">
                     </div>
                     <i data-lucide="message-square" class="w-8 h-8 text-primary relative z-10"></i>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-2">Admin 1</h3>
-                <p class="text-gray-500 text-sm mb-8">Layanan cepat via WhatsApp</p>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Admin 1</h3>
+                <p class="text-gray-500 dark:text-gray-400 text-sm mb-8">Layanan cepat via WhatsApp</p>
                 <a href="https://wa.me/6285133754771" target="_blank"
                     class="w-full inline-flex items-center justify-center gap-2 bg-primary text-gray-900 px-6 py-4 rounded-2xl font-bold hover:bg-primaryHover transition-all hover:shadow-lg hover:shadow-primary/30 active:scale-95 group/btn">
                     WhatsApp Admin 1
@@ -109,16 +109,16 @@
 
             {{-- WhatsApp Admin 2 --}}
             <div
-                class="group bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-2 flex flex-col items-center text-center">
+                class="group bg-white dark:bg-gray-800 p-8 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-2 flex flex-col items-center text-center">
                 <div
-                    class="w-16 h-16 bg-neutralBg rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500 relative">
+                    class="w-16 h-16 bg-neutralBg dark:bg-gray-700 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500 relative">
                     <div
                         class="absolute inset-0 bg-primary/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity">
                     </div>
                     <i data-lucide="message-square" class="w-8 h-8 text-primary relative z-10"></i>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-2">Admin 2</h3>
-                <p class="text-gray-500 text-sm mb-8">Layanan cepat via WhatsApp</p>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Admin 2</h3>
+                <p class="text-gray-500 dark:text-gray-400 text-sm mb-8">Layanan cepat via WhatsApp</p>
                 <a href="https://wa.me/628156566189" target="_blank"
                     class="w-full inline-flex items-center justify-center gap-2 bg-primary text-gray-900 px-6 py-4 rounded-2xl font-bold hover:bg-primaryHover transition-all hover:shadow-lg hover:shadow-primary/30 active:scale-95 group/btn">
                     WhatsApp Admin 2
@@ -128,18 +128,18 @@
 
             {{-- WhatsApp Group --}}
             <div
-                class="group bg-white p-8 rounded-3xl border border-gray-100 shadow-sm hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-2 flex flex-col items-center text-center">
+                class="group bg-white dark:bg-gray-800 p-8 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 hover:-translate-y-2 flex flex-col items-center text-center">
                 <div
-                    class="w-16 h-16 bg-neutralBg rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500 relative">
+                    class="w-16 h-16 bg-neutralBg dark:bg-gray-700 rounded-2xl flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500 relative">
                     <div
                         class="absolute inset-0 bg-primary/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity">
                     </div>
                     <i data-lucide="users" class="w-8 h-8 text-primary relative z-10"></i>
                 </div>
-                <h3 class="text-xl font-bold text-gray-900 mb-2">Grup WhatsApp</h3>
-                <p class="text-gray-500 text-sm mb-8">Bergabung dengan komunitas GTC</p>
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Grup WhatsApp</h3>
+                <p class="text-gray-500 dark:text-gray-400 text-sm mb-8">Bergabung dengan komunitas GTC</p>
                 <a href="https://chat.whatsapp.com/FUQ9QagLxnTIzqtAgWdlPN" target="_blank"
-                    class="w-full inline-flex items-center justify-center gap-2 border-2 border-primary text-gray-900 px-6 py-4 rounded-2xl font-bold hover:bg-primary transition-all active:scale-95 group/btn">
+                    class="w-full inline-flex items-center justify-center gap-2 border-2 border-primary text-gray-900 dark:text-white px-6 py-4 rounded-2xl font-bold hover:bg-primary hover:text-gray-900 transition-all active:scale-95 group/btn">
                     Gabung Grup
                     <i data-lucide="arrow-right-circle"
                         class="w-4 h-4 group-hover/btn:scale-125 transition-transform"></i>

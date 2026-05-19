@@ -1,8 +1,8 @@
 <x-guest-layout>
 
     <div class="mb-10">
-        <h1 class="text-3xl font-bold text-gray-900 mb-2">Selamat Datang Kembali</h1>
-        <p class="text-gray-500 text-sm">Silakan masuk ke akun Anda untuk melanjutkan booking lapangan tenis.</p>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">Selamat Datang Kembali</h1>
+        <p class="text-gray-500 dark:text-gray-400 text-sm">Silakan masuk ke akun Anda untuk melanjutkan booking lapangan tenis.</p>
     </div>
 
     <form method="POST" action="{{ route('login') }}" class="space-y-6">
@@ -10,21 +10,21 @@
 
         <!-- Email -->
         <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-2">Email</label>
+            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Email</label>
             <div class="relative">
                 <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                     <i data-lucide="mail" class="w-5 h-5 text-gray-400"></i>
                 </div>
                 <input type="email" name="email" value="{{ old('email') }}" required autofocus
                     placeholder="nama@email.com"
-                    class="w-full pl-11 pr-4 py-3.5 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
+                    class="w-full pl-11 pr-4 py-3.5 rounded-xl border border-gray-200 dark:border-gray-750 focus:ring-2 focus:ring-primary focus:border-primary outline-none bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 transition-all">
             </div>
         </div>
 
         <!-- Password -->
         <div>
             <div class="flex items-center justify-between mb-2">
-                <label class="block text-sm font-semibold text-gray-700">Password</label>
+                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300">Password</label>
                 @if (Route::has('password.request'))
                     <a href="{{ route('password.request') }}"
                         class="text-sm font-medium text-primary hover:text-primaryHover">Lupa sandi?</a>
@@ -35,15 +35,15 @@
                     <i data-lucide="lock" class="w-5 h-5 text-gray-400"></i>
                 </div>
                 <input type="password" name="password" required placeholder="••••••••"
-                    class="w-full pl-11 pr-4 py-3.5 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all">
+                    class="w-full pl-11 pr-4 py-3.5 rounded-xl border border-gray-200 dark:border-gray-750 focus:ring-2 focus:ring-primary focus:border-primary outline-none bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 transition-all">
             </div>
         </div>
 
         <!-- Remember Me -->
         <div class="flex items-center">
             <input id="remember_me" type="checkbox" name="remember"
-                class="w-4 h-4 rounded border-gray-300 text-primary focus:ring-primary focus:ring-offset-0 bg-gray-50 transition-colors cursor-pointer">
-            <label for="remember_me" class="ml-2 block text-sm text-gray-600 cursor-pointer select-none">
+                class="w-4 h-4 rounded border-gray-300 dark:border-gray-700 text-primary focus:ring-primary focus:ring-offset-0 bg-gray-50 dark:bg-gray-800 transition-colors cursor-pointer">
+            <label for="remember_me" class="ml-2 block text-sm text-gray-600 dark:text-gray-400 cursor-pointer select-none">
                 Ingat saya di perangkat ini
             </label>
         </div>
@@ -54,7 +54,7 @@
             <i data-lucide="arrow-right" class="w-5 h-5"></i>
         </button>
 
-        <p class="text-center text-gray-500 text-sm mt-6">
+        <p class="text-center text-gray-500 dark:text-gray-400 text-sm mt-6">
             Belum memiliki akun?
             <a href="{{ route('register') }}" class="text-primary font-bold hover:underline">Daftar Gratis</a>
         </p>

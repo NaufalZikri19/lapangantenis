@@ -3,13 +3,11 @@
     dark: localStorage.getItem('dark') === 'true',
     sidebarOpen: false,
     isCollapsed: localStorage.getItem('sidebarCollapsed') === 'true',
-    scrolled: false,
     notificationsOpen: false,
     userMenuOpen: false
 }" x-init="
     $watch('dark', val => localStorage.setItem('dark', val));
     $watch('isCollapsed', val => localStorage.setItem('sidebarCollapsed', val));
-    window.addEventListener('scroll', () => { scrolled = window.scrollY > 20 });
 " :class="{ 'dark': dark }">
 
 <head>
@@ -50,7 +48,7 @@
 <body
     class="bg-gray-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans antialiased selection:bg-yellow-500/30 transition-colors duration-300">
 
-    <div class="flex min-h-screen overflow-hidden">
+    <div class="flex h-screen overflow-hidden">
 
         <!-- MOBILE OVERLAY -->
         <div x-show="sidebarOpen" x-transition:enter="transition ease-out duration-300"
@@ -65,7 +63,7 @@
                 sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0',
                 isCollapsed ? 'lg:w-20' : 'lg:w-72'
             ]"
-            class="fixed inset-y-0 left-0 z-50 flex flex-col h-full bg-slate-900 text-slate-300 border-r border-slate-800 shadow-2xl sidebar-transition">
+            class="fixed inset-y-0 left-0 z-50 flex flex-col h-full bg-slate-900 text-slate-300 border-r border-slate-800 shadow-2xl sidebar-transition shrink-0 lg:static lg:flex">
 
             <!-- HEADER / LOGO -->
             <div class="flex items-center h-20 px-5 shrink-0 relative">
@@ -112,7 +110,7 @@
                     @endphp
                     <a href="{{ isset($menu['anchor']) ? route($menu['route']) . '#' . $menu['anchor'] : route($menu['route']) }}"
                         class="flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all duration-200 group relative overflow-hidden
-                                   {{ $isActive ? 'bg-yellow-500/10 text-yellow-500 font-semibold' : 'hover:bg-slate-800/50 hover:text-white' }}">
+                                       {{ $isActive ? 'bg-yellow-500/10 text-yellow-500 font-semibold' : 'hover:bg-slate-800/50 hover:text-white' }}">
 
                         <!-- Active Indicator -->
                         <div x-show="!isCollapsed"
@@ -175,13 +173,11 @@
         </aside>
 
         <!-- MAIN CONTENT -->
-        <div :class="isCollapsed ? 'lg:ml-20' : 'lg:ml-72'"
-            class="flex-1 flex flex-col min-w-0 bg-slate-50 dark:bg-slate-950 content-transition min-h-screen">
+        <div class="flex-1 flex flex-col min-w-0 bg-slate-50 dark:bg-slate-950 content-transition overflow-hidden">
 
             <!-- HEADER -->
             <header
-                :class="scrolled ? 'bg-white/80 dark:bg-slate-900/80 shadow-sm backdrop-blur-md border-b border-slate-200/50 dark:border-slate-800/50' : 'bg-transparent'"
-                class="sticky top-0 h-16 shrink-0 flex items-center justify-between px-4 md:px-8 z-30 w-full transition-all duration-300">
+                class="h-16 shrink-0 flex items-center justify-between px-4 md:px-8 z-30 w-full transition-all duration-300 bg-white/80 dark:bg-slate-900/80 shadow-sm backdrop-blur-md border-b border-slate-200/50 dark:border-slate-800/50">
 
                 <div class="flex items-center gap-4">
                     <button @click="sidebarOpen = true"
@@ -257,7 +253,7 @@
             @include('components.sweet-alert')
 
             <!-- CONTENT AREA -->
-            <main class="flex-1 w-full p-4 md:p-8 lg:p-10">
+            <main class="flex-1 overflow-y-auto overflow-x-hidden w-full p-4 md:p-8 lg:p-10">
                 <div class="max-w-7xl mx-auto space-y-8">
                     <div class="sm:hidden mb-6">
                         <h1 class="text-2xl font-bold text-slate-800 dark:text-white">@yield('title', 'Dashboard')</h1>

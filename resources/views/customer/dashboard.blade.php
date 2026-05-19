@@ -119,32 +119,20 @@
                                 {{ $booking->start_time }} - {{ $booking->end_time }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                @php
-                                    $statusClass = 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300';
-                                    if ($booking->status === 'pending_payment') {
-                                        $statusClass = 'bg-yellow-100 text-yellow-600';
-                                    } elseif ($booking->status === 'confirmed') {
-                                        $statusClass = 'bg-green-100 text-green-600';
-                                    } elseif ($booking->status === 'cancelled' || $booking->status === 'expired' || $booking->status === 'rejected') {
-                                        $statusClass = 'bg-red-100 text-red-600';
-                                    } elseif ($booking->status === 'pending_verification') {
-                                        $statusClass = 'bg-blue-100 text-blue-600';
-                                    }
-                                @endphp
-                                <span class="{{ $statusClass }} px-3 py-1 rounded-full text-xs font-medium">
+                                <span class="{{ $booking->status_class }} px-3 py-1 rounded-full text-xs font-semibold">
                                     {{ $booking->status_label ?? ucfirst($booking->status) }}
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right">
                                 @if($booking->status === 'expired')
                                     <button disabled
-                                        class="inline-flex items-center justify-center gap-1.5 w-full md:w-auto bg-red-50 text-red-600 px-4 py-2 rounded-full text-xs font-medium opacity-50 cursor-not-allowed">
+                                        class="inline-flex items-center justify-center gap-1.5 w-full md:w-auto bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border border-transparent dark:border-red-500/20 px-4 py-2 rounded-full text-xs font-medium opacity-50 cursor-not-allowed">
                                         <i data-lucide="clock-4" class="w-3.5 h-3.5"></i>
                                         Kadaluarsa
                                     </button>
                                 @elseif($booking->status === 'pending_verification')
                                     <button disabled
-                                        class="inline-flex items-center justify-center gap-1.5 w-full md:w-auto bg-blue-50 text-blue-600 px-4 py-2 rounded-full text-xs font-medium cursor-wait">
+                                        class="inline-flex items-center justify-center gap-1.5 w-full md:w-auto bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-transparent dark:border-blue-500/20 px-4 py-2 rounded-full text-xs font-medium cursor-wait">
                                         <i data-lucide="loader-2" class="w-3.5 h-3.5 animate-spin"></i>
                                         Menunggu
                                     </button>
@@ -156,12 +144,12 @@
                                     </a>
                                 @elseif($booking->status === 'confirmed' || $booking->status === 'completed')
                                     <button
-                                        class="inline-flex items-center justify-center gap-1.5 w-full md:w-auto bg-green-50 text-green-600 hover:bg-green-100 px-4 py-2 rounded-full text-xs font-medium transition duration-200">
+                                        class="inline-flex items-center justify-center gap-1.5 w-full md:w-auto bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400 border border-transparent dark:border-green-500/20 hover:bg-green-100 dark:hover:bg-green-500/20 px-4 py-2 rounded-full text-xs font-medium transition duration-200">
                                         <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
                                         Lunas
                                     </button>
                                 @else
-                                    <span class="text-xs text-gray-400 dark:text-gray-500 italic">Dibatalkan</span>
+                                    <span class="text-xs text-gray-400 dark:text-gray-500 italic font-medium">Dibatalkan</span>
                                 @endif
                             </td>
                         </tr>

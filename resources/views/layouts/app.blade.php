@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="id" class="scroll-smooth" x-data="{ dark: localStorage.getItem('dark') === 'true' }"
+    x-init="$watch('dark', val => localStorage.setItem('dark', val))" :class="{ 'dark': dark }">
 
 <head>
     <meta charset="UTF-8">
@@ -23,6 +24,7 @@
 
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
@@ -49,7 +51,7 @@
     </style>
 </head>
 
-<body class="bg-neutralBg text-gray-900 antialiased selection:bg-yellow-200 selection:text-gray-900 overflow-x-hidden">
+<body class="bg-neutralBg dark:bg-gray-900 text-gray-900 dark:text-gray-100 antialiased selection:bg-yellow-200 dark:selection:bg-yellow-900/30 selection:text-gray-900 dark:selection:text-gray-100 overflow-x-hidden transition-colors duration-200">
 
     @include('layouts.header')
 

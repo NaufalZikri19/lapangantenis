@@ -6,8 +6,8 @@
         <!-- HEADER SECTION -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div class="flex items-center gap-3">
-                <div class="p-2.5 bg-yellow-50 text-yellow-600 rounded-xl border border-yellow-100">
-                    <i data-lucide="users" class="w-7 h-7 text-gray-900"></i>
+                <div class="p-2.5 bg-yellow-50 dark:bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 rounded-xl border border-yellow-100 dark:border-yellow-500/20">
+                    <i data-lucide="users" class="w-7 h-7 text-yellow-600 dark:text-yellow-400"></i>
                 </div>
                 <div>
                     <h1 class="text-xl md:text-2xl font-semibold text-gray-800 dark:text-gray-100">Data User</h1>
@@ -95,7 +95,7 @@
                                         <div class="flex justify-between items-center text-xs">
                                             <span class="text-gray-500 dark:text-gray-400 font-medium">Kelengkapan</span>
                                             <span
-                                                class="font-bold {{ $user->biodata_completion < 40 ? 'text-red-600' : ($user->biodata_completion < 80 ? 'text-yellow-600' : 'text-green-600') }}">
+                                                class="font-bold {{ $user->biodata_completion < 40 ? 'text-red-600 dark:text-red-400' : ($user->biodata_completion < 80 ? 'text-yellow-600 dark:text-yellow-450' : 'text-green-600 dark:text-green-400') }}">
                                                 {{ $user->biodata_completion }}%
                                             </span>
                                         </div>
@@ -111,7 +111,7 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-right">
                                     <div class="flex items-center justify-end gap-2">
                                         <a href="{{ route('admin.users.show', $user->id) }}"
-                                            class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-blue-100 text-blue-600 rounded-full hover:bg-blue-200 transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                                            class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-blue-100 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-transparent dark:border-blue-500/20 rounded-full hover:bg-blue-200 dark:hover:bg-blue-500/20 transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300">
                                             <i data-lucide="eye" class="w-3.5 h-3.5"></i> Detail
                                         </a>
 
@@ -122,7 +122,7 @@
                                             @method('DELETE')
                                             <button type="button"
                                                 onclick="confirmDelete('delete-user-{{ $user->id }}', 'Hapus User?', 'Apakah Anda yakin ingin menghapus user {{ $user->name }} secara permanen?')"
-                                                class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-red-100 text-red-600 rounded-full hover:bg-red-200 transition duration-200 focus:outline-none focus:ring-2 focus:ring-red-300">
+                                                class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-red-100 dark:bg-red-500/10 text-red-600 dark:text-red-400 border border-transparent dark:border-red-500/20 rounded-full hover:bg-red-200 dark:hover:bg-red-500/20 transition duration-200 focus:outline-none focus:ring-2 focus:ring-red-300">
                                                 <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Hapus
                                             </button>
                                         </form>

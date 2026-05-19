@@ -5,6 +5,7 @@
     <!-- STAT CARDS -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
 
+        @if(auth()->user()->isSuperAdmin())
         <!-- Total Pendapatan -->
         <div
             class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 sm:p-6 relative overflow-hidden group hover:shadow-md transition-shadow duration-200">
@@ -73,6 +74,7 @@
                 </span>
             </div>
         </div>
+        @endif
 
         <!-- Booking Selesai -->
         <div
@@ -122,6 +124,7 @@
         </div>
 
         <!-- DONUT CHART -->
+        @if(auth()->user()->isSuperAdmin())
         <div
             class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 sm:p-6 flex flex-col">
             <div class="mb-4 sm:mb-6">
@@ -178,6 +181,7 @@
                 </div>
             </div>
         </div>
+        @endif
 
     </div>
 
