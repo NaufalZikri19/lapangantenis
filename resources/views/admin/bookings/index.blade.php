@@ -47,6 +47,11 @@
                         {{ request('filter') == 'month' ? 'bg-white dark:bg-gray-700 shadow-sm text-gray-800 dark:text-gray-100' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100/50 dark:hover:bg-gray-700/50' }}">
                     Bulan Ini
                 </a>
+                <a href="{{ route('admin.bookings', ['filter' => 'next_month']) }}"
+                    class="px-4 py-1.5 rounded-md transition duration-200 font-medium
+                        {{ request('filter') == 'next_month' ? 'bg-white dark:bg-gray-700 shadow-sm text-gray-800 dark:text-gray-100' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100/50 dark:hover:bg-gray-700/50' }}">
+                    Bulan Depan
+                </a>
                 <a href="{{ route('admin.bookings', ['filter' => 'year']) }}"
                     class="px-4 py-1.5 rounded-md transition duration-200 font-medium
                         {{ request('filter') == 'year' ? 'bg-white dark:bg-gray-700 shadow-sm text-gray-800 dark:text-gray-100' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100/50 dark:hover:bg-gray-700/50' }}">

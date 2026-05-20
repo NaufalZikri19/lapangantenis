@@ -308,6 +308,7 @@
         @csrf
     </form>
 
+    @stack('scripts')
 </body>
 
 </html>

@@ -1,10 +1,10 @@
 <section id="chatbot" class="py-20 relative overflow-hidden mt-10 bg-gray-50 dark:bg-gray-900">
     <!-- Abstract Shapes -->
     <div
-        class="absolute top-0 right-0 -mr-20 -mt-20 w-[400px] h-[400px] bg-yellow-200 rounded-full blur-3xl opacity-40 z-0">
+        class="absolute top-0 right-0 -mr-20 -mt-20 w-[400px] h-[400px] bg-yellow-200 dark:bg-yellow-900/30 rounded-full blur-3xl opacity-40 z-0">
     </div>
     <div
-        class="absolute bottom-0 left-0 -ml-20 -mb-20 w-[300px] h-[300px] bg-yellow-300 rounded-full blur-3xl opacity-30 z-0">
+        class="absolute bottom-0 left-0 -ml-20 -mb-20 w-[300px] h-[300px] bg-yellow-300 dark:bg-yellow-800/30 rounded-full blur-3xl opacity-30 z-0">
     </div>
 
     <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
@@ -13,12 +13,12 @@
             <!-- Chatbot Text Info -->
             <div class="order-2 lg:order-1">
                 <div
-                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 dark:bg-blue-950/50 border border-blue-100 dark:border-blue-900/30 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-widest mb-6 shadow-sm">
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-yellow-50 dark:bg-yellow-900/50 border border-yellow-100 dark:border-yellow-900/30 text-yellow-600 dark:text-yellow-400 text-xs font-bold uppercase tracking-widest mb-6 shadow-sm">
                     <i data-lucide="bot" class="w-4 h-4"></i>
                     Dukungan Pintar AI
                 </div>
                 <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white mb-8 leading-tight">
-                    Asisten Virtual <span class="text-blue-600 italic">Siap Sedia</span> <br>Membantu Anda 24/7
+                    Asisten Virtual <span class="text-yellow-600 dark:text-yellow-400 italic">Siap Sedia</span> <br>Membantu Anda 24/7
                 </h2>
                 <p class="text-lg text-gray-500 dark:text-gray-400 mb-10 leading-relaxed max-w-xl">
                     Bingung soal jadwal atau cara bayar? Asisten virtual kami siap menjawab pertanyaan Anda kapan saja
@@ -26,17 +26,17 @@
                 </p>
 
                 <div class="grid sm:grid-cols-2 gap-6 mb-10">
-                    <div class="flex items-center gap-3 text-gray-700 dark:text-gray-350 group">
+                    <div class="flex items-center gap-3 text-gray-700 dark:text-gray-300 group">
                         <div
                             class="w-10 h-10 rounded-xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                            <i data-lucide="clock" class="w-5 h-5 text-blue-600"></i>
+                            <i data-lucide="clock" class="w-5 h-5 text-yellow-600 dark:text-yellow-400"></i>
                         </div>
                         <span class="font-bold text-sm">Respon Instan 24 Jam</span>
                     </div>
-                    <div class="flex items-center gap-3 text-gray-700 dark:text-gray-355 group">
+                    <div class="flex items-center gap-3 text-gray-700 dark:text-gray-300 group">
                         <div
                             class="w-10 h-10 rounded-xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
-                            <i data-lucide="shield-check" class="w-5 h-5 text-blue-600"></i>
+                            <i data-lucide="shield-check" class="w-5 h-5 text-yellow-600 dark:text-yellow-400"></i>
                         </div>
                         <span class="font-bold text-sm">Aman & Terpercaya</span>
                     </div>
@@ -52,18 +52,18 @@
             <!-- Chatbot Mockup -->
             <div class="order-1 lg:order-2 relative lg:ml-auto w-full max-w-md mx-auto">
                 <div
-                    class="bg-white dark:bg-gray-850 rounded-3xl shadow-2xl border border-gray-100 dark:border-gray-750 overflow-hidden transform transition-transform duration-500 hover:scale-[1.02] flex flex-col h-[500px]">
+                    class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border border-gray-100 dark:border-gray-700 overflow-hidden transform transition-transform duration-500 hover:scale-[1.02] flex flex-col h-[500px]">
                     <!-- Chat Header -->
-                    <div class="bg-gradient-to-r from-blue-600 to-blue-500 p-4 flex items-center gap-4 text-white">
+                    <div class="bg-gradient-to-r from-yellow-500 to-yellow-400 dark:from-yellow-600 dark:to-yellow-500 p-4 flex items-center gap-4 text-gray-900 dark:text-white">
                         <div
-                            class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm shrink-0">
-                            <i data-lucide="bot" class="w-6 h-6 text-blue-600"></i>
+                            class="w-12 h-12 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center shadow-sm shrink-0 border border-transparent dark:border-gray-700">
+                            <i data-lucide="bot" class="w-6 h-6 text-yellow-500 dark:text-yellow-400"></i>
                         </div>
                         <div>
                             <h3 class="font-bold text-lg leading-tight">Gumbreg Bot</h3>
                             <div class="flex items-center gap-1.5 mt-1">
-                                <div class="w-2 h-2 rounded-full bg-green-400"></div>
-                                <span class="text-xs text-blue-100">Online sedia membantu</span>
+                                <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                                <span class="text-xs text-gray-800 font-medium">Online sedia membantu</span>
                             </div>
                         </div>
                     </div>
@@ -76,8 +76,8 @@
                         <!-- Bot Message -->
                         <div class="flex gap-3">
                             <div
-                                class="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-950/50 flex items-center justify-center shrink-0 mt-1">
-                                <i data-lucide="bot" class="w-4 h-4 text-blue-600"></i>
+                                class="w-8 h-8 rounded-full bg-yellow-100 dark:bg-yellow-900/50 flex items-center justify-center shrink-0 mt-1">
+                                <i data-lucide="bot" class="w-4 h-4 text-yellow-600 dark:text-yellow-400"></i>
                             </div>
                             <div
                                 class="bg-white dark:bg-gray-800 p-3.5 rounded-2xl rounded-tl-sm shadow-sm border border-gray-100 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-200 leading-relaxed">
@@ -96,8 +96,8 @@
                         <!-- Bot Message Typing -->
                         <div class="flex gap-3">
                             <div
-                                class="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-950/50 flex items-center justify-center shrink-0 mt-1">
-                                <i data-lucide="bot" class="w-4 h-4 text-blue-600"></i>
+                                class="w-8 h-8 rounded-full bg-yellow-100 dark:bg-yellow-900/50 flex items-center justify-center shrink-0 mt-1">
+                                <i data-lucide="bot" class="w-4 h-4 text-yellow-600 dark:text-yellow-400"></i>
                             </div>
                             <div
                                 class="bg-white dark:bg-gray-800 px-4 py-3.5 rounded-2xl rounded-tl-sm shadow-sm border border-gray-100 dark:border-gray-700 flex items-center gap-1">
@@ -112,7 +112,7 @@
                     </div>
 
                     <!-- Chat Input -->
-                    <div class="p-4 bg-white dark:bg-gray-850 border-t border-gray-100 dark:border-gray-700 flex gap-3 items-center">
+                    <div class="p-4 bg-white dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700 flex gap-3 items-center">
                         <button class="p-2 text-gray-400 dark:text-gray-500 hover:text-primary transition-colors">
                             <i data-lucide="paperclip" class="w-5 h-5"></i>
                         </button>

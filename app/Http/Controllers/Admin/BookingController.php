@@ -60,6 +60,11 @@ class BookingController extends Controller
                 ->whereYear('date', Carbon::now()->year);
         }
 
+        if ($request->filter === 'next_month') {
+            $query->whereMonth('date', Carbon::now()->addMonth()->month)
+                ->whereYear('date', Carbon::now()->addMonth()->year);
+        }
+
         if ($request->filter === 'year') {
             $query->whereYear('date', Carbon::now()->year);
         }

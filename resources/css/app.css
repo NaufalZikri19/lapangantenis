@@ -14,4 +14,11 @@
     h6 {
         font-family: "Poppins", sans-serif;
     }
+
+    /* Smooth transitions for dark mode */
+    *, ::before, ::after {
+        transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 300ms;
+    }
 }

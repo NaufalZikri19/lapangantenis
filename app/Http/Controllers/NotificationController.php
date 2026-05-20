@@ -60,4 +60,37 @@ class NotificationController extends Controller
 
         return response()->json(['success' => false], 404);
     }
+
+    /**
+     * Mark all notifications as read for the user.
+     */
+    public function markAllAsRead(Request $request)
+    {
+        $user = $request->user();
+        if (!$user) {
+            return response()->json(['success' => false], 401);
+        }
+
+        $user->unreadNotifications->markAsRead();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Semua notifikasi telah ditandai sebagai dibaca'
+        ]);
+    }
+
+    /**
+     * View all notifications with pagination.
+     */
+    public function all(Request $request)
+    {
+        $user = $request->user();
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        $notifications = $user->notifications()->paginate(10);
+        
+        return view('notifications.index', compact('notifications'));
+    }
 }

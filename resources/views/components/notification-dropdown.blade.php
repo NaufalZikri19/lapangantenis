@@ -14,8 +14,11 @@
         <div
             class="px-4 py-3 bg-gray-50 dark:bg-slate-800/50 border-b border-gray-100 dark:border-slate-700 flex justify-between items-center">
             <h3 class="text-sm font-semibold text-gray-800 dark:text-white">Notifikasi</h3>
-            <span x-show="unreadCount > 0" class="text-xs bg-red-100 text-red-600 py-0.5 px-2 rounded-full font-medium"
-                x-text="unreadCount + ' Baru'"></span>
+            <div class="flex items-center gap-3">
+                <span x-show="unreadCount > 0" class="text-xs bg-red-100 text-red-600 py-0.5 px-2 rounded-full font-medium"
+                    x-text="unreadCount + ' Baru'"></span>
+                <button x-show="unreadCount > 0" @click="markAllAsRead()" class="text-xs text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium transition-colors">Tandai Semua Dibaca</button>
+            </div>
         </div>
         <div class="max-h-96 overflow-y-auto">
             <template x-if="notifications.length > 0">
@@ -97,6 +100,9 @@
                 </div>
             </template>
         </div>
+        <div class="p-2 border-t border-gray-100 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/50">
+            <a href="{{ route('notifications.all') }}" class="block text-center text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium py-1">Lihat Semua Notifikasi</a>
+        </div>
     </div>
 </div>
 
@@ -106,6 +112,7 @@
             open: false,
             notifications: [],
             unreadCount: 0,
+            previousUnreadCount: 0,
             pollingInterval: null,
 
             init() {
@@ -138,9 +145,59 @@
                 fetch('{{ route('notifications.unreadCount') }}')
                     .then(response => response.json())
                     .then(data => {
+                        // Jika ada notifikasi baru, tampilkan toast
+                        if (data.count > this.unreadCount && this.unreadCount > 0) {
+                            this.showToast('Ada notifikasi baru!');
+                        } else if (data.count > 0 && this.unreadCount === 0 && this.previousUnreadCount > 0) {
+                            // Untuk initial load atau setelah baca semua, jangan spam toast
+                            // Cukup update angkanya
+                        }
+                        
+                        this.previousUnreadCount = this.unreadCount;
                         this.unreadCount = data.count;
                     })
                     .catch(error => console.error('Error fetching unread count:', error));
+            },
+
+            showToast(message) {
+                if (typeof Swal !== 'undefined') {
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 4000,
+                        timerProgressBar: true,
+                        background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#ffffff',
+                        color: document.documentElement.classList.contains('dark') ? '#f8fafc' : '#0f172a',
+                        didOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer)
+                            toast.addEventListener('mouseleave', Swal.resumeTimer)
+                        }
+                    });
+                    
+                    Toast.fire({
+                        icon: 'info',
+                        title: message
+                    });
+                }
+            },
+
+            markAllAsRead() {
+                fetch('{{ route('notifications.markAllAsRead') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        this.unreadCount = 0;
+                        this.fetchNotifications();
+                        this.showToast('Semua notifikasi ditandai dibaca');
+                    }
+                });
             },
 
             markAsRead(notification) {
