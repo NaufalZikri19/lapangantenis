@@ -98,12 +98,7 @@ class User extends Authenticatable
 
     public function isAdmin(): bool
     {
-        return in_array($this->role, ['admin', 'super_admin']);
-    }
-
-    public function isSuperAdmin(): bool
-    {
-        return $this->role === 'super_admin';
+        return $this->role === 'admin';
     }
 
     //ambil semua biodata (buat export / debug)

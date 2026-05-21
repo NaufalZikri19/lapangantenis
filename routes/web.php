@@ -85,16 +85,13 @@ Route::middleware(['auth', 'nocache'])->group(function () {
             Route::get('/dashboard', [AdminDashboardController::class, 'index'])
                 ->name('admin.dashboard');
 
-            // SUPER ADMIN ONLY ROUTES
-            Route::middleware('is_super_admin')->group(function () {
-                Route::resource('courts', CourtController::class);
-            });
+            Route::resource('courts', CourtController::class);
             Route::get('/bookings', [AdminBookingController::class, 'index'])
                 ->name('admin.bookings');
 
             Route::get('/bookings/create', [AdminBookingController::class, 'create'])
                 ->name('admin.bookings.create');
-                
+
             Route::post('/bookings', [AdminBookingController::class, 'store'])
                 ->name('admin.bookings.store');
 
@@ -116,26 +113,23 @@ Route::middleware(['auth', 'nocache'])->group(function () {
             Route::get('/payments/{id}/claim', [PaymentController::class, 'claim'])
                 ->name('admin.payments.claim');
 
-            // SUPER ADMIN ONLY ROUTES (USER MANAGEMENT)
-            Route::middleware('is_super_admin')->group(function () {
-                Route::get('/users', [UserController::class, 'index'])
-                    ->name('admin.users');
+            Route::get('/users', [UserController::class, 'index'])
+                ->name('admin.users');
 
-                Route::get('/users/{id}', [UserController::class, 'show'])
-                    ->name('admin.users.show');
+            Route::get('/users/{id}', [UserController::class, 'show'])
+                ->name('admin.users.show');
 
-                Route::get('/users/{id}/edit', [UserController::class, 'edit'])
-                    ->name('admin.users.edit');
+            Route::get('/users/{id}/edit', [UserController::class, 'edit'])
+                ->name('admin.users.edit');
 
-                Route::put('/users/{id}', [UserController::class, 'update'])
-                    ->name('admin.users.update');
+            Route::put('/users/{id}', [UserController::class, 'update'])
+                ->name('admin.users.update');
 
-                Route::delete('/users/{id}', [UserController::class, 'destroy'])
-                    ->name('admin.users.delete');
+            Route::delete('/users/{id}', [UserController::class, 'destroy'])
+                ->name('admin.users.delete');
 
-                Route::get('/users/{id}/export/bookings', [UserController::class, 'exportBookingPdf'])
-                    ->name('admin.users.export.bookings');
-            });
+            Route::get('/users/{id}/export/bookings', [UserController::class, 'exportBookingPdf'])
+                ->name('admin.users.export.bookings');
         });
 
 
@@ -166,12 +160,10 @@ Route::middleware(['auth', 'nocache'])->group(function () {
 
             Route::post('/payment/{id}', [BookingController::class, 'uploadPayment'])
                 ->name('booking.uploadPayment');
-
         });
 
         Route::get('/check-availability', [BookingController::class, 'checkAvailability'])
             ->name('booking.check');
-
     });
 
     /*
