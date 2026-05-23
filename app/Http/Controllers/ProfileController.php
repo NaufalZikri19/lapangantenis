@@ -39,19 +39,17 @@ class ProfileController extends Controller
 
         return Redirect::route('profile.edit')->with('success', 'Profil berhasil diperbarui');
     }
-    
+
     public function updateBiodata(Request $request)
     {
         $request->validate([
             'phone' => ['nullable', 'string', 'max:20'],
-            'address' => ['nullable', 'string'],
         ]);
 
         $user = auth()->user();
 
         $user->update($request->only([
-            'phone',
-            'address'
+            'phone'
         ]));
 
         return back()->with('success', 'Biodata berhasil disimpan');

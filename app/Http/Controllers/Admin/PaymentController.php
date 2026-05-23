@@ -22,6 +22,10 @@ class PaymentController extends Controller
         $query = Booking::with(['user', 'court', 'handler'])
             ->whereNotNull('payment_proof');
 
+        if ($request->has('status') && !empty($request->status)) {
+            $query->where('status', $request->status);
+        }
+
         if ($request->has('search') && !empty($request->search)) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {

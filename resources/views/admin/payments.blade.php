@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-    <div class="w-full space-y-6">
+    <div x-data="{ showModal: false, imageUrl: '' }" class="w-full space-y-6 relative">
 
         <!-- HEADER SECTION -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -32,6 +32,22 @@
                             <i data-lucide="x-circle" class="w-4 h-4"></i>
                         </button>
                     </template>
+                </form>
+
+                <!-- FILTER STATUS -->
+                <form action="{{ route('admin.payments') }}" method="GET" class="w-full sm:w-48"
+                    x-data="{ status: '{{ request('status') }}' }">
+                    <!-- Preserve search parameter if it exists -->
+                    @if(request('search'))
+                        <input type="hidden" name="search" value="{{ request('search') }}">
+                    @endif
+                    <select name="status" x-model="status" @change="$el.form.submit()"
+                        class="w-full py-2 pl-3 pr-8 text-sm border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 rounded-lg focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 shadow-sm appearance-none cursor-pointer">
+                        <option value="">Semua Status</option>
+                        <option value="pending_verification">Menunggu Verifikasi</option>
+                        <option value="confirmed">Lunas (Confirmed)</option>
+                        <option value="rejected">Ditolak</option>
+                    </select>
                 </form>
 
                 <div class="hidden sm:flex items-center gap-2">
@@ -108,15 +124,15 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
                                     @if ($booking->payment_proof)
-                                        <a href="{{ asset('storage/' . $booking->payment_proof) }}" target="_blank"
-                                            class="inline-block group relative">
+                                        <button type="button" @click="imageUrl = '{{ asset('storage/' . $booking->payment_proof) }}'; showModal = true"
+                                            class="inline-block group relative cursor-pointer outline-none focus:ring-2 focus:ring-yellow-500 rounded-lg">
                                             <div
                                                 class="absolute inset-0 bg-black/40 rounded-lg opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-200">
-                                                <i data-lucide="external-link" class="w-4 h-4 text-white"></i>
+                                                <i data-lucide="zoom-in" class="w-4 h-4 text-white"></i>
                                             </div>
                                             <img src="{{ asset('storage/' . $booking->payment_proof) }}"
                                                 class="w-12 h-12 object-cover rounded-lg border border-gray-200">
-                                        </a>
+                                        </button>
                                     @else
                                         <span class="text-xs text-gray-400 italic">No Proof</span>
                                     @endif
@@ -139,11 +155,10 @@
                                                     <i data-lucide="lock" class="w-3.5 h-3.5"></i> Diproses {{ explode(' ', $booking->handler->name ?? 'Admin')[0] }}
                                                 </span>
                                             @else
-                                                <a href="{{ route('admin.payments.approve', $booking->id) }}"
-                                                    onclick="return confirm('Approve pembayaran ini?')"
+                                                <button type="button" onclick="approvePayment('{{ route('admin.payments.approve', $booking->id) }}')"
                                                     class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-full bg-green-100 dark:bg-green-500/10 text-green-600 dark:text-green-400 border border-transparent dark:border-green-500/20 hover:bg-green-200 dark:hover:bg-green-500/20 transition duration-200">
                                                     <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Setujui
-                                                </a>
+                                                </button>
  
                                                 <button type="button" onclick="rejectPayment({{ $booking->id }})"
                                                     class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-full bg-red-100 dark:bg-red-500/10 text-red-600 dark:text-red-400 border border-transparent dark:border-red-500/20 hover:bg-red-200 dark:hover:bg-red-500/20 transition duration-200">
@@ -208,6 +223,37 @@
                 </div>
             @endif
         </div>
+
+        <!-- IMAGE MODAL -->
+        <div x-show="showModal" x-cloak class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+            @keydown.escape.window="showModal = false">
+            
+            <!-- BACKDROP -->
+            <div x-show="showModal" x-transition.opacity class="fixed inset-0 bg-black/80 backdrop-blur-sm"
+                @click="showModal = false"></div>
+            
+            <!-- MODAL CONTENT -->
+            <div x-show="showModal" 
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 scale-95"
+                 x-transition:enter-end="opacity-100 scale-100"
+                 x-transition:leave="transition ease-in duration-200"
+                 x-transition:leave-start="opacity-100 scale-100"
+                 x-transition:leave-end="opacity-0 scale-95"
+                 class="relative bg-transparent w-full max-w-4xl mx-auto flex flex-col items-center justify-center z-10 pointer-events-none">
+                
+                <div class="relative pointer-events-auto">
+                    <!-- CLOSE BUTTON -->
+                    <button @click="showModal = false" type="button" class="absolute -top-10 right-0 sm:-right-10 p-2 text-white/70 hover:text-white bg-black/20 hover:bg-black/50 rounded-full transition-colors backdrop-blur-md">
+                        <i data-lucide="x" class="w-6 h-6"></i>
+                    </button>
+                    
+                    <!-- IMAGE -->
+                    <img :src="imageUrl" alt="Bukti Pembayaran" class="max-h-[85vh] max-w-full object-contain rounded-lg shadow-2xl ring-1 ring-white/10">
+                </div>
+            </div>
+        </div>
+
     </div>
 
     @push('scripts')
@@ -229,6 +275,23 @@
                 if (result.isConfirmed && result.value) {
                     document.getElementById('rejection-reason-' + id).value = result.value;
                     document.getElementById('reject-form-' + id).submit();
+                }
+            });
+        }
+
+        function approvePayment(url) {
+            Alert.fire({
+                title: 'Setujui Pembayaran?',
+                text: 'Pastikan dana sudah masuk ke rekening Anda.',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#10B981', // Green for approve
+                cancelButtonColor: '#6B7280',
+                confirmButtonText: 'Ya, Setujui',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = url;
                 }
             });
         }

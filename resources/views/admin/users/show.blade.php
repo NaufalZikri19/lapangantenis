@@ -56,7 +56,7 @@
                 <div class="ml-auto">
                     <span
                         class="px-3 py-1 rounded-full text-xs font-semibold border border-transparent
-                            {{ $user->biodata_completion == 100 ? 'bg-green-100 dark:bg-green-500/10 text-green-600 dark:text-green-400 border-green-250/20' : 'bg-yellow-100 dark:bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border-yellow-250/20' }}">
+                                    {{ $user->biodata_completion == 100 ? 'bg-green-100 dark:bg-green-500/10 text-green-600 dark:text-green-400 border-green-250/20' : 'bg-yellow-100 dark:bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border-yellow-250/20' }}">
 
                         {{ $user->biodata_completion }}% Lengkap
                     </span>
@@ -78,19 +78,6 @@
 
                 </div>
 
-
-                <div class="space-y-3">
-
-                    <div class="flex items-center gap-2">
-                        <i data-lucide="map-pin" class="w-4 h-4 text-gray-400"></i>
-                        <span class="text-gray-500 dark:text-gray-400">Alamat:</span>
-                    </div>
-
-                    <div class="pl-6 text-gray-700 dark:text-gray-100 leading-relaxed">
-                        {{ $user->address_full ?? '-' }}
-                    </div>
-
-                </div>
 
             </div>
 

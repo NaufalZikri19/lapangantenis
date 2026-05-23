@@ -33,7 +33,7 @@ class DashboardController extends Controller
 
         // ACTIVE BOOKINGS (PENDING/CONFIRMED)
         $activeBookings = $query->clone()
-            ->whereIn('status', ['pending', 'confirmed'])
+            ->whereIn('status', ['pending_payment', 'pending_verification', 'confirmed'])
             ->where(function ($q) use ($now) {
                 $q->where('date', '>', $now->toDateString())
                     ->orWhere(function ($q2) use ($now) {
@@ -48,7 +48,7 @@ class DashboardController extends Controller
 
         // PAYMENT DUE (PENDING w/ expired_at)
         $paymentDue = $query->clone()
-            ->where('status', 'pending')
+            ->where('status', 'pending_payment')
             ->whereNotNull('expired_at')
             ->where('expired_at', '<', $now)
             ->exists();

@@ -41,20 +41,11 @@
                     <div class="grid md:grid-cols-2 gap-5">
 
                         {{-- PHONE --}}
-                        <div>
+                        <div class="md:col-span-2">
                             <label class="text-sm font-medium text-gray-600 dark:text-gray-300">Nomor HP</label>
                             <input type="text" name="phone" value="{{ old('phone', auth()->user()->phone) }}"
                                 class="mt-1 w-full border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400"
                                 placeholder="08xxxxxxxxxx">
-                        </div>
-
-                        {{-- ALAMAT --}}
-                        <div class="md:col-span-2">
-                            <label class="text-sm font-medium text-gray-600 dark:text-gray-300">Alamat</label>
-                            <textarea name="address"
-                                class="mt-1 w-full border-gray-200 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-yellow-400"
-                                rows="3"
-                                placeholder="Masukkan alamat lengkap">{{ old('address', auth()->user()->address) }}</textarea>
                         </div>
 
                     </div>

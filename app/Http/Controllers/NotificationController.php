@@ -17,7 +17,7 @@ class NotificationController extends Controller
         }
 
         $notifications = $user->notifications()->take(5)->get();
-        
+
         return response()->json($notifications);
     }
 
@@ -32,7 +32,7 @@ class NotificationController extends Controller
         }
 
         $count = $user->unreadNotifications()->count();
-        
+
         return response()->json(['count' => $count]);
     }
 
@@ -47,10 +47,10 @@ class NotificationController extends Controller
         }
 
         $notification = $user->notifications()->find($id);
-        
+
         if ($notification) {
             $notification->markAsRead();
-            
+
             // Return the action URL so the frontend can redirect
             return response()->json([
                 'success' => true,
@@ -90,7 +90,31 @@ class NotificationController extends Controller
         }
 
         $notifications = $user->notifications()->paginate(10);
-        
+
         return view('notifications.index', compact('notifications'));
+    }
+
+    /**
+     * Delete a specific notification.
+     */
+    public function destroy(Request $request, $id)
+    {
+        $user = $request->user();
+        if (!$user) {
+            return response()->json(['success' => false], 401);
+        }
+
+        $notification = $user->notifications()->find($id);
+
+        if ($notification) {
+            $notification->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Notifikasi berhasil dihapus'
+            ]);
+        }
+
+        return response()->json(['success' => false], 404);
     }
 }

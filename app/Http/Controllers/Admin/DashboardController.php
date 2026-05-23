@@ -18,12 +18,12 @@ class DashboardController extends Controller
 
         $todaySchedule = Booking::with('court')
             ->whereDate('date', $today)
-            ->whereIn('status', ['pending', 'confirmed'])
+            ->whereIn('status', ['pending_payment', 'pending_verification', 'confirmed'])
             ->orderBy('start_time')
             ->get();
 
         $confirmed = Booking::where('status', 'confirmed')->count();
-        $pending = Booking::where('status', 'pending')->count();
+        $pending = Booking::whereIn('status', ['pending_payment', 'pending_verification'])->count();
         $completed = Booking::where('status', 'completed')->count();
         $cancelled = Booking::where('status', 'cancelled')->count();
         $expired = Booking::where('status', 'expired')->count();

@@ -19,7 +19,6 @@ class User extends Authenticatable
         'email',
         'password',
         'phone',
-        'address',
     ];
 
     /**
@@ -57,18 +56,13 @@ class User extends Authenticatable
         return $this->phone ?: '-';
     }
 
-    // Alamat lengkap
-    public function getAddressFullAttribute()
-    {
-        return $this->address ?: '-';
-    }
+    // Alamat lengkap removed
 
     public function getBiodataCompletionAttribute()
     {
         $fields = [
             $this->name,
             $this->phone,
-            $this->address,
         ];
 
         $filled = collect($fields)->filter()->count();
@@ -87,7 +81,6 @@ class User extends Authenticatable
         return collect([
             $this->name,
             $this->phone,
-            $this->address,
         ])->contains(fn($value) => empty($value));
     }
 
@@ -108,7 +101,6 @@ class User extends Authenticatable
             'name' => $this->full_name,
             'email' => $this->email,
             'phone' => $this->phone_number,
-            'address' => $this->address_full,
         ];
     }
 
