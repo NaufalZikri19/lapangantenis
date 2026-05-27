@@ -52,7 +52,8 @@
     </style>
 </head>
 
-<body class="bg-neutralBg dark:bg-gray-900 text-gray-900 dark:text-gray-100 antialiased selection:bg-yellow-200 dark:selection:bg-yellow-900/30 selection:text-gray-900 dark:selection:text-gray-100 overflow-x-hidden transition-colors duration-200">
+<body
+    class="bg-neutralBg dark:bg-gray-900 text-gray-900 dark:text-gray-100 antialiased selection:bg-yellow-200 dark:selection:bg-yellow-900/30 selection:text-gray-900 dark:selection:text-gray-100 overflow-x-hidden transition-colors duration-200">
 
     @include('layouts.header')
 

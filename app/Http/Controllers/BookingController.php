@@ -134,8 +134,20 @@ class BookingController extends Controller
         $admins = \App\Models\User::where('role', 'admin')->get();
         \Illuminate\Support\Facades\Notification::send($admins, new \App\Notifications\PaymentUploadedNotification($booking));
 
-        return redirect()->route('customer.dashboard')
+        return redirect()->route('booking.receipt', $booking->id)
             ->with('success', 'Bukti pembayaran berhasil dikirim');
+    }
+
+    // RECEIPT PAGE
+    public function receipt($id)
+    {
+        $booking = Booking::with('court')->findOrFail($id);
+
+        if (!$this->authorizeUser($booking)) {
+            abort(403);
+        }
+
+        return view('customer.receipt', compact('booking'));
     }
 
     // CHECK AVAILABILITY

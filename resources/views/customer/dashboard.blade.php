@@ -131,11 +131,11 @@
                                         Kadaluarsa
                                     </button>
                                 @elseif($booking->status === 'pending_verification')
-                                    <button disabled
-                                        class="inline-flex items-center justify-center gap-1.5 w-full md:w-auto bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-transparent dark:border-blue-500/20 px-4 py-2 rounded-full text-xs font-medium cursor-wait">
-                                        <i data-lucide="loader-2" class="w-3.5 h-3.5 animate-spin"></i>
-                                        Menunggu
-                                    </button>
+                                    <a href="{{ route('booking.receipt', $booking->id) }}"
+                                        class="inline-flex items-center justify-center gap-1.5 w-full md:w-auto bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-500/30 hover:bg-blue-100 dark:hover:bg-blue-900/40 px-4 py-2 rounded-full text-xs font-medium transition duration-200">
+                                        <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                                        Lihat Resi
+                                    </a>
                                 @elseif($booking->status === 'pending_payment')
                                     <a href="{{ route('booking.payment', $booking->id) }}"
                                         class="inline-flex items-center justify-center gap-1.5 w-full md:w-auto bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-full text-xs font-medium transition duration-200">
@@ -143,11 +143,18 @@
                                         Bayar Sekarang
                                     </a>
                                 @elseif($booking->status === 'confirmed' || $booking->status === 'completed')
-                                    <button
-                                        class="inline-flex items-center justify-center gap-1.5 w-full md:w-auto bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400 border border-transparent dark:border-green-500/20 hover:bg-green-100 dark:hover:bg-green-500/20 px-4 py-2 rounded-full text-xs font-medium transition duration-200">
-                                        <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
-                                        Lunas
-                                    </button>
+                                    <div class="flex flex-col xl:flex-row items-center gap-2 justify-end">
+                                        <button disabled
+                                            class="inline-flex items-center justify-center gap-1.5 w-full md:w-auto bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400 border border-transparent dark:border-green-500/20 px-3 py-2 rounded-full text-xs font-medium">
+                                            <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+                                            Lunas
+                                        </button>
+                                        <a href="{{ route('booking.receipt', $booking->id) }}"
+                                            class="inline-flex items-center justify-center gap-1.5 w-full md:w-auto bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 px-3 py-2 rounded-full text-xs font-medium transition duration-200">
+                                            <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                                            Resi
+                                        </a>
+                                    </div>
                                 @else
                                     <span class="text-xs text-gray-400 dark:text-gray-500 italic font-medium">Dibatalkan</span>
                                 @endif

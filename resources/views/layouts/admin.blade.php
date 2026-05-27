@@ -227,9 +227,25 @@
 
                     <!-- Theme Toggle Button -->
                     <button @click="dark = !dark"
-                        class="p-2 rounded-lg text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 transition-colors duration-200 shrink-0 focus:outline-none">
-                        <i data-lucide="sun" x-show="!dark" class="w-5 h-5"></i>
-                        <i data-lucide="moon" x-show="dark" x-cloak class="w-5 h-5"></i>
+                        class="relative p-2 rounded-lg text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800 transition-colors duration-200 shrink-0 focus:outline-none overflow-hidden flex items-center justify-center w-9 h-9">
+                        <div x-show="!dark"
+                            x-transition:enter="transition-transform transition-opacity duration-500 ease-out"
+                            x-transition:enter-start="opacity-0 rotate-90 scale-50"
+                            x-transition:enter-end="opacity-100 rotate-0 scale-100"
+                            x-transition:leave="transition-transform transition-opacity duration-500 ease-in absolute"
+                            x-transition:leave-start="opacity-100 rotate-0 scale-100"
+                            x-transition:leave-end="opacity-0 -rotate-90 scale-50">
+                            <i data-lucide="sun" class="w-5 h-5"></i>
+                        </div>
+                        <div x-show="dark" x-cloak
+                            x-transition:enter="transition-transform transition-opacity duration-500 ease-out"
+                            x-transition:enter-start="opacity-0 -rotate-90 scale-50"
+                            x-transition:enter-end="opacity-100 rotate-0 scale-100"
+                            x-transition:leave="transition-transform transition-opacity duration-500 ease-in absolute"
+                            x-transition:leave-start="opacity-100 rotate-0 scale-100"
+                            x-transition:leave-end="opacity-0 rotate-90 scale-50">
+                            <i data-lucide="moon" class="w-5 h-5"></i>
+                        </div>
                     </button>
                 </div>
             </header>

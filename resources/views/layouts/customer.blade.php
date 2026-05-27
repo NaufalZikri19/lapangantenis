@@ -111,7 +111,7 @@
                     @endphp
                     <a href="{{ isset($menu['anchor']) ? route($menu['route']) . '#' . $menu['anchor'] : route($menu['route']) }}"
                         class="flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all duration-200 group relative overflow-hidden
-                                           {{ $isActive ? 'bg-yellow-500/10 text-yellow-500 font-semibold' : 'hover:bg-slate-800/50 hover:text-white' }}">
+                                                   {{ $isActive ? 'bg-yellow-500/10 text-yellow-500 font-semibold' : 'hover:bg-slate-800/50 hover:text-white' }}">
 
                         <!-- Active Indicator -->
                         <div x-show="!isCollapsed"
@@ -204,11 +204,25 @@
 
                     <!-- Theme Toggle -->
                     <button @click="dark = !dark"
-                        class="p-2.5 rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all group">
-                        <i data-lucide="sun" x-show="!dark"
-                            class="w-5 h-5 group-hover:rotate-45 transition-transform"></i>
-                        <i data-lucide="moon" x-show="dark" x-cloak
-                            class="w-5 h-5 group-hover:-rotate-12 transition-transform"></i>
+                        class="relative p-2.5 rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200 group overflow-hidden flex items-center justify-center w-10 h-10">
+                        <div x-show="!dark"
+                            x-transition:enter="transition-transform transition-opacity duration-500 ease-out"
+                            x-transition:enter-start="opacity-0 rotate-90 scale-50"
+                            x-transition:enter-end="opacity-100 rotate-0 scale-100"
+                            x-transition:leave="transition-transform transition-opacity duration-500 ease-in absolute"
+                            x-transition:leave-start="opacity-100 rotate-0 scale-100"
+                            x-transition:leave-end="opacity-0 -rotate-90 scale-50">
+                            <i data-lucide="sun" class="w-5 h-5 group-hover:rotate-45 transition-transform"></i>
+                        </div>
+                        <div x-show="dark" x-cloak
+                            x-transition:enter="transition-transform transition-opacity duration-500 ease-out"
+                            x-transition:enter-start="opacity-0 -rotate-90 scale-50"
+                            x-transition:enter-end="opacity-100 rotate-0 scale-100"
+                            x-transition:leave="transition-transform transition-opacity duration-500 ease-in absolute"
+                            x-transition:leave-start="opacity-100 rotate-0 scale-100"
+                            x-transition:leave-end="opacity-0 rotate-90 scale-50">
+                            <i data-lucide="moon" class="w-5 h-5 group-hover:-rotate-12 transition-transform"></i>
+                        </div>
                     </button>
 
                     <div class="h-8 w-px bg-slate-200 dark:bg-slate-700 mx-1 hidden sm:block"></div>

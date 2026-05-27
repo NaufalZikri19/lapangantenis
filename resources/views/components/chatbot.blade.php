@@ -5,7 +5,7 @@
 
 <div x-data="chatbot({{ $pendingBookingCount }}, '{{ $userId }}')"
     @open-chatbot.window="isOpen = true; setTimeout(() => { scrollToBottom(); $refs.chatInput.focus(); }, 100)"
-    class="fixed bottom-6 right-6 z-50">
+    class="fixed bottom-6 right-6 z-50 print:hidden">
     <!-- Chat Widget Button -->
     <button @click="toggleChat()"
         class="w-14 h-14 bg-yellow-500 hover:bg-yellow-400 text-slate-900 rounded-full shadow-xl shadow-yellow-500/20 flex items-center justify-center transition-all hover:scale-105 duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 dark:focus:ring-offset-slate-950">

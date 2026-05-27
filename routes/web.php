@@ -160,6 +160,9 @@ Route::middleware(['auth', 'nocache'])->group(function () {
 
             Route::post('/payment/{id}', [BookingController::class, 'uploadPayment'])
                 ->name('booking.uploadPayment');
+
+            Route::get('/receipt/{id}', [BookingController::class, 'receipt'])
+                ->name('booking.receipt');
         });
 
         Route::get('/check-availability', [BookingController::class, 'checkAvailability'])

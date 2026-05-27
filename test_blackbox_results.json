@@ -1,7 +1,7 @@
 {
-    "timestamp": "2026-05-22 14:48:27",
-    "total": 56,
-    "pass": 56,
+    "timestamp": "2026-05-24 15:48:42",
+    "total": 57,
+    "pass": 57,
     "fail": 0,
     "pass_rate": "100%",
     "results": [
@@ -154,6 +154,14 @@
             "nama": "Booking court_id tidak ada di database",
             "expect": "INVALID",
             "actual": "INVALID",
+            "jenis": "Invalid",
+            "status": "PASS"
+        },
+        {
+            "id": "TC-BOOK-04",
+            "nama": "Slot yang sudah terboking terdeteksi konflik",
+            "expect": "true",
+            "actual": "true",
             "jenis": "Invalid",
             "status": "PASS"
         },
