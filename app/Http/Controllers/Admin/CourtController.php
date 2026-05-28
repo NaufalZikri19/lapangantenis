@@ -57,16 +57,18 @@ class CourtController extends Controller
         $request->validate([
             'name' => 'required',
             'type' => 'required',
-            'price' => 'required',
-            'image' => 'nullable|image'
+            'price' => 'required|numeric',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
         if ($request->hasFile('image')) {
+            // Hapus gambar lama agar tidak menumpuk di storage (Maintainability & Storage Optimization)
+            if ($court->image && Storage::disk('public')->exists($court->image)) {
+                Storage::disk('public')->delete($court->image);
+            }
 
             $file = $request->file('image');
-
             $path = $file->store('courts', 'public');
-
             $court->image = $path;
         }
 
@@ -77,11 +79,16 @@ class CourtController extends Controller
             'image' => $court->image,
         ]);
 
-        return redirect()->route('courts.index');
+        return redirect()->route('courts.index')->with('success', 'Court berhasil diupdate');
     }
 
     public function destroy(Court $court)
     {
+        // Hapus gambar fisik dari server saat data dihapus
+        if ($court->image && Storage::disk('public')->exists($court->image)) {
+            Storage::disk('public')->delete($court->image);
+        }
+
         $court->delete();
 
         return redirect()->route('courts.index')
