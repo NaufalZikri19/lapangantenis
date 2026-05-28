@@ -35,11 +35,13 @@ class BookingService
         DB::beginTransaction();
 
         try {
-            foreach ($slots as $slot) {
-                if ($this->hasConflict($court_id, $booking_date, $slot)) {
-                    DB::rollBack();
-                    throw new Exception('Slot sudah dibooking orang lain!');
-                }
+            // Optimasi Query (Performance): Cukup 1x query untuk semua slot yang berurutan
+            $start_time = $slots[0]['start'];
+            $end_time = $slots[count($slots) - 1]['end'];
+
+            if ($this->hasConflict($court_id, $booking_date, $start_time, $end_time)) {
+                DB::rollBack();
+                throw new Exception('Sebagian atau seluruh slot sudah dibooking orang lain!');
             }
 
             $court = Court::findOrFail($court_id);
@@ -109,14 +111,14 @@ class BookingService
         return true;
     }
 
-    public function hasConflict($court_id, $booking_date, $slot): bool
+    public function hasConflict($court_id, $booking_date, $start_time, $end_time): bool
     {
         return Booking::where('court_id', $court_id)
             ->where('date', $booking_date)
             ->whereIn('status', ['pending', 'confirmed'])
-            ->where(function ($query) use ($slot) {
-                $query->where('start_time', '<', $slot['end'])
-                    ->where('end_time', '>', $slot['start']);
+            ->where(function ($query) use ($start_time, $end_time) {
+                $query->where('start_time', '<', $end_time)
+                    ->where('end_time', '>', $start_time);
             })
             ->lockForUpdate()
             ->exists();
