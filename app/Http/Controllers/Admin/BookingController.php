@@ -69,11 +69,8 @@ class BookingController extends Controller
             $query->whereYear('date', Carbon::now()->year);
         }
 
-        // PAGINATION (lebih ringan dari get())
-        $bookings = $query->where(function($q) {
-            $q->where('payment_status', 'confirmed')
-              ->orWhere('booking_type', 'block');
-        })->latest()->paginate(10)->withQueryString();
+        // PAGINATION
+        $bookings = $query->latest()->paginate(10)->withQueryString();
 
         return view('admin.bookings.index', compact('bookings'));
     }
@@ -114,7 +111,7 @@ class BookingController extends Controller
         }
 
         $court = \App\Models\Court::findOrFail($request->court_id);
-        
+
         // Calculate total price based on hours if offline
         $start = Carbon::parse($request->start_time);
         $end = Carbon::parse($request->end_time);

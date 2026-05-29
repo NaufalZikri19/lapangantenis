@@ -24,7 +24,9 @@ class Booking extends Model
         'handled_by',
         'verified_by',
         'verified_at',
-        'rejection_reason'
+        'rejection_reason',
+        'voucher_id',
+        'discount_amount'
     ];
 
     protected $casts = [
@@ -53,6 +55,11 @@ class Booking extends Model
         return $this->belongsTo(User::class, 'verified_by');
     }
 
+    public function voucher()
+    {
+        return $this->belongsTo(Voucher::class);
+    }
+
     public static function syncStatus()
     {
         $now = now();
@@ -66,6 +73,12 @@ class Booking extends Model
         /** @var \App\Models\Booking $booking */
         foreach ($expiredBookings as $booking) {
             $booking->update(['status' => 'expired']);
+
+            // Kembalikan status voucher jika pesanan expired
+            if ($booking->voucher_id) {
+                \App\Models\Voucher::where('id', $booking->voucher_id)->update(['status' => 'active']);
+            }
+
             if ($booking->user) {
                 $booking->user->notify(new \App\Notifications\BookingExpiredNotification($booking));
             }
@@ -110,7 +123,7 @@ class Booking extends Model
         if ($this->booking_type === 'block') {
             return 'Sistem (Jadwal Diblokir)';
         }
-        
+
         return $this->user ? $this->user->name : ($this->guest_name ?: 'Tamu Offline');
     }
 }

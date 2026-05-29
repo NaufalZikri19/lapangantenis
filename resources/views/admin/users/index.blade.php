@@ -6,7 +6,8 @@
         <!-- HEADER SECTION -->
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div class="flex items-center gap-3">
-                <div class="p-2.5 bg-yellow-50 dark:bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 rounded-xl border border-yellow-100 dark:border-yellow-500/20">
+                <div
+                    class="p-2.5 bg-yellow-50 dark:bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 rounded-xl border border-yellow-100 dark:border-yellow-500/20">
                     <i data-lucide="users" class="w-7 h-7 text-yellow-600 dark:text-yellow-400"></i>
                 </div>
                 <div>
@@ -71,8 +72,6 @@
                                         </div>
                                         <div>
                                             <p class="font-semibold text-gray-800 dark:text-gray-100">{{ $user->name }}</p>
-                                            <p class="text-xs text-gray-400 dark:text-gray-500 mt-0.5">ID:
-                                                #{{ str_pad($user->id, 4, '0', STR_PAD_LEFT) }}</p>
                                         </div>
                                     </div>
                                 </td>

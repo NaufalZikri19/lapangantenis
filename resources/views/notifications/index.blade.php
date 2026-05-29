@@ -14,11 +14,21 @@
                         terima.</p>
                 </div>
 
-                <button onclick="markAllAsRead()"
-                    class="inline-flex items-center gap-2 px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-semibold text-sm rounded-xl transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500/50">
-                    <i data-lucide="check-check" class="w-4 h-4"></i>
-                    Tandai Semua Dibaca
-                </button>
+                <div class="flex items-center gap-3">
+                    @if($notifications->count() > 0)
+                        <button onclick="deleteAllNotifications()"
+                            class="inline-flex items-center gap-2 px-4 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 dark:bg-rose-500/10 dark:hover:bg-rose-500/20 dark:text-rose-400 font-semibold text-sm rounded-xl transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-500/50">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            Hapus Semua
+                        </button>
+                    @endif
+
+                    <button onclick="markAllAsRead()"
+                        class="inline-flex items-center gap-2 px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-semibold text-sm rounded-xl transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500/50">
+                        <i data-lucide="check-check" class="w-4 h-4"></i>
+                        Tandai Semua Dibaca
+                    </button>
+                </div>
             </div>
 
             <div class="divide-y divide-slate-100 dark:divide-slate-800/50">
@@ -148,6 +158,54 @@
                             }, 1000);
                         }
                     });
+            }
+
+            function deleteAllNotifications() {
+                Swal.fire({
+                    title: 'Hapus Semua Notifikasi?',
+                    text: "Semua riwayat notifikasi Anda akan dihapus permanen",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ef4444',
+                    cancelButtonColor: '#64748b',
+                    confirmButtonText: 'Ya, Hapus Semua!',
+                    cancelButtonText: 'Batal',
+                    background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#ffffff',
+                    color: document.documentElement.classList.contains('dark') ? '#f8fafc' : '#0f172a',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch('{{ route('notifications.deleteAll') }}', {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            }
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    const Toast = Swal.mixin({
+                                        toast: true,
+                                        position: 'top-end',
+                                        showConfirmButton: false,
+                                        timer: 3000,
+                                        timerProgressBar: true,
+                                        background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#ffffff',
+                                        color: document.documentElement.classList.contains('dark') ? '#f8fafc' : '#0f172a',
+                                    });
+
+                                    Toast.fire({
+                                        icon: 'success',
+                                        title: data.message
+                                    });
+
+                                    setTimeout(() => {
+                                        window.location.reload();
+                                    }, 1000);
+                                }
+                            });
+                    }
+                })
             }
 
             function markSingleAsRead(id) {

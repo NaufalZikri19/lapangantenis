@@ -86,7 +86,6 @@
                                         <div>
                                             <p class="font-bold text-gray-900 dark:text-white text-base tracking-tight leading-none mb-1.5">{{ $court->name }}</p>
                                             <div class="flex items-center gap-2">
-                                                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-md">ID: {{ $court->id }}</span>
                                                 <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">• Tennis Court</span>
                                             </div>
                                         </div>

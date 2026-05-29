@@ -177,6 +177,21 @@
                         </div>
                     </div>
 
+                    <!-- VOUCHER -->
+                    <div class="mt-4">
+                        <label for="voucher_code" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                            Punya Kode Voucher?
+                        </label>
+                        <div class="relative">
+                            <i data-lucide="ticket"
+                                class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"></i>
+                            <input type="text" id="voucher_code" name="voucher_code" form="bookingForm"
+                                placeholder="Masukkan kode voucher (opsional)"
+                                class="w-full border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-all uppercase placeholder:normal-case">
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1.5">*Voucher akan memotong total bayar Anda.</p>
+                    </div>
+
                     <!-- BUTTON -->
                     <button id="submitBtn" form="bookingForm" type="submit"
                         class="w-full flex justify-center items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-white py-3.5 rounded-xl font-bold transition-all duration-200 shadow-sm disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed mt-4"

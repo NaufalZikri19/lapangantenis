@@ -163,6 +163,12 @@ Route::middleware(['auth', 'nocache'])->group(function () {
 
             Route::get('/receipt/{id}', [BookingController::class, 'receipt'])
                 ->name('booking.receipt');
+
+            Route::get('/vouchers', [BookingController::class, 'vouchers'])
+                ->name('customer.vouchers');
+
+            Route::post('/booking/{id}/cancel', [BookingController::class, 'cancelWithVoucher'])
+                ->name('booking.cancelWithVoucher');
         });
 
         Route::get('/check-availability', [BookingController::class, 'checkAvailability'])
@@ -197,6 +203,7 @@ Route::middleware(['auth', 'nocache'])->group(function () {
     Route::get('/notifications/all', [NotificationController::class, 'all'])->name('notifications.all');
     Route::get('/notifications/unread-count', [NotificationController::class, 'unreadCount'])->name('notifications.unreadCount');
     Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
+    Route::delete('/notifications/delete-all', [NotificationController::class, 'deleteAll'])->name('notifications.deleteAll');
     Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
     Route::delete('/notifications/{id}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
 });

@@ -94,13 +94,15 @@
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <p class="font-medium text-gray-800 dark:text-gray-100">{{ $booking->court->name ?? '-' }}
-                                    </p>
-                                    <div class="text-xs text-gray-500 dark:text-gray-400 mt-0.5 flex flex-col gap-0.5">
-                                        <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3"></i>
-                                            {{ $booking->date ? \Carbon\Carbon::parse($booking->date)->format('d M Y') : '-' }}</span>
-                                        <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i>
-                                            {{ $booking->start_time }} - {{ $booking->end_time }}</span>
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-600 dark:text-blue-400">
+                                            <i data-lucide="map-pin" class="w-5 h-5"></i>
+                                        </div>
+                                        <div class="flex flex-col">
+                                            <span class="font-semibold text-gray-800 dark:text-gray-100">{{ $booking->court->name ?? '-' }}</span>
+                                            <span class="font-medium text-gray-700 dark:text-gray-200 text-sm">{{ $booking->date ? \Carbon\Carbon::parse($booking->date)->format('d M Y') : '-' }}</span>
+                                            <span class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{{ $booking->start_time ? \Carbon\Carbon::parse($booking->start_time)->format('H:i') : '' }} - {{ $booking->end_time ? \Carbon\Carbon::parse($booking->end_time)->format('H:i') : '' }}</span>
+                                        </div>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
@@ -141,6 +143,11 @@
                                     <span class="px-3 py-1 rounded-full text-xs font-semibold {{ $booking->status_class }}">
                                         {{ $booking->status_label ?? ucfirst($booking->status) }}
                                     </span>
+                                    @if($booking->voucher_id)
+                                        <span class="inline-flex items-center gap-1 ml-2 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-500 px-2 py-0.5 rounded text-[10px] font-bold border border-yellow-200 dark:border-yellow-700/50" title="Menggunakan Voucher">
+                                            <i data-lucide="ticket" class="w-3 h-3"></i>
+                                        </span>
+                                    @endif
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right">
                                     <div class="flex items-center justify-end gap-2">

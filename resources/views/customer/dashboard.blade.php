@@ -97,8 +97,7 @@
                     class="bg-gray-50 dark:bg-gray-700/50 text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider font-semibold">
                     <tr>
                         <th class="px-6 py-4">Lapangan</th>
-                        <th class="px-6 py-4">Tanggal</th>
-                        <th class="px-6 py-4">Jam</th>
+                        <th class="px-6 py-4">Jadwal Main</th>
                         <th class="px-6 py-4">Status</th>
                         <th class="px-6 py-4 text-right">Aksi</th>
                     </tr>
@@ -107,56 +106,108 @@
                     @forelse ($recentBookings as $booking)
                         <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition duration-200">
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <p class="font-semibold text-gray-800 dark:text-gray-100">{{ $booking->court->name }}</p>
-                                <p class="text-xs text-gray-400 dark:text-gray-500 mt-0.5">ID:
-                                    #{{ str_pad($booking->id, 4, '0', STR_PAD_LEFT) }}
-                                </p>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center text-blue-600 dark:text-blue-400">
+                                        <i data-lucide="map-pin" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold text-gray-800 dark:text-gray-100">{{ $booking->court->name }}</p>
+                                    </div>
+                                </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-gray-600 dark:text-gray-300">
-                                {{ \Carbon\Carbon::parse($booking->date)->format('d M Y') }}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-gray-600 dark:text-gray-300">
-                                {{ $booking->start_time }} - {{ $booking->end_time }}
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-gray-800 dark:text-gray-200">{{ \Carbon\Carbon::parse($booking->date)->format('d M Y') }}</span>
+                                    <span class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{{ \Carbon\Carbon::parse($booking->start_time)->format('H:i') }} - {{ \Carbon\Carbon::parse($booking->end_time)->format('H:i') }}</span>
+                                </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="{{ $booking->status_class }} px-3 py-1 rounded-full text-xs font-semibold">
                                     {{ $booking->status_label ?? ucfirst($booking->status) }}
                                 </span>
+                                @if($booking->voucher_id)
+                                    <span
+                                        class="inline-flex items-center gap-1 ml-2 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-500 px-2 py-0.5 rounded text-[10px] font-bold border border-yellow-200 dark:border-yellow-700/50"
+                                        title="Menggunakan Voucher">
+                                        <i data-lucide="ticket" class="w-3 h-3"></i>
+                                    </span>
+                                @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right">
                                 @if($booking->status === 'expired')
-                                    <button disabled
-                                        class="inline-flex items-center justify-center gap-1.5 w-full md:w-auto bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 border border-transparent dark:border-red-500/20 px-4 py-2 rounded-full text-xs font-medium opacity-50 cursor-not-allowed">
-                                        <i data-lucide="clock-4" class="w-3.5 h-3.5"></i>
-                                        Kadaluarsa
-                                    </button>
+                                    <span class="text-xs text-gray-400 dark:text-gray-500 italic font-medium">-</span>
                                 @elseif($booking->status === 'pending_verification')
-                                    <a href="{{ route('booking.receipt', $booking->id) }}"
-                                        class="inline-flex items-center justify-center gap-1.5 w-full md:w-auto bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-500/30 hover:bg-blue-100 dark:hover:bg-blue-900/40 px-4 py-2 rounded-full text-xs font-medium transition duration-200">
-                                        <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
-                                        Lihat Resi
-                                    </a>
-                                @elseif($booking->status === 'pending_payment')
-                                    <a href="{{ route('booking.payment', $booking->id) }}"
-                                        class="inline-flex items-center justify-center gap-1.5 w-full md:w-auto bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-full text-xs font-medium transition duration-200">
-                                        <i data-lucide="wallet" class="w-3.5 h-3.5"></i>
-                                        Bayar Sekarang
-                                    </a>
-                                @elseif($booking->status === 'confirmed' || $booking->status === 'completed')
-                                    <div class="flex flex-col xl:flex-row items-center gap-2 justify-end">
-                                        <button disabled
-                                            class="inline-flex items-center justify-center gap-1.5 w-full md:w-auto bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400 border border-transparent dark:border-green-500/20 px-3 py-2 rounded-full text-xs font-medium">
-                                            <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
-                                            Lunas
-                                        </button>
+                                    <div class="flex flex-wrap items-center justify-end gap-2">
                                         <a href="{{ route('booking.receipt', $booking->id) }}"
-                                            class="inline-flex items-center justify-center gap-1.5 w-full md:w-auto bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 px-3 py-2 rounded-full text-xs font-medium transition duration-200">
+                                            class="inline-flex items-center justify-center gap-1.5 bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-500/30 hover:bg-blue-100 dark:hover:bg-blue-900/40 px-3 py-1.5 rounded-full text-xs font-medium transition duration-200">
                                             <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
                                             Resi
                                         </a>
                                     </div>
+                                @elseif($booking->status === 'pending_payment')
+                                    <div class="flex flex-wrap items-center justify-end gap-2">
+                                        <a href="{{ route('booking.payment', $booking->id) }}"
+                                            class="inline-flex items-center justify-center gap-1.5 bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1.5 rounded-full text-xs font-medium transition duration-200">
+                                            <i data-lucide="wallet" class="w-3.5 h-3.5"></i>
+                                            Bayar
+                                        </a>
+
+                                        @php
+                                            $hoursDiff = now()->diffInHours(\Carbon\Carbon::parse($booking->date . ' ' . $booking->start_time), false);
+                                            $isCancelable = $hoursDiff >= 24;
+                                        @endphp
+                                        @if($isCancelable)
+                                            <form action="{{ route('booking.cancelWithVoucher', $booking->id) }}" method="POST"
+                                                class="inline-block"
+                                                onsubmit="return confirm('Yakin ingin membatalkan pesanan ini dan menukarnya dengan Voucher?');">
+                                                @csrf
+                                                <button type="submit"
+                                                    class="inline-flex items-center justify-center gap-1.5 bg-red-100 hover:bg-red-200 text-red-600 border border-red-200 px-3 py-1.5 rounded-full text-xs font-medium transition duration-200">
+                                                    <i data-lucide="x-circle" class="w-3.5 h-3.5"></i>
+                                                    Reschedule
+                                                </button>
+                                            </form>
+                                        @else
+                                            <button disabled title="Batas waktu pembatalan maksimal H-1 (24 jam sebelumnya)"
+                                                class="inline-flex items-center justify-center gap-1.5 bg-gray-100 text-gray-400 border border-gray-200 px-3 py-1.5 rounded-full text-xs font-medium cursor-not-allowed">
+                                                <i data-lucide="x-circle" class="w-3.5 h-3.5"></i>
+                                                Reschedule
+                                            </button>
+                                        @endif
+                                    </div>
+                                @elseif($booking->status === 'confirmed' || $booking->status === 'completed')
+                                    <div class="flex flex-wrap items-center justify-end gap-2">
+                                        <a href="{{ route('booking.receipt', $booking->id) }}"
+                                            class="inline-flex items-center justify-center gap-1.5 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 px-3 py-1.5 rounded-full text-xs font-medium transition duration-200">
+                                            <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                                            Resi
+                                        </a>
+
+                                        @php
+                                            $hoursDiff = now()->diffInHours(\Carbon\Carbon::parse($booking->date . ' ' . $booking->start_time), false);
+                                            $isCancelable = $booking->status === 'confirmed' && $hoursDiff >= 24;
+                                        @endphp
+                                        @if($isCancelable)
+                                            <form action="{{ route('booking.cancelWithVoucher', $booking->id) }}" method="POST"
+                                                class="inline-block"
+                                                onsubmit="return confirm('Yakin ingin membatalkan pesanan ini dan menukarnya dengan Voucher?');">
+                                                @csrf
+                                                <button type="submit"
+                                                    class="inline-flex items-center justify-center gap-1.5 bg-red-100 hover:bg-red-200 text-red-600 border border-red-200 px-3 py-1.5 rounded-full text-xs font-medium transition duration-200">
+                                                    <i data-lucide="x-circle" class="w-3.5 h-3.5"></i>
+                                                    Reschedule
+                                                </button>
+                                            </form>
+                                        @elseif($booking->status === 'confirmed')
+                                            <button disabled title="Batas waktu pembatalan maksimal H-1 (24 jam sebelumnya)"
+                                                class="inline-flex items-center justify-center gap-1.5 bg-gray-100 text-gray-400 border border-gray-200 px-3 py-1.5 rounded-full text-xs font-medium cursor-not-allowed">
+                                                <i data-lucide="x-circle" class="w-3.5 h-3.5"></i>
+                                                Reschedule
+                                            </button>
+                                        @endif
+                                    </div>
                                 @else
-                                    <span class="text-xs text-gray-400 dark:text-gray-500 italic font-medium">Dibatalkan</span>
+                                    <span class="text-xs text-gray-400 dark:text-gray-500 italic font-medium">-</span>
                                 @endif
                             </td>
                         </tr>

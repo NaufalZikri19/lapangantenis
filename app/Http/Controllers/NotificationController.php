@@ -117,4 +117,22 @@ class NotificationController extends Controller
 
         return response()->json(['success' => false], 404);
     }
+
+    /**
+     * Delete all notifications for the user.
+     */
+    public function deleteAll(Request $request)
+    {
+        $user = $request->user();
+        if (!$user) {
+            return response()->json(['success' => false], 401);
+        }
+
+        $user->notifications()->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Semua notifikasi berhasil dihapus'
+        ]);
+    }
 }

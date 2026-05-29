@@ -101,6 +101,7 @@
                         ['route' => 'customer.dashboard', 'icon' => 'layout-dashboard', 'label' => 'Dashboard'],
                         ['route' => 'booking.create', 'icon' => 'calendar-plus', 'label' => 'Booking Lapangan'],
                         ['route' => 'customer.dashboard', 'anchor' => 'history', 'icon' => 'clipboard-list', 'label' => 'Riwayat Booking'],
+                        ['route' => 'customer.vouchers', 'icon' => 'ticket', 'label' => 'Voucher Saya'],
                         ['route' => 'profile.edit', 'icon' => 'user-circle', 'label' => 'Profil Saya'],
                     ];
                 @endphp
@@ -111,7 +112,7 @@
                     @endphp
                     <a href="{{ isset($menu['anchor']) ? route($menu['route']) . '#' . $menu['anchor'] : route($menu['route']) }}"
                         class="flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all duration-200 group relative overflow-hidden
-                                                   {{ $isActive ? 'bg-yellow-500/10 text-yellow-500 font-semibold' : 'hover:bg-slate-800/50 hover:text-white' }}">
+                                                       {{ $isActive ? 'bg-yellow-500/10 text-yellow-500 font-semibold' : 'hover:bg-slate-800/50 hover:text-white' }}">
 
                         <!-- Active Indicator -->
                         <div x-show="!isCollapsed"

@@ -49,10 +49,16 @@ class BookingController extends Controller
                 Auth::id(),
                 $request->court_id,
                 $request->booking_date,
-                $slots
+                $slots,
+                $request->voucher_code
             );
 
             Auth::user()->notify(new \App\Notifications\BookingCreatedNotification($booking));
+
+            if ($booking->status === 'confirmed') {
+                return redirect()->route('booking.receipt', $booking->id)
+                    ->with('success', 'Booking berhasil! Pembayaran tertutup oleh Voucher.');
+            }
 
             return redirect()->route('booking.payment', $booking->id)
                 ->with('success', 'Booking berhasil! Silakan lakukan pembayaran');
@@ -148,6 +154,34 @@ class BookingController extends Controller
         }
 
         return view('customer.receipt', compact('booking'));
+    }
+
+    // CANCEL WITH VOUCHER
+    public function cancelWithVoucher($id)
+    {
+        $booking = Booking::findOrFail($id);
+
+        try {
+            $voucher = $this->bookingService->cancelAndGenerateVoucher($booking, Auth::user());
+            
+            if ($voucher) {
+                return back()->with('success', "Pesanan dibatalkan. Anda mendapatkan Voucher: {$voucher->code} senilai Rp " . number_format($voucher->amount, 0, ',', '.'));
+            }
+            
+            return back()->with('success', "Pesanan berhasil dibatalkan.");
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
+    }
+
+    // VOUCHERS PAGE
+    public function vouchers()
+    {
+        $vouchers = \App\Models\Voucher::where('user_id', Auth::id())
+            ->orderBy('created_at', 'desc')
+            ->get();
+            
+        return view('customer.vouchers', compact('vouchers'));
     }
 
     // CHECK AVAILABILITY

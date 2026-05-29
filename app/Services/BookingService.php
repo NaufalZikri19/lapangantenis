@@ -5,7 +5,9 @@ namespace App\Services;
 use App\Models\Court;
 use App\Models\Booking;
 use App\Models\User;
+use App\Models\Voucher;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Exception;
 
 class BookingService
@@ -13,7 +15,7 @@ class BookingService
     /**
      * @throws Exception
      */
-    public function processBooking($user_id, $court_id, $booking_date, array $slots): Booking
+    public function processBooking($user_id, $court_id, $booking_date, array $slots, ?string $voucherCode = null): Booking
     {
         if (empty($slots)) {
             throw new Exception('Pilih slot terlebih dahulu');
@@ -48,15 +50,52 @@ class BookingService
             $uniqueCode = rand(100, 999);
             $totalPrice = $basePrice + $uniqueCode;
 
+            $voucherId = null;
+            $discountAmount = 0;
+            $paymentStatus = 'pending_payment'; // Using status as standard, payment_status is 'pending'/'paid'
+            $paidAt = null;
+
+            if ($voucherCode) {
+                $voucher = Voucher::where('code', $voucherCode)
+                    ->where('user_id', $user_id)
+                    ->where('status', 'active')
+                    ->where(function ($q) {
+                        $q->whereNull('expired_at')->orWhere('expired_at', '>', now());
+                    })->first();
+
+                if (!$voucher) {
+                    throw new Exception('Kode voucher tidak valid atau sudah kadaluarsa.');
+                }
+
+                $voucherId = $voucher->id;
+                $discountAmount = min($voucher->amount, $totalPrice);
+                $totalPrice -= $discountAmount;
+
+                // Tandai voucher sebagai sudah digunakan seketika agar tidak bisa dipakai ganda
+                $voucher->update(['status' => 'used']);
+
+                // Jika sisa harga kurang dari 1000 (berarti hanya tersisa kode unik), anggap lunas
+                if ($totalPrice < 1000) {
+                    $totalPrice = 0;
+                    $paymentStatus = 'confirmed';
+                    $paidAt = now();
+                }
+            }
+
             $booking = Booking::create([
                 'user_id' => $user_id,
                 'court_id' => $court_id,
                 'date' => $booking_date,
                 'start_time' => $slots[0]['start'],
                 'end_time' => $slots[count($slots) - 1]['end'],
-                'status' => 'pending_payment',
+                'status' => $paymentStatus == 'confirmed' ? 'confirmed' : 'pending_payment',
                 'total_price' => $totalPrice,
-                'expired_at' => now()->addMinutes(15)
+                'discount_amount' => $discountAmount,
+                'voucher_id' => $voucherId,
+                'expired_at' => $paymentStatus == 'confirmed' ? null : now()->addMinutes(15),
+                'payment_status' => $paymentStatus == 'confirmed' ? 'paid' : 'pending',
+                'paid_at' => $paidAt,
+                'payment_method' => $paymentStatus == 'confirmed' ? 'voucher' : null
             ]);
 
             DB::commit();
@@ -190,5 +229,76 @@ class BookingService
         ]);
 
         $booking->user->notify(new \App\Notifications\PaymentRejectedNotification($booking));
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function cancelAndGenerateVoucher(Booking $booking, User $user): ?Voucher
+    {
+        if ($booking->user_id !== $user->id) {
+            throw new Exception('Anda tidak memiliki akses untuk membatalkan booking ini.');
+        }
+
+        if ($booking->status === 'pending_verification') {
+            throw new Exception('Pesanan Anda sedang diverifikasi. Harap tunggu atau hubungi admin.');
+        }
+
+        if (!in_array($booking->status, ['pending_payment', 'confirmed'])) {
+            throw new Exception('Status booking tidak valid untuk dibatalkan.');
+        }
+
+        // Cek batas waktu pembatalan (H-1)
+        $bookingDateTime = \Carbon\Carbon::parse($booking->date . ' ' . $booking->start_time);
+        if (now()->diffInHours($bookingDateTime, false) < 24) {
+            throw new Exception('Pembatalan hanya bisa dilakukan maksimal 24 jam sebelum jadwal.');
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $voucherAmount = 0;
+
+            if ($booking->status === 'confirmed') {
+                // Jika sudah lunas, refund uang tunai (total_price) + voucher yang terpakai sebelumnya (discount_amount)
+                $voucherAmount = $booking->total_price + ($booking->discount_amount ?? 0);
+            } elseif ($booking->status === 'pending_payment') {
+                // Jika belum dibayar, refund hanya dari voucher yang sudah terpakai
+                $voucherAmount = $booking->discount_amount ?? 0;
+            }
+
+            $booking->update([
+                'status' => 'cancelled'
+            ]);
+
+            if ($voucherAmount <= 0) {
+                DB::commit();
+                return null;
+            }
+
+            $voucherCode = 'VCH-' . strtoupper(Str::random(6));
+
+            // Pastikan kode unik
+            while (Voucher::where('code', $voucherCode)->exists()) {
+                $voucherCode = 'VCH-' . strtoupper(Str::random(6));
+            }
+
+            $voucher = Voucher::create([
+                'user_id' => $user->id,
+                'booking_id_origin' => $booking->id,
+                'code' => $voucherCode,
+                'amount' => $voucherAmount,
+                'status' => 'active',
+                'expired_at' => now()->addDays(30)
+            ]);
+
+            DB::commit();
+            return $voucher;
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            \Log::error('Cancel Booking Error: ' . $e->getMessage());
+            throw $e;
+        }
     }
 }

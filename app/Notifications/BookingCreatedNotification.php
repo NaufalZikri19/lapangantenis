@@ -24,6 +24,15 @@ class BookingCreatedNotification extends Notification
 
     public function toArray(object $notifiable): array
     {
+        if ($this->booking->voucher_id && $this->booking->status === 'confirmed') {
+            return [
+                'type' => 'info',
+                'title' => 'Booking Lunas via Voucher!',
+                'message' => 'Booking untuk tanggal ' . $this->booking->date . ' jam ' . $this->booking->start_time . ' berhasil dibuat dan otomatis lunas menggunakan voucher.',
+                'action_url' => route('booking.receipt', $this->booking->id),
+            ];
+        }
+
         return [
             'type' => 'action',
             'title' => 'Booking Berhasil!',
