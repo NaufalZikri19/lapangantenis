@@ -7,8 +7,4 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::get('/regencies/{province}', function ($provinceId) {
-    return App\Models\Regency::where('province_id', $provinceId)
-        ->orderBy('name')
-        ->get(['id', 'name']);
-});
+
