@@ -9,21 +9,21 @@
             class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full"></span>
     </button>
 
-    <div x-show="open" @click.away="open = false" style="display: none;"
-        class="absolute right-0 z-50 mt-2 w-80 bg-white dark:bg-slate-800 rounded-md shadow-lg overflow-hidden border border-gray-100 dark:border-slate-700 ring-1 ring-black ring-opacity-5">
+    <div x-show="open" @click.away="open = false" style="display: none; width: 320px; max-width: 90vw;"
+        class="fixed right-2 top-16 sm:absolute sm:right-0 sm:top-auto z-50 mt-2 bg-white dark:bg-slate-800 rounded-md shadow-lg overflow-hidden border border-gray-100 dark:border-slate-700 ring-1 ring-black ring-opacity-5 origin-top-right">
         <div
-            class="px-4 py-3 bg-gray-50 dark:bg-slate-800/50 border-b border-gray-100 dark:border-slate-700 flex justify-between items-center">
+            class="px-4 py-3 bg-gray-50 dark:bg-slate-800/50 border-b border-gray-100 dark:border-slate-700 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0">
             <h3 class="text-sm font-semibold text-gray-800 dark:text-white">Notifikasi</h3>
-            <div class="flex items-center gap-3">
+            <div class="flex items-center justify-between w-full sm:w-auto gap-3">
                 <span x-show="unreadCount > 0"
-                    class="text-xs bg-red-100 text-red-600 py-0.5 px-2 rounded-full font-medium"
+                    class="text-xs bg-red-100 text-red-600 py-0.5 px-2 rounded-full font-medium whitespace-nowrap"
                     x-text="unreadCount + ' Baru'"></span>
                 <button x-show="unreadCount > 0" @click="markAllAsRead()"
-                    class="text-xs text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium transition-colors">Tandai
+                    class="text-xs text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium transition-colors whitespace-nowrap">Tandai
                     Semua Dibaca</button>
             </div>
         </div>
-        <div class="max-h-96 overflow-y-auto">
+        <div class="max-h-96 overflow-y-auto scrollbar-hide">
             <template x-if="notifications.length > 0">
                 <div>
                     <template x-for="notification in notifications" :key="notification.id">
@@ -104,12 +104,12 @@
             </template>
         </div>
         <div
-            class="p-2 border-t border-gray-100 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/50 flex justify-between items-center">
+            class="p-3 border-t border-gray-100 dark:border-slate-700 bg-gray-50 dark:bg-slate-800/50 flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-0">
             <button @click="deleteAll()"
-                class="text-xs text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 font-medium px-2 py-1 transition-colors">Hapus
+                class="text-xs text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 font-medium px-2 py-1.5 transition-colors w-full sm:w-auto text-center sm:text-left border sm:border-0 border-red-200 dark:border-red-900/50 rounded sm:rounded-none">Hapus
                 Semua</button>
             <a href="{{ route('notifications.all') }}"
-                class="block text-center text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium py-1 px-2">Lihat
+                class="block text-center text-sm text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium py-1.5 px-2 w-full sm:w-auto bg-white sm:bg-transparent dark:bg-slate-700 sm:dark:bg-transparent rounded sm:rounded-none border sm:border-0 border-blue-200 dark:border-blue-900/50">Lihat
                 Semua Notifikasi</a>
         </div>
     </div>

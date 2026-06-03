@@ -62,7 +62,7 @@
         <!-- SIDEBAR -->
         <aside :class="[
                 sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0',
-                isCollapsed ? 'lg:w-20' : 'lg:w-72'
+                isCollapsed ? 'lg:w-20 w-72' : 'w-72'
             ]"
             class="fixed inset-y-0 left-0 z-50 flex flex-col h-full bg-slate-900 text-slate-300 border-r border-slate-800 shadow-2xl sidebar-transition shrink-0 lg:static lg:flex">
 
@@ -70,10 +70,16 @@
             <div class="flex items-center h-20 px-5 shrink-0 relative">
                 <div class="flex items-center w-full">
                     <!-- Logo Icon Container (Fixed position) -->
-                    <div
-                        class="w-10 h-10 rounded-xl bg-white flex items-center justify-center shrink-0 shadow-sm overflow-hidden">
-                        <img src="{{ asset('image/logo.png') }}" alt="Logo" class="w-full h-full object-cover">
-                    </div>
+                    <button @click="window.innerWidth >= 1024 ? isCollapsed = !isCollapsed : null"
+                        class="w-10 h-10 rounded-xl bg-white flex items-center justify-center shrink-0 shadow-sm overflow-hidden relative group cursor-default lg:cursor-pointer focus:outline-none transition-all">
+                        <img src="{{ asset('image/logo.png') }}" alt="Logo"
+                            class="w-full h-full object-cover transition-opacity duration-300 lg:group-hover:opacity-20">
+                        <div
+                            class="absolute inset-0 hidden lg:flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <i :data-lucide="isCollapsed ? 'chevrons-right' : 'chevrons-left'"
+                                class="w-6 h-6 text-slate-900"></i>
+                        </div>
+                    </button>
 
                     <!-- Logo Text (Fades in/out) -->
                     <div x-show="!isCollapsed" x-transition:enter="transition ease-out duration-300 delay-100"
@@ -112,7 +118,7 @@
                     @endphp
                     <a href="{{ isset($menu['anchor']) ? route($menu['route']) . '#' . $menu['anchor'] : route($menu['route']) }}"
                         class="flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all duration-200 group relative overflow-hidden
-                                                       {{ $isActive ? 'bg-yellow-500/10 text-yellow-500 font-semibold' : 'hover:bg-slate-800/50 hover:text-white' }}">
+                                                               {{ $isActive ? 'bg-yellow-500/10 text-yellow-500 font-semibold' : 'hover:bg-slate-800/50 hover:text-white' }}">
 
                         <!-- Active Indicator -->
                         <div x-show="!isCollapsed"
@@ -141,7 +147,8 @@
             <div class="p-4 mt-auto border-t border-slate-800 bg-slate-900/50">
                 <div x-data="{ open: false }" class="relative">
                     <button @click="open = !open"
-                        class="w-full flex items-center gap-3 p-2 rounded-2xl hover:bg-slate-800 transition-all duration-200 group">
+                        class="w-full flex items-center gap-3 py-2 rounded-2xl hover:bg-slate-800 transition-all duration-200 group"
+                        :class="isCollapsed ? 'justify-center px-0' : 'px-2'">
                         <div
                             class="w-10 h-10 rounded-xl bg-yellow-500 text-slate-900 flex items-center justify-center font-bold shadow-lg shadow-yellow-500/10 group-hover:scale-105 transition-transform shrink-0">
                             {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
@@ -187,10 +194,7 @@
                         <i data-lucide="menu" class="w-6 h-6"></i>
                     </button>
 
-                    <button @click="isCollapsed = !isCollapsed"
-                        class="hidden lg:flex p-2 rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-                        <i :data-lucide="isCollapsed ? 'chevrons-right' : 'chevrons-left'" class="w-5 h-5"></i>
-                    </button>
+
 
                     <div class="hidden sm:block">
                         <h1 class="text-xl font-bold text-slate-800 dark:text-white tracking-tight">

@@ -14,17 +14,18 @@
                         terima.</p>
                 </div>
 
-                <div class="flex items-center gap-3">
+                <div
+                    class="flex flex-col sm:flex-row items-stretch sm:items-center w-full sm:w-auto gap-2 sm:gap-3 mt-4 sm:mt-0">
                     @if($notifications->count() > 0)
                         <button onclick="deleteAllNotifications()"
-                            class="inline-flex items-center gap-2 px-4 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 dark:bg-rose-500/10 dark:hover:bg-rose-500/20 dark:text-rose-400 font-semibold text-sm rounded-xl transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-500/50">
+                            class="inline-flex justify-center items-center gap-2 px-4 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 dark:bg-rose-500/10 dark:hover:bg-rose-500/20 dark:text-rose-400 font-semibold text-sm rounded-xl transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-500/50 w-full sm:w-auto">
                             <i data-lucide="trash-2" class="w-4 h-4"></i>
                             Hapus Semua
                         </button>
                     @endif
 
                     <button onclick="markAllAsRead()"
-                        class="inline-flex items-center gap-2 px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-semibold text-sm rounded-xl transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500/50">
+                        class="inline-flex justify-center items-center gap-2 px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-semibold text-sm rounded-xl transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500/50 w-full sm:w-auto">
                         <i data-lucide="check-check" class="w-4 h-4"></i>
                         Tandai Semua Dibaca
                     </button>

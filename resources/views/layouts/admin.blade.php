@@ -32,7 +32,11 @@
 <body
     class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 font-sans antialiased transition-colors duration-200">
 
-    <div x-data="{ sidebarOpen: false, collapsed: false }" class="flex h-screen overflow-hidden">
+    <div x-data="{ 
+        sidebarOpen: false, 
+        collapsed: localStorage.getItem('sidebarCollapsed') === 'true' 
+    }" x-init="$watch('collapsed', val => localStorage.setItem('sidebarCollapsed', val))"
+        class="flex h-screen overflow-hidden">
 
         <!-- MOBILE OVERLAY -->
         <div x-show="sidebarOpen" x-transition.opacity x-cloak @click="sidebarOpen = false"
@@ -42,7 +46,7 @@
         <!-- SIDEBAR -->
         <aside :class="[
                 sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0',
-                collapsed ? 'lg:w-20' : 'lg:w-72'
+                collapsed ? 'lg:w-20 w-72' : 'w-72'
             ]"
             class="fixed inset-y-0 left-0 z-50 flex flex-col h-full bg-slate-900 text-slate-300 border-r border-slate-800 shadow-2xl transition-all duration-300 ease-in-out shrink-0 lg:static lg:flex">
 
@@ -50,27 +54,29 @@
             <div class="flex items-center h-20 px-4 shrink-0 relative"
                 :class="collapsed ? 'justify-center' : 'justify-between'">
 
-                <div class="flex items-center gap-3 overflow-hidden" x-show="!collapsed"
-                    x-transition.opacity.duration.200ms>
+                <div class="flex items-center gap-3 overflow-hidden w-full" :class="collapsed ? 'justify-center' : ''">
                     <!-- Logo Icon Container -->
-                    <div
-                        class="w-10 h-10 rounded-xl bg-white flex items-center justify-center shrink-0 shadow-sm overflow-hidden">
-                        <img src="{{ asset('image/logo.png') }}" alt="Logo" class="w-full h-full object-cover">
-                    </div>
+                    <button @click="window.innerWidth >= 1024 ? collapsed = !collapsed : null"
+                        class="w-10 h-10 rounded-xl bg-white flex items-center justify-center shrink-0 shadow-sm overflow-hidden relative group cursor-default lg:cursor-pointer focus:outline-none transition-all">
+                        <img src="{{ asset('image/logo.png') }}" alt="Logo"
+                            class="w-full h-full object-cover transition-opacity duration-300 lg:group-hover:opacity-20">
+                        <div
+                            class="absolute inset-0 hidden lg:flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <i :data-lucide="collapsed ? 'panel-left-open' : 'panel-left-close'"
+                                class="w-5 h-5 text-slate-900"></i>
+                        </div>
+                    </button>
 
                     <!-- Logo Text -->
-                    <div class="whitespace-nowrap overflow-hidden">
+                    <div x-show="!collapsed" x-transition.opacity.duration.200ms
+                        class="whitespace-nowrap overflow-hidden">
                         <span class="font-bold text-xl tracking-tight text-white">
                             Gumbreg<span class="text-yellow-500">QuickBook</span>
                         </span>
                     </div>
                 </div>
 
-                <button @click="collapsed = !collapsed"
-                    class="hidden lg:flex items-center justify-center p-1.5 rounded-lg hover:bg-slate-800 transition-colors text-slate-400 shrink-0">
-                    <i data-lucide="panel-left-close" class="w-5 h-5" x-show="!collapsed"></i>
-                    <i data-lucide="panel-left-open" class="w-5 h-5" x-show="collapsed" x-cloak></i>
-                </button>
+
 
                 <!-- Mobile Close Button -->
                 <button @click="sidebarOpen = false"
@@ -97,7 +103,7 @@
                     @endphp
                     <a href="{{ $menu['url'] }}"
                         class="flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all duration-200 group relative overflow-hidden
-                                                                       {{ $isActive ? 'bg-yellow-500/10 text-yellow-500 font-semibold' : 'hover:bg-slate-800/50 hover:text-white' }}"
+                                                                               {{ $isActive ? 'bg-yellow-500/10 text-yellow-500 font-semibold' : 'hover:bg-slate-800/50 hover:text-white' }}"
                         title="{{ $menu['label'] }}">
 
                         <!-- Active Indicator -->
@@ -126,8 +132,8 @@
             <div class="p-4 mt-auto border-t border-slate-800 bg-slate-900/50">
                 <div x-data="{ openUser: false }" class="relative">
                     <button @click="openUser = !openUser"
-                        class="w-full flex items-center gap-3 p-2 rounded-2xl hover:bg-slate-800 transition-all duration-200 group"
-                        :class="collapsed ? 'justify-center' : ''">
+                        class="w-full flex items-center gap-3 py-2 rounded-2xl hover:bg-slate-800 transition-all duration-200 group"
+                        :class="collapsed ? 'justify-center px-0' : 'px-2'">
 
                         <div
                             class="w-10 h-10 rounded-xl bg-yellow-500 text-slate-900 flex items-center justify-center font-bold shadow-lg shadow-yellow-500/10 group-hover:scale-105 transition-transform shrink-0">
