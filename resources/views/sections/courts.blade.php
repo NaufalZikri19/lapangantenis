@@ -25,7 +25,7 @@
 
                 <!-- IMAGE -->
                 <div class="relative overflow-hidden">
-                    <img src="{{ asset('image/court.jpg') }}"
+                    <img src="{{ asset('image/court.webp') }}"
                         class="h-72 w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
 
                     <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
@@ -101,7 +101,7 @@
                 class="group bg-white dark:bg-gray-800 rounded-3xl shadow-md overflow-hidden hover:-translate-y-2 hover:shadow-xl dark:hover:shadow-black/50 transition-all duration-300">
 
                 <div class="relative overflow-hidden">
-                    <img src="{{ asset('image/tenis.jpg') }}"
+                    <img src="{{ asset('image/tenis.webp') }}"
                         class="h-72 w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
 
                     <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>

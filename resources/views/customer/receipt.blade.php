@@ -55,7 +55,7 @@
                     <div class="mb-6 md:mb-0">
                         <div class="flex items-center gap-3 mb-2">
                             <div class="w-12 h-12 bg-white rounded-xl overflow-hidden flex items-center justify-center">
-                                <img src="{{ asset('image/logo.png') }}" alt="Gumbreg Tennis Logo"
+                                <img src="{{ asset('image/logo.webp') }}" alt="Gumbreg Tennis Logo"
                                     class="w-full h-full object-cover">
                             </div>
                             <h1 class="text-2xl font-black text-gray-900 dark:text-white tracking-tight">Gumbreg Tennis</h1>

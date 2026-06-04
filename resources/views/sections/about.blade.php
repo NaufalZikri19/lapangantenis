@@ -27,7 +27,7 @@
                 <div
                     class="absolute inset-0 bg-primary/20 rounded-[2.5rem] transform translate-x-6 translate-y-6 transition-transform group-hover:translate-x-4 group-hover:translate-y-4 -z-10">
                 </div>
-                <img src="{{ asset('image/about.jpg') }}"
+                <img src="{{ asset('image/about.webp') }}"
                     class="relative z-10 rounded-[2.5rem] shadow-2xl w-full object-cover h-[600px] transition-all duration-700 group-hover:scale-[1.02]"
                     alt="Gumbreg Tennis Court" />
 

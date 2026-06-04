@@ -22,7 +22,7 @@
 
             <!-- LOGO -->
             <a href="/" class="flex items-center gap-2 group">
-                <img src="{{ asset('image/logo.png') }}" alt="Logo Gumbreg QuickBook"
+                <img src="{{ asset('image/logo.webp') }}" alt="Logo Gumbreg QuickBook"
                     class="w-10 h-10 rounded-xl shadow-sm group-hover:scale-105 transition-transform duration-200 object-cover bg-white">
                 <span class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
                     Gumbreg<span class="text-primary">QuickBook</span>

@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <link rel="icon" href="{{ asset('image/logo.png') }}" type="image/png">
+    <link rel="icon" href="{{ asset('image/logo.webp') }}" type="image/png">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -58,7 +58,7 @@
                     <!-- Logo Icon Container -->
                     <button @click="window.innerWidth >= 1024 ? collapsed = !collapsed : null"
                         class="w-10 h-10 rounded-xl bg-white flex items-center justify-center shrink-0 shadow-sm overflow-hidden relative group cursor-default lg:cursor-pointer focus:outline-none transition-all">
-                        <img src="{{ asset('image/logo.png') }}" alt="Logo"
+                        <img src="{{ asset('image/logo.webp') }}" alt="Logo"
                             class="w-full h-full object-cover transition-opacity duration-300 lg:group-hover:opacity-20">
                         <div
                             class="absolute inset-0 hidden lg:flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">

@@ -3,7 +3,7 @@
 @section('content')
 
     <!-- STAT CARDS -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
 
 
         <!-- Total Pendapatan -->
@@ -13,7 +13,8 @@
             <div class="flex justify-between items-start">
                 <div class="min-w-0">
                     <p class="text-gray-500 dark:text-gray-400 text-sm font-medium truncate">Total Pendapatan</p>
-                    <h2 class="text-2xl sm:text-3xl font-bold mt-2 text-gray-800 dark:text-gray-100 truncate" title="Rp {{ number_format($totalRevenue, 0, ',', '.') }}">
+                    <h2 class="text-2xl sm:text-3xl font-bold mt-2 text-gray-800 dark:text-gray-100 break-words leading-tight"
+                        title="Rp {{ number_format($totalRevenue, 0, ',', '.') }}">
                         Rp {{ number_format($totalRevenue, 0, ',', '.') }}
                     </h2>
                 </div>
@@ -36,7 +37,8 @@
             <div class="flex justify-between items-start">
                 <div class="min-w-0">
                     <p class="text-gray-500 dark:text-gray-400 text-sm font-medium truncate">Bulan Ini</p>
-                    <h2 class="text-2xl sm:text-3xl font-bold mt-2 text-gray-800 dark:text-gray-100 truncate" title="Rp {{ number_format($monthlyRevenue, 0, ',', '.') }}">
+                    <h2 class="text-2xl sm:text-3xl font-bold mt-2 text-gray-800 dark:text-gray-100 break-words leading-tight"
+                        title="Rp {{ number_format($monthlyRevenue, 0, ',', '.') }}">
                         Rp {{ number_format($monthlyRevenue, 0, ',', '.') }}
                     </h2>
                 </div>
@@ -59,7 +61,8 @@
             <div class="flex justify-between items-start">
                 <div class="min-w-0">
                     <p class="text-gray-500 dark:text-gray-400 text-sm font-medium truncate">Hari Ini</p>
-                    <h2 class="text-2xl sm:text-3xl font-bold mt-2 text-gray-800 dark:text-gray-100 truncate" title="Rp {{ number_format($todayRevenue, 0, ',', '.') }}">
+                    <h2 class="text-2xl sm:text-3xl font-bold mt-2 text-gray-800 dark:text-gray-100 break-words leading-tight"
+                        title="Rp {{ number_format($todayRevenue, 0, ',', '.') }}">
                         Rp {{ number_format($todayRevenue, 0, ',', '.') }}
                     </h2>
                 </div>
@@ -192,7 +195,7 @@
 
         <!-- TODAY SCHEDULE -->
         <div
-            class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 sm:p-6 lg:col-span-1 h-fit flex flex-col">
+            class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 sm:p-6 lg:col-span-1 h-full flex flex-col">
             <div class="flex justify-between items-center mb-5">
                 <h2 class="text-lg font-bold text-gray-800 dark:text-gray-100">Jadwal Hari Ini</h2>
                 <span
@@ -201,7 +204,7 @@
                 </span>
             </div>
 
-            <div class="space-y-3 flex-1 overflow-y-auto max-h-[400px] pr-1">
+            <div class="space-y-3 flex-1 overflow-y-auto pr-1">
                 @if(isset($todaySchedule) && count($todaySchedule) > 0)
                     @foreach($todaySchedule as $item)
                         <div
