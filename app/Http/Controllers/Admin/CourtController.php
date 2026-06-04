@@ -36,20 +36,24 @@ class CourtController extends Controller
         $imagePath = null;
 
         if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $filename = uniqid() . '-' . time() . '.webp';
-            
-            $manager = new ImageManager(new Driver());
-            $img = $manager->decode($file->getRealPath());
-            
-            // Resize to max 800px width
-            $img->scaleDown(width: 800);
-            
-            // Encode to webp 75% quality
-            $encoded = $img->encode(new WebpEncoder(quality: 75))->toString();
-            
-            Storage::disk('public')->put('courts/' . $filename, $encoded);
-            $imagePath = 'courts/' . $filename;
+            try {
+                $file = $request->file('image');
+                $filename = uniqid() . '-' . time() . '.webp';
+                
+                $manager = new ImageManager(new Driver());
+                $img = $manager->decode($file->getRealPath());
+                
+                // Resize to max 800px width
+                $img->scaleDown(width: 800);
+                
+                // Encode to webp 75% quality
+                $encoded = $img->encode(new WebpEncoder(quality: 75))->toString();
+                
+                Storage::disk('public')->put('courts/' . $filename, $encoded);
+                $imagePath = 'courts/' . $filename;
+            } catch (\Exception $e) {
+                return back()->withInput()->with('error', 'Gagal memproses gambar: ' . $e->getMessage());
+            }
         }
 
         Court::create([
@@ -78,21 +82,25 @@ class CourtController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            // Hapus gambar lama agar tidak menumpuk di storage (Maintainability & Storage Optimization)
-            if ($court->image && Storage::disk('public')->exists($court->image)) {
-                Storage::disk('public')->delete($court->image);
-            }
+            try {
+                $file = $request->file('image');
+                $filename = uniqid() . '-' . time() . '.webp';
+                
+                $manager = new ImageManager(new Driver());
+                $img = $manager->decode($file->getRealPath());
+                $img->scaleDown(width: 800);
+                $encoded = $img->encode(new WebpEncoder(quality: 75))->toString();
+                
+                // Hapus gambar lama agar tidak menumpuk di storage (Maintainability & Storage Optimization)
+                if ($court->image && Storage::disk('public')->exists($court->image)) {
+                    Storage::disk('public')->delete($court->image);
+                }
 
-            $file = $request->file('image');
-            $filename = uniqid() . '-' . time() . '.webp';
-            
-            $manager = new ImageManager(new Driver());
-            $img = $manager->decode($file->getRealPath());
-            $img->scaleDown(width: 800);
-            $encoded = $img->encode(new WebpEncoder(quality: 75))->toString();
-            
-            Storage::disk('public')->put('courts/' . $filename, $encoded);
-            $court->image = 'courts/' . $filename;
+                Storage::disk('public')->put('courts/' . $filename, $encoded);
+                $court->image = 'courts/' . $filename;
+            } catch (\Exception $e) {
+                return back()->withInput()->with('error', 'Gagal memproses gambar: ' . $e->getMessage());
+            }
         }
 
         $court->update([
