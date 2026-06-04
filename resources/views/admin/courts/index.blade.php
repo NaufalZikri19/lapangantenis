@@ -31,12 +31,12 @@
                 <p class="text-2xl font-black text-gray-900 dark:text-white">{{ $courts->count() }}</p>
             </div>
             <div class="bg-white dark:bg-gray-800 p-5 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm">
-                <p class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Indoor</p>
-                <p class="text-2xl font-black text-blue-500">{{ $courts->where('type', 'Indoor')->count() }}</p>
-            </div>
-            <div class="bg-white dark:bg-gray-800 p-5 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm">
                 <p class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Semi-Indoor</p>
                 <p class="text-2xl font-black text-amber-500">{{ $courts->where('type', 'Semi-Indoor')->count() }}</p>
+            </div>
+            <div class="bg-white dark:bg-gray-800 p-5 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm">
+                <p class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Outdoor</p>
+                <p class="text-2xl font-black text-blue-500">{{ $courts->where('type', 'Outdoor')->count() }}</p>
             </div>
             <div class="bg-white dark:bg-gray-800 p-5 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-sm">
                 <p class="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Aktif</p>

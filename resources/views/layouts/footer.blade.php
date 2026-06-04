@@ -135,7 +135,7 @@
                         class="text-primary">QuickBook</span></span>. Hak Cipta Dilindungi.</p>
             <div class="flex gap-8">
                 <a href="{{ route('terms') ?? '#' }}" class="hover:text-white transition-colors">Syarat & Ketentuan</a>
-                <a href="#" class="hover:text-white transition-colors">Kebijakan Privasi</a>
+                <a href="{{ route('privacy') }}" class="hover:text-white transition-colors">Kebijakan Privasi</a>
             </div>
         </div>
 

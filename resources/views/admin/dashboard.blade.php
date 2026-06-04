@@ -13,7 +13,7 @@
             <div class="flex justify-between items-start">
                 <div class="min-w-0">
                     <p class="text-gray-500 dark:text-gray-400 text-sm font-medium truncate">Total Pendapatan</p>
-                    <h2 class="text-2xl sm:text-3xl font-bold mt-2 text-gray-800 dark:text-gray-100">
+                    <h2 class="text-2xl sm:text-3xl font-bold mt-2 text-gray-800 dark:text-gray-100 truncate" title="Rp {{ number_format($totalRevenue, 0, ',', '.') }}">
                         Rp {{ number_format($totalRevenue, 0, ',', '.') }}
                     </h2>
                 </div>
@@ -36,7 +36,7 @@
             <div class="flex justify-between items-start">
                 <div class="min-w-0">
                     <p class="text-gray-500 dark:text-gray-400 text-sm font-medium truncate">Bulan Ini</p>
-                    <h2 class="text-2xl sm:text-3xl font-bold mt-2 text-gray-800 dark:text-gray-100">
+                    <h2 class="text-2xl sm:text-3xl font-bold mt-2 text-gray-800 dark:text-gray-100 truncate" title="Rp {{ number_format($monthlyRevenue, 0, ',', '.') }}">
                         Rp {{ number_format($monthlyRevenue, 0, ',', '.') }}
                     </h2>
                 </div>
@@ -59,7 +59,7 @@
             <div class="flex justify-between items-start">
                 <div class="min-w-0">
                     <p class="text-gray-500 dark:text-gray-400 text-sm font-medium truncate">Hari Ini</p>
-                    <h2 class="text-2xl sm:text-3xl font-bold mt-2 text-gray-800 dark:text-gray-100">
+                    <h2 class="text-2xl sm:text-3xl font-bold mt-2 text-gray-800 dark:text-gray-100 truncate" title="Rp {{ number_format($todayRevenue, 0, ',', '.') }}">
                         Rp {{ number_format($todayRevenue, 0, ',', '.') }}
                     </h2>
                 </div>

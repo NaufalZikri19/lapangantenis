@@ -90,7 +90,9 @@
                                         class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none font-bold text-gray-400 dark:text-gray-500 group-focus-within:text-yellow-500 transition-colors">
                                         Rp
                                     </div>
-                                    <input type="number" name="price" value="{{ old('price') }}" required placeholder="0"
+                                    <input type="text" inputmode="numeric"
+                                        oninput="this.value = this.value.replace(/[^0-9]/g, '')" name="price"
+                                        value="{{ old('price') }}" required placeholder="0"
                                         class="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white focus:bg-white dark:focus:bg-gray-900 focus:ring-4 focus:ring-yellow-500/10 focus:border-yellow-500 transition-all outline-none shadow-sm">
                                 </div>
                                 <p
@@ -186,25 +188,38 @@
     <!-- PREVIEW SCRIPT -->
     <script>
         function previewImage(event) {
-            const reader = new FileReader();
             const input = event.target;
-            const previewImg = document.getElementById('preview');
-            const noImage = document.getElementById('no-image');
-            const overlay = document.getElementById('change-overlay');
-
-            reader.onload = function () {
-                previewImg.src = reader.result;
-                previewImg.classList.remove('hidden');
-                noImage.classList.add('hidden');
-                overlay.classList.remove('hidden');
-
-                // Add hover effect to overlay once image is present
-                previewImg.parentElement.addEventListener('mouseenter', () => overlay.classList.add('opacity-100'));
-                previewImg.parentElement.addEventListener('mouseleave', () => overlay.classList.remove('opacity-100'));
-            }
 
             if (input.files && input.files[0]) {
-                reader.readAsDataURL(input.files[0]);
+                const file = input.files[0];
+                if (file.size > 2 * 1024 * 1024) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: 'Ukuran gambar tidak boleh lebih dari 2MB',
+                        confirmButtonColor: '#eab308'
+                    });
+                    input.value = '';
+                    return;
+                }
+
+                const reader = new FileReader();
+                const previewImg = document.getElementById('preview');
+                const noImage = document.getElementById('no-image');
+                const overlay = document.getElementById('change-overlay');
+
+                reader.onload = function () {
+                    previewImg.src = reader.result;
+                    previewImg.classList.remove('hidden');
+                    noImage.classList.add('hidden');
+                    overlay.classList.remove('hidden');
+
+                    // Add hover effect to overlay once image is present
+                    previewImg.parentElement.addEventListener('mouseenter', () => overlay.classList.add('opacity-100'));
+                    previewImg.parentElement.addEventListener('mouseleave', () => overlay.classList.remove('opacity-100'));
+                }
+
+                reader.readAsDataURL(file);
             }
         }
     </script>

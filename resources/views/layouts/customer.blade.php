@@ -117,6 +117,7 @@
                         $isActive = request()->routeIs($menu['route']) && (!isset($menu['anchor']) || str_contains(url()->current(), $menu['anchor']));
                     @endphp
                     <a href="{{ isset($menu['anchor']) ? route($menu['route']) . '#' . $menu['anchor'] : route($menu['route']) }}"
+                        @click="sidebarOpen = false"
                         class="flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all duration-200 group relative overflow-hidden
                                                                {{ $isActive ? 'bg-yellow-500/10 text-yellow-500 font-semibold' : 'hover:bg-slate-800/50 hover:text-white' }}">
 

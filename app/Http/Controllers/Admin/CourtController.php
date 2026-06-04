@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Court;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Encoders\WebpEncoder;
 
 class CourtController extends Controller
 {
@@ -27,13 +30,26 @@ class CourtController extends Controller
             'name' => 'required',
             'type' => 'required',
             'price' => 'required|numeric',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
         ]);
 
         $imagePath = null;
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('courts', 'public');
+            $file = $request->file('image');
+            $filename = uniqid() . '-' . time() . '.webp';
+            
+            $manager = new ImageManager(new Driver());
+            $img = $manager->decode($file->getRealPath());
+            
+            // Resize to max 800px width
+            $img->scaleDown(width: 800);
+            
+            // Encode to webp 75% quality
+            $encoded = $img->encode(new WebpEncoder(quality: 75))->toString();
+            
+            Storage::disk('public')->put('courts/' . $filename, $encoded);
+            $imagePath = 'courts/' . $filename;
         }
 
         Court::create([
@@ -58,7 +74,7 @@ class CourtController extends Controller
             'name' => 'required',
             'type' => 'required',
             'price' => 'required|numeric',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
         ]);
 
         if ($request->hasFile('image')) {
@@ -68,8 +84,15 @@ class CourtController extends Controller
             }
 
             $file = $request->file('image');
-            $path = $file->store('courts', 'public');
-            $court->image = $path;
+            $filename = uniqid() . '-' . time() . '.webp';
+            
+            $manager = new ImageManager(new Driver());
+            $img = $manager->decode($file->getRealPath());
+            $img->scaleDown(width: 800);
+            $encoded = $img->encode(new WebpEncoder(quality: 75))->toString();
+            
+            Storage::disk('public')->put('courts/' . $filename, $encoded);
+            $court->image = 'courts/' . $filename;
         }
 
         $court->update([
