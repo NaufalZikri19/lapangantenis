@@ -225,7 +225,8 @@ class BookingService
             'status' => 'rejected',
             'verified_by' => $admin->id,
             'verified_at' => now(),
-            'rejection_reason' => $reason
+            'rejection_reason' => $reason,
+            'expired_at' => now()->addMinutes(15)
         ]);
 
         $booking->user->notify(new \App\Notifications\PaymentRejectedNotification($booking));

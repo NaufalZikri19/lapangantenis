@@ -88,7 +88,7 @@ class BookingController extends Controller
                 ->with('success', 'Booking sudah dikonfirmasi');
         }
 
-        if ($booking->status !== 'pending_payment') {
+        if (!in_array($booking->status, ['pending_payment', 'rejected'])) {
             return redirect()->route('customer.dashboard');
         }
 
@@ -209,7 +209,7 @@ class BookingController extends Controller
 
     private function isExpired($booking)
     {
-        return $booking->status === 'pending_payment'
+        return in_array($booking->status, ['pending_payment', 'rejected'])
             && $booking->expired_at
             && now()->gt($booking->expired_at);
     }

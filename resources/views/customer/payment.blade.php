@@ -135,7 +135,20 @@
                     </div>
                 </div>
 
-                <!-- ALERT BOX -->
+                <!-- ALERTS -->
+                @if($booking->status === 'rejected' && $booking->rejection_reason)
+                    <div class="bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-800/50 p-6 rounded-3xl flex gap-4 mb-6">
+                        <i data-lucide="alert-circle" class="w-6 h-6 text-red-500 shrink-0"></i>
+                        <div>
+                            <p class="text-sm font-bold text-red-900 dark:text-red-300 mb-1">Pembayaran Ditolak</p>
+                            <p class="text-xs text-red-800/70 dark:text-red-400/70 leading-relaxed font-medium">
+                                Alasan: {{ $booking->rejection_reason }}<br>
+                                <span class="mt-1 block">Silakan upload ulang bukti pembayaran yang benar sebelum waktu habis.</span>
+                            </p>
+                        </div>
+                    </div>
+                @endif
+
                 <div
                     class="bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800/50 p-6 rounded-3xl flex gap-4">
                     <i data-lucide="info" class="w-6 h-6 text-blue-500 shrink-0"></i>

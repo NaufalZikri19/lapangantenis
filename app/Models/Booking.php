@@ -65,7 +65,7 @@ class Booking extends Model
         $now = now();
 
         // EXPIRED
-        $expiredBookings = self::where('status', 'pending_payment')
+        $expiredBookings = self::whereIn('status', ['pending_payment', 'rejected'])
             ->whereNotNull('expired_at')
             ->where('expired_at', '<', $now)
             ->get();

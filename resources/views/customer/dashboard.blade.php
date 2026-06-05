@@ -144,36 +144,44 @@
                                             Resi
                                         </a>
                                     </div>
-                                @elseif($booking->status === 'pending_payment')
-                                    <div class="flex flex-wrap items-center justify-end gap-2">
-                                        <a href="{{ route('booking.payment', $booking->id) }}"
-                                            class="inline-flex items-center justify-center gap-1.5 bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1.5 rounded-full text-xs font-medium transition duration-200">
-                                            <i data-lucide="wallet" class="w-3.5 h-3.5"></i>
-                                            Bayar
-                                        </a>
+                                @elseif($booking->status === 'pending_payment' || $booking->status === 'rejected')
+                                    <div class="flex flex-col items-end gap-2">
+                                        @if($booking->status === 'rejected' && $booking->rejection_reason)
+                                            <div class="flex items-center text-[10px] text-red-500 dark:text-red-400 font-medium max-w-[200px]" title="{{ $booking->rejection_reason }}">
+                                                <i data-lucide="alert-circle" class="w-3 h-3 mr-1 shrink-0"></i>
+                                                <span class="truncate">{{ $booking->rejection_reason }}</span>
+                                            </div>
+                                        @endif
+                                        <div class="flex flex-wrap items-center justify-end gap-2">
+                                            <a href="{{ route('booking.payment', $booking->id) }}"
+                                                class="inline-flex items-center justify-center gap-1.5 bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1.5 rounded-full text-xs font-medium transition duration-200">
+                                                <i data-lucide="{{ $booking->status === 'rejected' ? 'upload-cloud' : 'wallet' }}" class="w-3.5 h-3.5"></i>
+                                                {{ $booking->status === 'rejected' ? 'Upload Ulang' : 'Bayar' }}
+                                            </a>
 
-                                        @php
-                                            $hoursDiff = now()->diffInHours(\Carbon\Carbon::parse($booking->date . ' ' . $booking->start_time), false);
-                                            $isCancelable = $hoursDiff >= 24;
-                                        @endphp
-                                        @if($isCancelable)
-                                            <form action="{{ route('booking.cancelWithVoucher', $booking->id) }}" method="POST"
-                                                class="inline-block"
-                                                onsubmit="return confirm('Yakin ingin membatalkan pesanan ini dan menukarnya dengan Voucher?');">
-                                                @csrf
-                                                <button type="submit"
-                                                    class="inline-flex items-center justify-center gap-1.5 bg-red-100 hover:bg-red-200 text-red-600 border border-red-200 px-3 py-1.5 rounded-full text-xs font-medium transition duration-200">
+                                            @php
+                                                $hoursDiff = now()->diffInHours(\Carbon\Carbon::parse($booking->date . ' ' . $booking->start_time), false);
+                                                $isCancelable = $hoursDiff >= 24;
+                                            @endphp
+                                            @if($isCancelable)
+                                                <form action="{{ route('booking.cancelWithVoucher', $booking->id) }}" method="POST"
+                                                    class="inline-block"
+                                                    onsubmit="return confirm('Yakin ingin membatalkan pesanan ini dan menukarnya dengan Voucher?');">
+                                                    @csrf
+                                                    <button type="submit"
+                                                        class="inline-flex items-center justify-center gap-1.5 bg-red-100 hover:bg-red-200 text-red-600 border border-red-200 px-3 py-1.5 rounded-full text-xs font-medium transition duration-200">
+                                                        <i data-lucide="x-circle" class="w-3.5 h-3.5"></i>
+                                                        Reschedule
+                                                    </button>
+                                                </form>
+                                            @else
+                                                <button disabled title="Batas waktu pembatalan maksimal H-1 (24 jam sebelumnya)"
+                                                    class="inline-flex items-center justify-center gap-1.5 bg-gray-100 text-gray-400 border border-gray-200 px-3 py-1.5 rounded-full text-xs font-medium cursor-not-allowed">
                                                     <i data-lucide="x-circle" class="w-3.5 h-3.5"></i>
                                                     Reschedule
                                                 </button>
-                                            </form>
-                                        @else
-                                            <button disabled title="Batas waktu pembatalan maksimal H-1 (24 jam sebelumnya)"
-                                                class="inline-flex items-center justify-center gap-1.5 bg-gray-100 text-gray-400 border border-gray-200 px-3 py-1.5 rounded-full text-xs font-medium cursor-not-allowed">
-                                                <i data-lucide="x-circle" class="w-3.5 h-3.5"></i>
-                                                Reschedule
-                                            </button>
-                                        @endif
+                                            @endif
+                                        </div>
                                     </div>
                                 @elseif($booking->status === 'confirmed' || $booking->status === 'completed')
                                     <div class="flex flex-wrap items-center justify-end gap-2">
