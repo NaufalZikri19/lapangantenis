@@ -7,6 +7,9 @@ import Chart from 'chart.js/auto';
 window.Alpine = Alpine;
 window.Swal = Swal;
 window.Chart = Chart;
-window.lucide = { createIcons, icons };
-createIcons({ icons });
+window.lucide = {
+    createIcons: (opts = {}) => createIcons({ icons, ...opts }),
+    icons
+};
+window.lucide.createIcons();
 Alpine.start();
