@@ -9,6 +9,10 @@
     <link rel="icon" type="image/png" href="{{ asset('image/logo.webp') }}">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Preload LCP Image -->
+    <link rel="preload" as="image" href="{{ asset('image/image1.webp') }}">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         body {
@@ -25,6 +29,7 @@
             <div class="absolute inset-0 bg-yellow-500 z-0 mix-blend-multiply opacity-20"></div>
             <img src="{{ asset('image/image1.webp') }}" class="absolute inset-0 w-full h-full object-cover z-10"
                 alt="Tennis Court"
+                fetchpriority="high"
                 onerror="this.src='https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?q=80&w=1000&auto=format&fit=crop'">
             <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/60 to-transparent z-20"></div>
 
