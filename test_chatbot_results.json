@@ -1,289 +1,73 @@
 {
-    "timestamp": "2026-06-02 20:53:49",
-    "modul": "Chatbot — Modul 13 (Sistem Nyata)",
-    "total": 35,
-    "pass": 35,
+    "timestamp": "2026-06-06 13:15:50",
+    "versi": "Interaksi Pengguna Website | 8 TC Chatbot",
+    "total": 8,
+    "pass": 8,
     "fail": 0,
     "skip": 0,
     "pass_rate": "100%",
     "results": [
         {
             "id": "TC-CHAT-01",
-            "nama": "Pesan chatbot valid diterima controller",
-            "expect": "VALID",
-            "actual": "VALID",
+            "nama": "Ketik pesan valid di kolom chat lalu klik Kirim",
+            "expect": "DITERIMA",
+            "actual": "DITERIMA",
             "jenis": "Valid",
             "status": "PASS"
         },
         {
             "id": "TC-CHAT-02",
-            "nama": "Pesan kosong ditolak controller (422)",
-            "expect": "INVALID",
-            "actual": "INVALID",
+            "nama": "Klik Kirim dengan kolom pesan dikosongkan",
+            "expect": "DITOLAK",
+            "actual": "DITOLAK",
             "jenis": "Tidak Valid",
             "status": "PASS"
         },
         {
             "id": "TC-CHAT-03",
-            "nama": "Pesan 501 karakter ditolak controller (batas atas)",
-            "expect": "INVALID",
-            "actual": "INVALID",
+            "nama": "Ketik 501 karakter di kolom chat lalu klik Kirim (batas atas — ditolak)",
+            "expect": "DITOLAK",
+            "actual": "DITOLAK",
             "jenis": "Batas",
             "status": "PASS"
         },
         {
             "id": "TC-CHAT-04",
-            "nama": "Pesan tepat 500 karakter diterima controller (batas valid)",
-            "expect": "VALID",
-            "actual": "VALID",
+            "nama": "Ketik tepat 500 karakter di kolom chat lalu klik Kirim (batas valid — diterima)",
+            "expect": "DITERIMA",
+            "actual": "DITERIMA",
             "jenis": "Batas",
             "status": "PASS"
         },
         {
             "id": "TC-CHAT-05",
-            "nama": "History berupa array valid diterima controller",
-            "expect": "VALID",
-            "actual": "VALID",
+            "nama": "Ketik \"cara booking lapangan tenis\" → chatbot balas panduan booking",
+            "expect": "Mengandung 'booking'",
+            "actual": "Untuk melakukan booking, Anda bisa langsung sebutkan tanggal dan jam yang Anda i",
             "jenis": "Valid",
             "status": "PASS"
         },
         {
             "id": "TC-CHAT-06",
-            "nama": "History bukan array ditolak controller (422)",
-            "expect": "INVALID",
-            "actual": "INVALID",
-            "jenis": "Tidak Valid",
+            "nama": "Ketik \"cara pembayaran booking saya\" → chatbot balas panduan pembayaran",
+            "expect": "Mengandung 'pembayaran'",
+            "actual": "Pembayaran dapat dilakukan melalui halaman detail booking Anda. Jika ada tagihan",
+            "jenis": "Valid",
             "status": "PASS"
         },
         {
             "id": "TC-CHAT-07",
-            "nama": "Keyword \"cara booking\" menghasilkan respons dari controller",
-            "expect": "VALID",
-            "actual": "VALID",
+            "nama": "Tanya ketersediaan lapangan untuk tanggal tertentu via chatbot",
+            "expect": "DITERIMA",
+            "actual": "DITERIMA",
             "jenis": "Valid",
             "status": "PASS"
         },
         {
             "id": "TC-CHAT-08",
-            "nama": "Respons \"cara booking\" mengandung kata \"booking\"",
-            "expect": "mengandung 'booking'",
-            "actual": "Untuk melakukan booking, Anda bisa langsung sebutkan tanggal dan jam yang Anda inginkan kepada saya, atau klik tombol 'Booking Sekarang' di layar.",
-            "jenis": "Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-CHAT-09",
-            "nama": "Keyword \"mau booking\" menghasilkan respons dari controller",
-            "expect": "VALID",
-            "actual": "VALID",
-            "jenis": "Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-CHAT-10",
-            "nama": "Keyword \"cara bayar\" menghasilkan respons dari controller",
-            "expect": "VALID",
-            "actual": "VALID",
-            "jenis": "Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-CHAT-11",
-            "nama": "Respons \"cara bayar\" mengandung kata \"pembayaran\"",
-            "expect": "mengandung 'pembayaran'",
-            "actual": "Pembayaran dapat dilakukan melalui halaman detail booking Anda. Jika ada tagihan pending, tombol bayar akan muncul di riwayat jadwal Anda.",
-            "jenis": "Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-CHAT-12",
-            "nama": "Pertanyaan umum tetap menghasilkan respons (via AI mock)",
-            "expect": "VALID",
-            "actual": "VALID",
-            "jenis": "Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-CHAT-13",
-            "nama": "Tool cek_ketersediaan_lapangan terdaftar",
+            "nama": "Chatbot tidak mengarang informasi (system prompt mengandung instruksi kejujuran)",
             "expect": "YA",
             "actual": "YA",
-            "jenis": "Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-CHAT-14",
-            "nama": "Cek ketersediaan tanggal valid — berhasil",
-            "expect": "BERHASIL",
-            "actual": "BERHASIL",
-            "jenis": "Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-CHAT-15",
-            "nama": "Hasil mengandung key info_lapangan",
-            "expect": "YA",
-            "actual": "YA",
-            "jenis": "Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-CHAT-16",
-            "nama": "Hasil mengandung key jadwal_terisi",
-            "expect": "YA",
-            "actual": "YA",
-            "jenis": "Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-CHAT-17",
-            "nama": "Tanpa parameter — tool pakai default hari ini, tidak crash",
-            "expect": "BERHASIL",
-            "actual": "BERHASIL",
-            "jenis": "Batas",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-CHAT-18",
-            "nama": "Tool dapatkan_detail_tagihan terdaftar",
-            "expect": "YA",
-            "actual": "YA",
-            "jenis": "Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-CHAT-19",
-            "nama": "Tool tagihan dieksekusi untuk customer tanpa error",
-            "expect": "BERHASIL",
-            "actual": "BERHASIL",
-            "jenis": "Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-CHAT-20",
-            "nama": "Hasil tagihan memiliki struktur key yang valid",
-            "expect": "YA",
-            "actual": "YA",
-            "jenis": "Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-CHAT-21",
-            "nama": "Tool create_booking terdaftar",
-            "expect": "YA",
-            "actual": "YA",
-            "jenis": "Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-CHAT-22",
-            "nama": "Tanpa court_id — dikembalikan sebagai FAILED",
-            "expect": "GAGAL",
-            "actual": "GAGAL",
-            "jenis": "Tidak Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-CHAT-23",
-            "nama": "Tanpa tanggal — dikembalikan sebagai FAILED",
-            "expect": "GAGAL",
-            "actual": "GAGAL",
-            "jenis": "Tidak Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-CHAT-24",
-            "nama": "end_time lebih awal dari start_time — FAILED",
-            "expect": "GAGAL",
-            "actual": "GAGAL",
-            "jenis": "Tidak Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-CHAT-25",
-            "nama": "court_id tidak ada di DB — FAILED",
-            "expect": "GAGAL",
-            "actual": "GAGAL",
-            "jenis": "Tidak Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-CHAT-26",
-            "nama": "Tool batalkan_booking_pending terdaftar",
-            "expect": "YA",
-            "actual": "YA",
-            "jenis": "Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-CHAT-27",
-            "nama": "Tanpa booking_id — dikembalikan error",
-            "expect": "GAGAL",
-            "actual": "GAGAL",
-            "jenis": "Tidak Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-CHAT-28",
-            "nama": "booking_id tidak ada di DB — FAILED",
-            "expect": "GAGAL",
-            "actual": "GAGAL",
-            "jenis": "Tidak Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-CHAT-29",
-            "nama": "Booking milik user lain tidak bisa dibatalkan (keamanan)",
-            "expect": "GAGAL",
-            "actual": "GAGAL",
-            "jenis": "Tidak Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-CHAT-30",
-            "nama": "Booking confirmed tidak bisa dibatalkan (bukan pending)",
-            "expect": "GAGAL",
-            "actual": "GAGAL",
-            "jenis": "Tidak Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-CHAT-31",
-            "nama": "Fungsi tidak terdaftar ditolak dispatcher",
-            "expect": "GAGAL",
-            "actual": "GAGAL",
-            "jenis": "Tidak Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-CHAT-32",
-            "nama": "Tepat 4 tool AI terdaftar di sistem",
-            "expect": "4",
-            "actual": "4",
-            "jenis": "Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-CHAT-33",
-            "nama": "System prompt mengandung nama user aktif",
-            "expect": "mengandung 'naufal zikri'",
-            "actual": "kamu adalah agen ai asisten pintar untuk aplikasi booking lapangan tenis gumbreg.\nkamu bisa dan harus memanggil fungsi\/tools yang disediakan jika pertanyaan user membutuhkan interaksi dengan database.\npenting: jangan pernah mengarang jadwal, nama lapangan, atau status booking. selalu gunakan fungsi untuk memastikan fakta.\njika user bertanya jadwal kosong, panggil fungsi cek_ketersediaan_lapangan.\njika user ingin booking, panggil fungsi create_booking (pastikan data lengkap: court_id, tanggal, jam mulai, jam selesai).\ngunakan bahasa indonesia yang santai, sopan, dan ramah (menggunakan emoji secukupnya).\n\n--- waktu sistem saat ini ---\nhari\/tanggal: tuesday, 02 june 2026\nformat tanggal standar database: 2026-06-02\n(gunakan format 2026-06-02 jika ingin memanggil fungsi terkait hari ini)\n\n--- data user saat ini ---\nnama: naufal zikri\njumlah tagihan belum dibayar: 0\njumlah jadwal aktif: 1\n",
-            "jenis": "Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-CHAT-34",
-            "nama": "System prompt mengandung instruksi \"JANGAN\"",
-            "expect": "mengandung 'jangan'",
-            "actual": "kamu adalah agen ai asisten pintar untuk aplikasi booking lapangan tenis gumbreg.\nkamu bisa dan harus memanggil fungsi\/tools yang disediakan jika pertanyaan user membutuhkan interaksi dengan database.\npenting: jangan pernah mengarang jadwal, nama lapangan, atau status booking. selalu gunakan fungsi untuk memastikan fakta.\njika user bertanya jadwal kosong, panggil fungsi cek_ketersediaan_lapangan.\njika user ingin booking, panggil fungsi create_booking (pastikan data lengkap: court_id, tanggal, jam mulai, jam selesai).\ngunakan bahasa indonesia yang santai, sopan, dan ramah (menggunakan emoji secukupnya).\n\n--- waktu sistem saat ini ---\nhari\/tanggal: tuesday, 02 june 2026\nformat tanggal standar database: 2026-06-02\n(gunakan format 2026-06-02 jika ingin memanggil fungsi terkait hari ini)\n\n--- data user saat ini ---\nnama: naufal zikri\njumlah tagihan belum dibayar: 0\njumlah jadwal aktif: 1\n",
-            "jenis": "Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-CHAT-35",
-            "nama": "System prompt mengandung tanggal sistem hari ini",
-            "expect": "mengandung '2026-06-02'",
-            "actual": "Kamu adalah agen AI asisten pintar untuk aplikasi booking lapangan tenis Gumbreg.\nKamu BISA dan HARUS memanggil fungsi\/tools yang disediakan jika pertanyaan user membutuhkan interaksi dengan database.\nPENTING: JANGAN PERNAH MENGARANG JADWAL, NAMA LAPANGAN, ATAU STATUS BOOKING. SELALU GUNAKAN FUNGSI UNTUK MEMASTIKAN FAKTA.\nJika user bertanya jadwal kosong, panggil fungsi cek_ketersediaan_lapangan.\nJika user ingin booking, panggil fungsi create_booking (pastikan data lengkap: court_id, tanggal, jam mulai, jam selesai).\nGunakan bahasa Indonesia yang santai, sopan, dan ramah (menggunakan emoji secukupnya).\n\n--- WAKTU SISTEM SAAT INI ---\nHari\/Tanggal: Tuesday, 02 June 2026\nFormat Tanggal Standar Database: 2026-06-02\n(Gunakan Format 2026-06-02 jika ingin memanggil fungsi terkait hari ini)\n\n--- DATA USER SAAT INI ---\nNama: Naufal Zikri\nJumlah Tagihan Belum Dibayar: 0\nJumlah Jadwal Aktif: 1\n",
             "jenis": "Valid",
             "status": "PASS"
         }

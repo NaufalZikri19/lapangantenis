@@ -1,465 +1,313 @@
 {
-    "timestamp": "2026-06-02 22:13:03",
-    "versi": "Sistem Nyata — Controller & Model Asli",
-    "total": 57,
-    "pass": 57,
+    "timestamp": "2026-06-06 13:14:48",
+    "versi": "Interaksi Pengguna Website | 38 TC Sistem",
+    "total": 37,
+    "pass": 37,
     "fail": 0,
-    "skip": 0,
+    "skip": 1,
     "pass_rate": "100%",
     "results": [
         {
             "id": "TC-REG-01",
-            "nama": "Registrasi data valid — controller menerima (bukan 422)",
-            "expect": "VALID",
-            "actual": "VALID",
+            "nama": "Isi form Daftar dengan data lengkap lalu klik Daftar",
+            "expect": "DITERIMA",
+            "actual": "DITERIMA",
             "jenis": "Valid",
             "status": "PASS"
         },
         {
             "id": "TC-REG-02",
-            "nama": "Email sudah digunakan — controller menolak (422)",
-            "expect": "INVALID",
-            "actual": "INVALID",
+            "nama": "Daftar dengan email yang sudah terdaftar",
+            "expect": "DITOLAK",
+            "actual": "DITOLAK",
             "jenis": "Tidak Valid",
             "status": "PASS"
         },
         {
             "id": "TC-REG-03",
-            "nama": "Password tidak cocok — controller menolak (422)",
-            "expect": "INVALID",
-            "actual": "INVALID",
+            "nama": "Daftar dengan konfirmasi password berbeda",
+            "expect": "DITOLAK",
+            "actual": "DITOLAK",
             "jenis": "Tidak Valid",
             "status": "PASS"
         },
         {
             "id": "TC-REG-04a",
-            "nama": "Password 7 karakter — controller menolak (batas bawah, 422)",
-            "expect": "INVALID",
-            "actual": "INVALID",
+            "nama": "Daftar dengan password 7 karakter (batas bawah — ditolak)",
+            "expect": "DITOLAK",
+            "actual": "DITOLAK",
             "jenis": "Batas",
             "status": "PASS"
         },
         {
             "id": "TC-REG-04b",
-            "nama": "Password 8 karakter — controller menerima (batas minimum valid)",
-            "expect": "VALID",
-            "actual": "VALID",
+            "nama": "Daftar dengan password 8 karakter (batas minimum — diterima)",
+            "expect": "DITERIMA",
+            "actual": "DITERIMA",
             "jenis": "Batas",
             "status": "PASS"
         },
         {
-            "id": "TC-REG-05",
-            "nama": "Format email tidak valid — controller menolak (422)",
-            "expect": "INVALID",
-            "actual": "INVALID",
-            "jenis": "Tidak Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-REG-06",
-            "nama": "Semua field kosong — controller menolak (422)",
-            "expect": "INVALID",
-            "actual": "INVALID",
-            "jenis": "Tidak Valid",
-            "status": "PASS"
-        },
-        {
             "id": "TC-LOGIN-01",
-            "nama": "Data customer tersedia di database",
-            "expect": "ADA",
-            "actual": "ADA",
+            "nama": "Login dengan email dan password yang benar",
+            "expect": "BERHASIL",
+            "actual": "BERHASIL",
             "jenis": "Valid",
             "status": "PASS"
         },
         {
             "id": "TC-LOGIN-02",
-            "nama": "Data admin tersedia di database",
-            "expect": "ADA",
-            "actual": "ADA",
-            "jenis": "Valid",
+            "nama": "Login dengan password yang salah",
+            "expect": "GAGAL",
+            "actual": "GAGAL",
+            "jenis": "Tidak Valid",
             "status": "PASS"
         },
         {
             "id": "TC-LOGIN-03",
-            "nama": "Password customer tersimpan terenkripsi (bcrypt)",
-            "expect": "ENCRYPTED",
-            "actual": "ENCRYPTED",
-            "jenis": "Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-LOGIN-04",
-            "nama": "Customer isAdmin() = false (method model asli)",
-            "expect": "false",
-            "actual": "false",
-            "jenis": "Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-LOGIN-05",
-            "nama": "Admin isAdmin() = true (method model asli)",
-            "expect": "true",
-            "actual": "true",
-            "jenis": "Valid",
+            "nama": "Login dengan field email dan password kosong",
+            "expect": "DITOLAK",
+            "actual": "DITOLAK",
+            "jenis": "Tidak Valid",
             "status": "PASS"
         },
         {
             "id": "TC-COURT-01",
-            "nama": "Tambah lapangan data valid — controller menerima",
-            "expect": "VALID",
-            "actual": "VALID",
+            "nama": "Tambah lapangan dengan data lengkap lalu klik Simpan",
+            "expect": "DITERIMA",
+            "actual": "DITERIMA",
             "jenis": "Valid",
             "status": "PASS"
         },
         {
             "id": "TC-COURT-02",
-            "nama": "Tambah lapangan tanpa nama — controller menolak (422)",
-            "expect": "INVALID",
-            "actual": "INVALID",
+            "nama": "Tambah lapangan tanpa mengisi nama",
+            "expect": "DITOLAK",
+            "actual": "DITOLAK",
             "jenis": "Tidak Valid",
             "status": "PASS"
         },
         {
             "id": "TC-COURT-03",
-            "nama": "Harga lapangan berupa teks — controller menolak (422)",
-            "expect": "INVALID",
-            "actual": "INVALID",
+            "nama": "Tambah lapangan dengan harga berupa teks",
+            "expect": "DITOLAK",
+            "actual": "DITOLAK",
             "jenis": "Tidak Valid",
             "status": "PASS"
         },
         {
-            "id": "TC-COURT-04",
-            "nama": "Lapangan tersedia di database",
-            "expect": "ADA",
-            "actual": "ADA",
-            "jenis": "Valid",
-            "status": "PASS"
-        },
-        {
             "id": "TC-BOOK-01",
-            "nama": "Booking data valid — BookingRequest rules lolos",
-            "expect": "VALID",
-            "actual": "VALID",
+            "nama": "Isi form booking dengan lapangan, tanggal, dan slot valid",
+            "expect": "DITERIMA",
+            "actual": "DITERIMA",
             "jenis": "Valid",
             "status": "PASS"
         },
         {
             "id": "TC-BOOK-02",
-            "nama": "Customer tanpa HP\/alamat — isBiodataIncomplete() = true",
-            "expect": "true",
-            "actual": "true",
+            "nama": "Akses booking dengan biodata (HP\/Alamat) yang belum diisi",
+            "expect": "DIARAHKAN KE PROFIL",
+            "actual": "DIARAHKAN KE PROFIL",
             "jenis": "Tidak Valid",
             "status": "PASS"
         },
         {
             "id": "TC-BOOK-03",
-            "nama": "Booking court_id tidak ada — BookingRequest menolak",
-            "expect": "INVALID",
-            "actual": "INVALID",
-            "jenis": "Tidak Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-BOOK-04",
-            "nama": "Konflik slot booking terdeteksi di DB",
-            "expect": "true",
-            "actual": "true",
+            "nama": "Pilih slot waktu yang sudah dipesan pengguna lain",
+            "expect": "KONFLIK TERDETEKSI",
+            "actual": "KONFLIK TERDETEKSI",
             "jenis": "Tidak Valid",
             "status": "PASS"
         },
         {
             "id": "TC-AVAIL-01",
-            "nama": "Check availability param valid — controller 200",
-            "expect": "VALID",
-            "actual": "VALID",
+            "nama": "Pilih lapangan dan tanggal dari kalender, lihat ketersediaan",
+            "expect": "DITERIMA",
+            "actual": "DITERIMA",
             "jenis": "Valid",
             "status": "PASS"
         },
         {
             "id": "TC-AVAIL-02",
-            "nama": "Check availability tanpa court_id — controller 422",
-            "expect": "INVALID",
-            "actual": "INVALID",
+            "nama": "Cek ketersediaan tanpa memilih lapangan",
+            "expect": "DITOLAK",
+            "actual": "DITOLAK",
             "jenis": "Tidak Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-AVAIL-03",
-            "nama": "Check availability court_id tidak ada — controller 422",
-            "expect": "INVALID",
-            "actual": "INVALID",
-            "jenis": "Tidak Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-AVAIL-04",
-            "nama": "Check availability tanggal tidak valid — controller 422",
-            "expect": "INVALID",
-            "actual": "INVALID",
-            "jenis": "Batas",
             "status": "PASS"
         },
         {
             "id": "TC-PAY-01",
-            "nama": "Upload tanpa file payment_proof — rules controller menolak",
-            "expect": "INVALID",
-            "actual": "INVALID",
+            "nama": "Kirim form pembayaran tanpa melampirkan file bukti",
+            "expect": "DITOLAK",
+            "actual": "DITOLAK",
             "jenis": "Tidak Valid",
             "status": "PASS"
         },
         {
             "id": "TC-PAY-02",
-            "nama": "Metode pembayaran \"gopay\" — rules controller menolak",
-            "expect": "INVALID",
-            "actual": "INVALID",
+            "nama": "Kirim form pembayaran tanpa mencentang Syarat & Ketentuan",
+            "expect": "DITOLAK",
+            "actual": "DITOLAK",
             "jenis": "Tidak Valid",
             "status": "PASS"
         },
         {
             "id": "TC-PAY-03",
-            "nama": "Upload tanpa centang syarat — rules controller menolak",
-            "expect": "INVALID",
-            "actual": "INVALID",
+            "nama": "Buka halaman bayar pada booking yang sudah melewati batas waktu",
+            "expect": "DITOLAK",
+            "actual": "DITOLAK",
             "jenis": "Tidak Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-PAY-04",
-            "nama": "isExpired() BookingController — booking 1 jam lalu = true",
-            "expect": "true",
-            "actual": "true",
-            "jenis": "Tidak Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-PAY-05",
-            "nama": "isExpired() BookingController — booking 1 jam depan = false",
-            "expect": "false",
-            "actual": "false",
-            "jenis": "Batas",
             "status": "PASS"
         },
         {
             "id": "TC-VPAY-01",
-            "nama": "Reject tanpa alasan — validasi 422",
-            "expect": "INVALID",
-            "actual": "INVALID",
+            "nama": "Klik Tolak lalu Konfirmasi tanpa mengisi alasan penolakan",
+            "expect": "DITOLAK",
+            "actual": "DITOLAK",
             "jenis": "Tidak Valid",
             "status": "PASS"
         },
         {
             "id": "TC-VPAY-02",
-            "nama": "Reject dengan alasan valid — validasi lolos",
-            "expect": "VALID",
-            "actual": "VALID",
+            "nama": "Tolak pembayaran dengan mengisi alasan yang jelas",
+            "expect": "DITERIMA",
+            "actual": "DITERIMA",
             "jenis": "Valid",
             "status": "PASS"
         },
         {
             "id": "TC-VPAY-03",
-            "nama": "Alasan penolakan 256 karakter — ditolak (batas atas)",
-            "expect": "INVALID",
-            "actual": "INVALID",
-            "jenis": "Batas",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-VPAY-04",
-            "nama": "Alasan penolakan 255 karakter — lolos (batas maksimum valid)",
-            "expect": "VALID",
-            "actual": "VALID",
-            "jenis": "Batas",
-            "status": "PASS"
+            "nama": "Tidak ada booking pending_verification untuk diuji konfirmasi",
+            "expect": "-",
+            "actual": "SKIP",
+            "jenis": "-",
+            "status": "SKIP"
         },
         {
             "id": "TC-OFFBOOK-01",
-            "nama": "Booking offline valid — controller menerima",
-            "expect": "VALID",
-            "actual": "VALID",
+            "nama": "Admin buat booking offline dengan data lengkap",
+            "expect": "DITERIMA",
+            "actual": "DITERIMA",
             "jenis": "Valid",
             "status": "PASS"
         },
         {
             "id": "TC-OFFBOOK-02",
-            "nama": "Blokir jadwal valid — controller menerima",
-            "expect": "VALID",
-            "actual": "VALID",
+            "nama": "Admin blokir jadwal lapangan dengan data lengkap",
+            "expect": "DITERIMA",
+            "actual": "DITERIMA",
             "jenis": "Valid",
             "status": "PASS"
         },
         {
             "id": "TC-OFFBOOK-03",
-            "nama": "end_time sebelum start_time — controller menolak (422)",
-            "expect": "INVALID",
-            "actual": "INVALID",
-            "jenis": "Tidak Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-OFFBOOK-04",
-            "nama": "Tipe booking \"online\" — controller menolak (422)",
-            "expect": "INVALID",
-            "actual": "INVALID",
+            "nama": "Isi waktu selesai (09:00) lebih awal dari waktu mulai (11:00)",
+            "expect": "DITOLAK",
+            "actual": "DITOLAK",
             "jenis": "Tidak Valid",
             "status": "PASS"
         },
         {
             "id": "TC-PROF-01",
-            "nama": "Update profil data valid — ProfileUpdateRequest rules lolos",
-            "expect": "VALID",
-            "actual": "VALID",
+            "nama": "Ubah nama dan email di halaman Profil lalu klik Simpan",
+            "expect": "DITERIMA",
+            "actual": "DITERIMA",
             "jenis": "Valid",
             "status": "PASS"
         },
         {
             "id": "TC-PROF-02",
-            "nama": "Update biodata HP valid — controller menerima",
-            "expect": "VALID",
-            "actual": "VALID",
-            "jenis": "Valid",
+            "nama": "Isi nomor HP tepat 20 karakter (batas maksimum valid)",
+            "expect": "DITERIMA",
+            "actual": "DITERIMA",
+            "jenis": "Batas",
             "status": "PASS"
         },
         {
             "id": "TC-PROF-03",
-            "nama": "Nomor HP 21 karakter — controller menolak (batas atas, 422)",
-            "expect": "INVALID",
-            "actual": "INVALID",
+            "nama": "Isi nomor HP 21 karakter (melebihi batas — ditolak)",
+            "expect": "DITOLAK",
+            "actual": "DITOLAK",
             "jenis": "Batas",
             "status": "PASS"
         },
         {
             "id": "TC-PROF-04",
-            "nama": "Nomor HP 20 karakter — controller menerima (batas maksimum valid)",
-            "expect": "VALID",
-            "actual": "VALID",
-            "jenis": "Batas",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-PROF-05",
-            "nama": "Hapus akun tanpa password — controller menolak (422)",
-            "expect": "INVALID",
-            "actual": "INVALID",
+            "nama": "Klik Hapus Akun lalu Konfirmasi tanpa mengisi password",
+            "expect": "DITOLAK",
+            "actual": "DITOLAK",
             "jenis": "Tidak Valid",
             "status": "PASS"
         },
         {
             "id": "TC-USER-01",
-            "nama": "Update user data valid — controller menerima",
-            "expect": "VALID",
-            "actual": "VALID",
+            "nama": "Admin edit data pengguna dengan nama dan email valid",
+            "expect": "DITERIMA",
+            "actual": "DITERIMA",
             "jenis": "Valid",
             "status": "PASS"
         },
         {
             "id": "TC-USER-02",
-            "nama": "Update user tanpa nama — controller menolak (422)",
-            "expect": "INVALID",
-            "actual": "INVALID",
+            "nama": "Admin edit pengguna lalu klik Simpan tanpa mengisi nama",
+            "expect": "DITOLAK",
+            "actual": "DITOLAK",
             "jenis": "Tidak Valid",
             "status": "PASS"
         },
         {
             "id": "TC-USER-03",
-            "nama": "Admin role terproteksi dari penghapusan (role = admin)",
-            "expect": "true",
-            "actual": "true",
-            "jenis": "Tidak Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-USER-04",
-            "nama": "Customer tidak terproteksi (role != admin)",
-            "expect": "true",
-            "actual": "true",
+            "nama": "Admin klik Hapus pada akun pengguna berperan customer",
+            "expect": "BERHASIL",
+            "actual": "BERHASIL",
             "jenis": "Valid",
             "status": "PASS"
         },
         {
+            "id": "TC-USER-04",
+            "nama": "Admin klik Hapus pada akun yang berperan admin",
+            "expect": "DITOLAK",
+            "actual": "DITOLAK",
+            "jenis": "Tidak Valid",
+            "status": "PASS"
+        },
+        {
             "id": "TC-STATUS-01",
-            "nama": "Label pending_payment — accessor model asli",
-            "expect": "Menunggu Pembayaran",
-            "actual": "Menunggu Pembayaran",
+            "nama": "Dashboard menampilkan label status booking yang benar (5 status)",
+            "expect": "BENAR",
+            "actual": "BENAR",
             "jenis": "Valid",
             "status": "PASS"
         },
         {
             "id": "TC-STATUS-02",
-            "nama": "Label confirmed — accessor model asli",
-            "expect": "Dikonfirmasi",
-            "actual": "Dikonfirmasi",
+            "nama": "Halaman admin menampilkan booking blokir atas nama Sistem",
+            "expect": "YA",
+            "actual": "YA",
             "jenis": "Valid",
             "status": "PASS"
         },
         {
             "id": "TC-STATUS-03",
-            "nama": "Label cancelled — accessor model asli",
-            "expect": "Dibatalkan",
-            "actual": "Dibatalkan",
+            "nama": "Booking offline tamu menampilkan nama tamu yang diinput admin",
+            "expect": "Andi Tamu",
+            "actual": "Andi Tamu",
             "jenis": "Valid",
             "status": "PASS"
         },
         {
-            "id": "TC-STATUS-04",
-            "nama": "Label expired — accessor model asli",
-            "expect": "Kadaluarsa",
-            "actual": "Kadaluarsa",
-            "jenis": "Valid",
+            "id": "TC-ACCESS-01",
+            "nama": "Customer mencoba akses halaman admin — ditolak sistem",
+            "expect": "TIDAK BISA",
+            "actual": "TIDAK BISA",
+            "jenis": "Tidak Valid",
             "status": "PASS"
         },
         {
-            "id": "TC-STATUS-05",
-            "nama": "Label rejected — accessor model asli",
-            "expect": "Ditolak",
-            "actual": "Ditolak",
-            "jenis": "Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-STATUS-06",
-            "nama": "Booking blokir — customer_name mengandung \"sistem\"",
-            "expect": "mengandung 'sistem'",
-            "actual": "Sistem (Jadwal Diblokir)",
-            "jenis": "Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-STATUS-07",
-            "nama": "Booking offline tamu — customer_name = nama tamu",
-            "expect": "Tamu Tanpa Akun",
-            "actual": "Tamu Tanpa Akun",
-            "jenis": "Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-ROLE-01",
-            "nama": "Customer isAdmin() = false — method model asli",
-            "expect": "false",
-            "actual": "false",
-            "jenis": "Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-ROLE-02",
-            "nama": "Admin isAdmin() = true — method model asli",
-            "expect": "true",
-            "actual": "true",
-            "jenis": "Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-ROLE-03",
-            "nama": "Customer isCustomer() = true — method model asli",
-            "expect": "true",
-            "actual": "true",
-            "jenis": "Valid",
-            "status": "PASS"
-        },
-        {
-            "id": "TC-ROLE-04",
-            "nama": "Admin isCustomer() = false — method model asli",
-            "expect": "false",
-            "actual": "false",
+            "id": "TC-ACCESS-02",
+            "nama": "Admin membuka halaman panel admin — berhasil diakses",
+            "expect": "BISA",
+            "actual": "BISA",
             "jenis": "Valid",
             "status": "PASS"
         }

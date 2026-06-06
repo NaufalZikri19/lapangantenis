@@ -1,10 +1,10 @@
-<script>
+<script type="module">
     /**
      * SweetAlert2 Global Mixins
      */
 
     // 1. Toast Mixin (Feedback Cepat)
-    const Toast = Swal.mixin({
+    window.Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
@@ -19,7 +19,7 @@
     });
 
     // 2. Alert Mixin (Konfirmasi/Aksi Penting)
-    const Alert = Swal.mixin({
+    window.Alert = Swal.mixin({
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#FBBF24', // kuning
@@ -36,7 +36,7 @@
     });
 
     // Helper function for delete confirmation
-    window.confirmDelete = function(formId, title = 'Yakin hapus data?', text = 'Data yang dihapus tidak bisa dikembalikan!') {
+    window.confirmDelete = function (formId, title = 'Yakin hapus data?', text = 'Data yang dihapus tidak bisa dikembalikan!') {
         Alert.fire({
             title: title,
             text: text,

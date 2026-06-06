@@ -9,24 +9,7 @@
     <link rel="icon" type="image/png" href="{{ asset('image/logo.webp') }}">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
-    <!-- Alpine JS -->
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'] },
-                    colors: { primary: '#EAB308', primaryHover: '#CA8A04' }
-                }
-            }
-        }
-    </script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -72,7 +55,8 @@
         </div>
 
         <!-- RIGHT SIDE -->
-        <div class="flex items-center justify-center w-full md:w-1/2 p-6 lg:p-16 bg-white dark:bg-gray-900 overflow-hidden relative">
+        <div
+            class="flex items-center justify-center w-full md:w-1/2 p-6 lg:p-16 bg-white dark:bg-gray-900 overflow-hidden relative">
             <div class="w-full max-w-md relative z-10">
                 <div class="md:hidden flex items-center justify-center gap-2 mb-10">
                     <img src="{{ asset('image/logo.webp') }}" alt="Logo Gumbreg QuickBook"
