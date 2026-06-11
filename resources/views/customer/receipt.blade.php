@@ -1,6 +1,6 @@
 @extends('layouts.customer')
 
-@section('title', 'Invoice Pembayaran #' . str_pad($booking->id, 6, '0', STR_PAD_LEFT))
+@section('title', 'Invoice Pembayaran')
 
 @section('content')
     <div class="w-full max-w-4xl mx-auto px-4 py-8 print:py-0 print:px-0">
@@ -68,8 +68,7 @@
                         <h2
                             class="text-4xl font-black text-gray-200 dark:text-gray-700 uppercase tracking-widest mb-2 print:text-gray-300">
                             INVOICE</h2>
-                        <p class="text-sm font-bold text-gray-900 dark:text-white mb-1">
-                            INV-{{ date('Y') }}{{ str_pad($booking->id, 6, '0', STR_PAD_LEFT) }}</p>
+
                         <p class="text-sm text-gray-500 dark:text-gray-400">Tanggal Terbit:
                             {{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}
                         </p>

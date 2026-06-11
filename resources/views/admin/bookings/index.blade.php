@@ -116,7 +116,7 @@
                                             <span
                                                 class="font-semibold text-gray-800 dark:text-gray-100">{{ $booking->court->name }}</span>
                                             <span
-                                                class="font-medium text-gray-700 dark:text-gray-200 text-sm">{{ \Carbon\Carbon::parse($booking->date)->format('d M Y') }}</span>
+                                                class="font-medium text-gray-700 dark:text-gray-200 text-sm">{{ \Carbon\Carbon::parse($booking->date)->translatedFormat('d M Y') }}</span>
                                             <span
                                                 class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{{ \Carbon\Carbon::parse($booking->start_time)->format('H:i') }}
                                                 - {{ \Carbon\Carbon::parse($booking->end_time)->format('H:i') }}</span>
@@ -138,11 +138,18 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
                                     <span
                                         class="px-3 py-1 rounded-full text-xs font-semibold border border-transparent
-                                                                                                    {{ $booking->payment_status == 'waiting' ? 'bg-yellow-100 dark:bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border-yellow-200 dark:border-yellow-500/20' : '' }}
-                                                                                                    {{ $booking->payment_status == 'confirmed' ? 'bg-green-100 dark:bg-green-500/10 text-green-600 dark:text-green-400 border-green-200 dark:border-green-500/20' : '' }}
-                                                                                                    {{ $booking->payment_status == 'rejected' ? 'bg-red-100 dark:bg-red-500/10 text-red-600 dark:text-red-400 border-red-200 dark:border-red-500/20' : '' }}
-                                                                                                    {{ !$booking->payment_status ? 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300' : '' }}">
-                                        {{ $booking->payment_status ? ucfirst($booking->payment_status) : 'Unpaid' }}
+                                            {{ in_array($booking->payment_status, ['waiting', 'pending']) ? 'bg-yellow-100 dark:bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border-yellow-200 dark:border-yellow-500/20' : '' }}
+                                            {{ in_array($booking->payment_status, ['confirmed', 'paid']) ? 'bg-green-100 dark:bg-green-500/10 text-green-600 dark:text-green-400 border-green-200 dark:border-green-500/20' : '' }}
+                                            {{ $booking->payment_status == 'rejected' ? 'bg-red-100 dark:bg-red-500/10 text-red-600 dark:text-red-400 border-red-200 dark:border-red-500/20' : '' }}
+                                            {{ !$booking->payment_status || $booking->payment_status == 'unpaid' ? 'bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300' : '' }}">
+                                        @php
+                                            $paymentLabel = 'Belum Bayar';
+                                            if (in_array($booking->payment_status, ['paid', 'confirmed'])) $paymentLabel = 'Lunas';
+                                            elseif (in_array($booking->payment_status, ['waiting', 'pending'])) $paymentLabel = 'Menunggu';
+                                            elseif ($booking->payment_status == 'rejected') $paymentLabel = 'Ditolak';
+                                            elseif ($booking->payment_status) $paymentLabel = ucfirst($booking->payment_status);
+                                        @endphp
+                                        {{ $paymentLabel }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right">

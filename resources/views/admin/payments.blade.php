@@ -100,7 +100,7 @@
                                         </div>
                                         <div class="flex flex-col">
                                             <span class="font-semibold text-gray-800 dark:text-gray-100">{{ $booking->court->name ?? '-' }}</span>
-                                            <span class="font-medium text-gray-700 dark:text-gray-200 text-sm">{{ $booking->date ? \Carbon\Carbon::parse($booking->date)->format('d M Y') : '-' }}</span>
+                                            <span class="font-medium text-gray-700 dark:text-gray-200 text-sm">{{ $booking->date ? \Carbon\Carbon::parse($booking->date)->translatedFormat('d M Y') : '-' }}</span>
                                             <span class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{{ $booking->start_time ? \Carbon\Carbon::parse($booking->start_time)->format('H:i') : '' }} - {{ $booking->end_time ? \Carbon\Carbon::parse($booking->end_time)->format('H:i') : '' }}</span>
                                         </div>
                                     </div>

@@ -117,7 +117,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex flex-col">
-                                    <span class="font-medium text-gray-800 dark:text-gray-200">{{ \Carbon\Carbon::parse($booking->date)->format('d M Y') }}</span>
+                                    <span class="font-medium text-gray-800 dark:text-gray-200">{{ \Carbon\Carbon::parse($booking->date)->translatedFormat('d M Y') }}</span>
                                     <span class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{{ \Carbon\Carbon::parse($booking->start_time)->format('H:i') }} - {{ \Carbon\Carbon::parse($booking->end_time)->format('H:i') }}</span>
                                 </div>
                             </td>

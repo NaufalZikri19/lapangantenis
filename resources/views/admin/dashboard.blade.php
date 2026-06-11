@@ -49,7 +49,7 @@
             </div>
             <div class="mt-4 flex items-center text-sm">
                 <span class="text-blue-600 font-medium flex items-center gap-1.5 bg-blue-50 px-2 py-0.5 rounded-md">
-                    <i data-lucide="calendar-check" class="w-3.5 h-3.5"></i> {{ now()->format('F Y') }}
+                    <i data-lucide="calendar-check" class="w-3.5 h-3.5"></i> {{ now()->translatedFormat('F Y') }}
                 </span>
             </div>
         </div>
@@ -73,7 +73,7 @@
             </div>
             <div class="mt-4 flex items-center text-sm">
                 <span class="text-indigo-600 font-medium flex items-center gap-1.5 bg-indigo-50 px-2 py-0.5 rounded-md">
-                    <i data-lucide="clock" class="w-3.5 h-3.5"></i> {{ now()->format('d M Y') }}
+                    <i data-lucide="clock" class="w-3.5 h-3.5"></i> {{ now()->translatedFormat('d M Y') }}
                 </span>
             </div>
         </div>
@@ -200,7 +200,7 @@
                 <h2 class="text-lg font-bold text-gray-800 dark:text-gray-100">Jadwal Hari Ini</h2>
                 <span
                     class="px-2.5 py-1 bg-yellow-50 text-yellow-700 text-xs font-bold rounded-md border border-yellow-100">
-                    {{ now()->format('d M Y') }}
+                    {{ now()->translatedFormat('d M Y') }}
                 </span>
             </div>
 
@@ -289,7 +289,7 @@
                                     <td class="px-5 sm:px-6 py-4 text-gray-600 dark:text-gray-300 whitespace-nowrap">
                                         <div class="flex flex-col">
                                             <span
-                                                class="font-medium text-gray-800 dark:text-gray-100">{{ $booking->date ?? '-' }}</span>
+                                                class="font-medium text-gray-800 dark:text-gray-100">{{ $booking->date ? \Carbon\Carbon::parse($booking->date)->translatedFormat('d M Y') : '-' }}</span>
                                             <span class="text-xs text-gray-500 dark:text-gray-400 mt-0.5 flex items-center gap-1">
                                                 <i data-lucide="clock" class="w-3 h-3"></i> {{ $booking->start_time ?? '' }} -
                                                 {{ $booking->end_time ?? '' }}

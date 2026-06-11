@@ -71,7 +71,7 @@
                                         {{ $notification->data['title'] ?? 'Notifikasi' }}
                                     </h3>
                                     <span class="text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap">
-                                        {{ $notification->created_at->diffForHumans() }}
+                                        {{ $notification->created_at->locale('id')->diffForHumans() }}
                                     </span>
                                 </div>
                                 <p class="text-sm text-slate-600 dark:text-slate-300">
@@ -79,9 +79,16 @@
                                 </p>
 
                                 @if(isset($notification->data['action_url']))
+                                    @php
+                                        $actionUrl = $notification->data['action_url'];
+                                        try {
+                                            $parsed = parse_url($actionUrl);
+                                            $actionUrl = isset($parsed['path']) ? url($parsed['path'] . (isset($parsed['query']) ? '?' . $parsed['query'] : '')) : $actionUrl;
+                                        } catch (\Exception $e) {
+                                        }
+                                    @endphp
                                     <div class="mt-3">
-                                        <a href="{{ $notification->data['action_url'] }}"
-                                            onclick="markSingleAsRead('{{ $notification->id }}')"
+                                        <a href="{{ $actionUrl }}" onclick="markSingleAsRead('{{ $notification->id }}')"
                                             class="inline-flex items-center text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
                                             Lihat Detail <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
                                         </a>

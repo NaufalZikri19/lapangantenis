@@ -210,22 +210,55 @@
             },
 
             deleteAll() {
-                if (confirm('Apakah Anda yakin ingin menghapus semua notifikasi?')) {
-                    fetch('{{ route('notifications.deleteAll') }}', {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                if (typeof Swal !== 'undefined') {
+                    Swal.fire({
+                        title: 'Hapus Semua Notifikasi?',
+                        text: "Semua riwayat notifikasi Anda akan dihapus permanen",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#ef4444',
+                        cancelButtonColor: '#64748b',
+                        confirmButtonText: 'Ya, Hapus Semua!',
+                        cancelButtonText: 'Batal',
+                        background: document.documentElement.classList.contains('dark') ? '#1e293b' : '#ffffff',
+                        color: document.documentElement.classList.contains('dark') ? '#f8fafc' : '#0f172a',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.performDeleteAll();
                         }
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                this.notifications = [];
-                                this.unreadCount = 0;
-                                this.showToast('Semua notifikasi berhasil dihapus');
-                            }
-                        });
+                    });
+                } else {
+                    if (confirm('Apakah Anda yakin ingin menghapus semua notifikasi?')) {
+                        this.performDeleteAll();
+                    }
+                }
+            },
+
+            performDeleteAll() {
+                fetch('{{ route('notifications.deleteAll') }}', {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            this.notifications = [];
+                            this.unreadCount = 0;
+                            this.showToast('Semua notifikasi berhasil dihapus');
+                        }
+                    });
+            },
+
+            fixUrl(url) {
+                if (!url) return null;
+                try {
+                    const parsed = new URL(url);
+                    return parsed.pathname + parsed.search;
+                } catch (e) {
+                    return url;
                 }
             },
 
@@ -240,11 +273,11 @@
                     }).then(response => response.json())
                         .then(data => {
                             if (data.action_url) {
-                                window.location.href = data.action_url;
+                                window.location.href = this.fixUrl(data.action_url);
                             }
                         });
                 } else if (notification.data.action_url) {
-                    window.location.href = notification.data.action_url;
+                    window.location.href = this.fixUrl(notification.data.action_url);
                 }
             },
 
